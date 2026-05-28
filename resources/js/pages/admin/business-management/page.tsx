@@ -1,13 +1,6 @@
 import React, { useState } from 'react';
 import { Head, Link, router, useForm } from '@inertiajs/react';
 import AdminLayout from '@/layouts/admin-layout';
-import {
-    Card,
-    CardHeader,
-    CardTitle,
-    CardDescription,
-    CardContent,
-} from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -21,15 +14,6 @@ import {
     DialogFooter,
 } from '@/components/ui/dialog';
 import {
-    Pagination,
-    PaginationContent,
-    PaginationItem,
-    PaginationLink,
-    PaginationPrevious,
-    PaginationNext,
-    PaginationEllipsis,
-} from '@/components/ui/pagination';
-import {
     Search,
     Check,
     X,
@@ -39,7 +23,6 @@ import {
     Building2,
     AlertTriangle,
     Eye,
-    TrendingUp,
 } from 'lucide-react';
 
 interface Category {
@@ -107,7 +90,7 @@ export default function BusinessManagement({
     
     // Rejection state
     const [rejectingBusiness, setRejectingBusiness] = useState<Business | null>(null);
-    const { data: rejectData, setData: setRejectData, post: postReject, processing: rejectProcessing, reset: resetReject } = useForm({
+    const { data: rejectData, setData: setRejectData, processing: rejectProcessing, reset: resetReject } = useForm({
         reason: '',
     });
 
@@ -165,7 +148,6 @@ export default function BusinessManagement({
         e.preventDefault();
         if (!rejectingBusiness) return;
 
-        // Custom router request mapping patch request
         router.post(`/admin/businesses/${rejectingBusiness.id}/reject`, {
             _method: 'PATCH',
             reason: rejectData.reason,
@@ -196,29 +178,34 @@ export default function BusinessManagement({
     const getStatusBadge = (bStatus: string) => {
         switch (bStatus.toLowerCase()) {
             case 'published':
-                return <Badge className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Published</Badge>;
+                return <Badge className="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 uppercase font-bold text-[9px]">Published</Badge>;
             case 'pending':
-                return <Badge className="bg-amber-500/20 text-amber-400 border border-amber-500/30">Pending Review</Badge>;
+                return <Badge className="bg-amber-500/20 text-amber-400 border border-amber-500/30 uppercase font-bold text-[9px]">Pending Review</Badge>;
             case 'rejected':
-                return <Badge className="bg-rose-500/20 text-rose-400 border border-rose-500/30">Rejected</Badge>;
+                return <Badge className="bg-red-500/20 text-red-400 border border-red-500/30 uppercase font-bold text-[9px]">Rejected</Badge>;
             case 'draft':
             default:
-                return <Badge className="bg-zinc-800 text-zinc-400 border border-zinc-700">Draft</Badge>;
+                return <Badge className="bg-zinc-800 text-zinc-400 border border-zinc-700 uppercase font-bold text-[9px]">Draft</Badge>;
         }
     };
 
     return (
         <>
             <Head title="Admin Business Management" />
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-            <div className="space-y-6 text-zinc-100 bg-[#0A0A0A] p-1 rounded-xl">
+            <div className="bg-[#15171e] text-white font-['Inter',_sans-serif] min-h-screen space-y-6">
                 {/* Header */}
-                <div className="border-b border-[#1F1F1F] pb-4 flex items-center justify-between">
+                <div className="border-b border-[#262930] pb-5 flex items-center justify-between">
                     <div>
-                        <h1 className="text-2xl font-extrabold text-white tracking-tight">
+                        <div className="flex items-center gap-2 mb-1">
+                            <span className="h-2 w-2 rounded-full bg-[#4318FF] animate-pulse" />
+                            <span className="text-[10px] font-bold text-[#4318FF] tracking-wider uppercase">System Administration</span>
+                        </div>
+                        <h1 className="text-xl font-extrabold text-white">
                             Business Listings Management
                         </h1>
-                        <p className="text-xs text-zinc-400 mt-1">
+                        <p className="text-xs text-[#8f9bba] mt-0.5">
                             Review, approve, decline, or delete user-registered directories and company submissions.
                         </p>
                     </div>
@@ -227,7 +214,7 @@ export default function BusinessManagement({
                 {/* Search & Filters Toolbar */}
                 <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
                     {/* Status Tabs */}
-                    <div className="flex items-center gap-1 bg-[#111111] p-1 rounded-lg border border-[#1F1F1F] overflow-x-auto max-w-full">
+                    <div className="flex items-center gap-1 bg-[#0c0d12] p-1 rounded-lg border border-[#262930] overflow-x-auto max-w-full">
                         {[
                             { code: 'all', label: 'All' },
                             { code: 'pending', label: 'Pending' },
@@ -238,10 +225,10 @@ export default function BusinessManagement({
                             <button
                                 key={tab.code}
                                 onClick={() => handleStatusChange(tab.code)}
-                                className={`px-3 py-1.5 rounded-md text-xs font-semibold uppercase tracking-wider transition-all whitespace-nowrap ${
+                                className={`px-3 py-1.5 rounded-md text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap cursor-pointer ${
                                     status === tab.code
-                                        ? 'bg-indigo-600 text-white shadow-sm'
-                                        : 'text-zinc-400 hover:text-zinc-200'
+                                        ? 'bg-[#4318FF] text-white shadow-sm'
+                                        : 'text-[#8f9bba] hover:text-white'
                                 }`}
                             >
                                 {tab.label}
@@ -253,16 +240,16 @@ export default function BusinessManagement({
                     <div className="flex flex-col sm:flex-row items-center gap-2 w-full lg:w-auto">
                         <form onSubmit={handleSearchSubmit} className="flex gap-2 w-full sm:max-w-xs">
                             <div className="relative flex-1">
-                                <Search className="absolute top-2.5 left-3 h-4 w-4 text-zinc-500" />
+                                <Search className="absolute top-2.5 left-3 h-4 w-4 text-[#8f9bba]" />
                                 <Input
                                     type="text"
                                     placeholder="Search name, tagline, owner..."
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
-                                    className="pl-9 bg-[#111111] border-[#1F1F1F] text-zinc-100 focus-visible:ring-indigo-500 text-xs sm:text-sm"
+                                    className="pl-9 bg-[#111111] border-[#262930] text-zinc-150 focus-visible:ring-0 focus-visible:border-[#4318FF] text-xs h-9"
                                 />
                             </div>
-                            <Button type="submit" size="sm" className="bg-indigo-600 hover:bg-indigo-500 text-white">
+                            <Button type="submit" size="sm" className="bg-[#4318FF] hover:bg-[#3b15e6] text-white font-bold text-xs h-9 cursor-pointer">
                                 Search
                             </Button>
                         </form>
@@ -270,7 +257,7 @@ export default function BusinessManagement({
                         <select
                             value={sort}
                             onChange={(e) => handleSortChange(e.target.value)}
-                            className="bg-[#111111] border border-[#1F1F1F] text-zinc-300 text-xs rounded-lg p-2 focus:ring-indigo-500 focus:border-indigo-500 w-full sm:w-auto"
+                            className="bg-[#111111] border border-[#262930] text-white text-xs rounded-lg p-2 focus:ring-0 focus:border-[#4318FF] w-full sm:w-auto h-9 cursor-pointer focus:outline-none"
                         >
                             <option value="newest">Newest First</option>
                             <option value="oldest">Oldest First</option>
@@ -282,7 +269,7 @@ export default function BusinessManagement({
 
                 {/* Listings Main Content */}
                 {businesses.data.length === 0 ? (
-                    <div className="rounded-xl border border-dashed border-[#1F1F1F] bg-[#111111]/30 p-16 text-center">
+                    <div className="rounded-xl border border-dashed border-[#262930] bg-[#0c0d12]/30 p-16 text-center">
                         <Building2 className="h-10 w-10 text-zinc-700 mx-auto mb-3" />
                         <h3 className="font-semibold text-zinc-400 text-sm">No businesses found</h3>
                         <p className="text-xs text-zinc-500 mt-1 max-w-xs mx-auto">
@@ -291,11 +278,11 @@ export default function BusinessManagement({
                     </div>
                 ) : (
                     <div className="space-y-4">
-                        <Card className="border-[#1F1F1F] bg-[#111111]/60 overflow-hidden">
+                        <div className="border border-[#262930] bg-[#0c0d12] rounded-xl overflow-hidden">
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left text-xs border-collapse">
                                     <thead>
-                                        <tr className="border-b border-[#1F1F1F] bg-[#111111]/80 text-zinc-400 uppercase tracking-wider font-bold">
+                                        <tr className="border-b border-[#262930] bg-[#0c0d12]/80 text-[#8f9bba] uppercase tracking-wider font-bold text-[10px]">
                                             <th className="p-4">Business Info</th>
                                             <th className="p-4">Owner Contact</th>
                                             <th className="p-4">Category / Plan</th>
@@ -304,14 +291,14 @@ export default function BusinessManagement({
                                             <th className="p-4 text-right">Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody className="divide-y divide-[#1F1F1F]/40 text-zinc-300">
+                                    <tbody className="divide-y divide-[#262930]/40 text-zinc-300">
                                         {businesses.data.map((biz) => {
                                             const isPending = biz.status.toLowerCase() === 'pending';
                                             const isPublished = biz.status.toLowerCase() === 'published';
                                             const isRejected = biz.status.toLowerCase() === 'rejected';
 
                                             return (
-                                                <tr key={biz.id} className="hover:bg-[#161616]/40 transition-colors">
+                                                <tr key={biz.id} className="hover:bg-[#15171e]/40 transition-colors">
                                                     {/* Info */}
                                                     <td className="p-4">
                                                         <div>
@@ -320,13 +307,13 @@ export default function BusinessManagement({
                                                                 <Link
                                                                     href={`/directory/${biz.slug}`}
                                                                     target="_blank"
-                                                                    className="text-zinc-500 hover:text-indigo-400"
+                                                                    className="text-zinc-500 hover:text-[#6AD2FF]"
                                                                     title="View Listing Page"
                                                                 >
                                                                     <Eye className="h-3.5 w-3.5" />
                                                                 </Link>
                                                             </div>
-                                                            <div className="text-[11px] text-zinc-500 max-w-[200px] truncate mt-0.5">
+                                                            <div className="text-[11px] text-[#8f9bba] max-w-[200px] truncate mt-0.5 font-medium">
                                                                 {biz.tagline || 'No tagline description'}
                                                             </div>
                                                         </div>
@@ -339,7 +326,7 @@ export default function BusinessManagement({
                                                                 <User className="h-3 w-3 text-zinc-500" />
                                                                 {biz.user?.name || 'Anonymous Owner'}
                                                             </div>
-                                                            <div className="text-[10px] text-zinc-500">
+                                                            <div className="text-[10px] text-[#8f9bba] font-medium">
                                                                 {biz.user?.email || 'N/A'}
                                                             </div>
                                                         </div>
@@ -348,19 +335,19 @@ export default function BusinessManagement({
                                                     {/* Category / Plan */}
                                                     <td className="p-4">
                                                         <div className="space-y-1">
-                                                            <div className="text-zinc-300 font-medium">
+                                                            <div className="text-zinc-300 font-bold">
                                                                 {biz.category?.en || 'Uncategorized'}
                                                             </div>
-                                                            <Badge className="bg-indigo-950/40 text-indigo-400 border border-indigo-900/30 text-[9px] uppercase tracking-wider font-semibold py-0">
+                                                            <Badge className="bg-[#4318FF]/20 text-[#6AD2FF] border border-[#4318FF]/30 text-[9px] uppercase tracking-wider font-bold py-0.5">
                                                                 {biz.plan?.en || 'Free Plan'}
                                                             </Badge>
                                                         </div>
                                                     </td>
 
                                                     {/* Date */}
-                                                    <td className="p-4 text-zinc-400">
-                                                        <div className="flex items-center gap-1 text-[11px]">
-                                                            <Calendar className="h-3.5 w-3.5 text-zinc-600" />
+                                                    <td className="p-4 text-[#8f9bba]">
+                                                        <div className="flex items-center gap-1 text-[11px] font-medium">
+                                                            <Calendar className="h-3.5 w-3.5 text-zinc-650" />
                                                             <span>{new Date(biz.created_at).toLocaleDateString()}</span>
                                                         </div>
                                                     </td>
@@ -370,7 +357,7 @@ export default function BusinessManagement({
                                                         <div>
                                                             {getStatusBadge(biz.status)}
                                                             {isRejected && biz.rejection_reason && (
-                                                                <div className="text-[9px] text-rose-500/80 italic mt-1 max-w-[150px] truncate" title={biz.rejection_reason}>
+                                                                <div className="text-[9px] text-red-450 italic mt-1 max-w-[150px] truncate" title={biz.rejection_reason}>
                                                                     Reason: {biz.rejection_reason}
                                                                 </div>
                                                             )}
@@ -385,7 +372,7 @@ export default function BusinessManagement({
                                                                 <Button
                                                                     onClick={() => handleApprove(biz.id)}
                                                                     size="sm"
-                                                                    className="h-8 w-8 p-0 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20"
+                                                                    className="h-8 w-8 p-0 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 cursor-pointer"
                                                                     title="Approve Listing"
                                                                 >
                                                                     <Check className="h-4 w-4" />
@@ -397,7 +384,7 @@ export default function BusinessManagement({
                                                                 <Button
                                                                     onClick={() => openRejectModal(biz)}
                                                                     size="sm"
-                                                                    className="h-8 w-8 p-0 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20"
+                                                                    className="h-8 w-8 p-0 bg-red-500/10 hover:bg-red-500/20 text-red-450 border border-red-500/20 cursor-pointer"
                                                                     title="Reject Listing"
                                                                 >
                                                                     <X className="h-4 w-4" />
@@ -408,7 +395,7 @@ export default function BusinessManagement({
                                                             <Button
                                                                 onClick={() => openDeleteModal(biz)}
                                                                 size="sm"
-                                                                className="h-8 w-8 p-0 bg-zinc-900 border border-[#2E2E2E] hover:bg-zinc-800 text-zinc-400 hover:text-white"
+                                                                className="h-8 w-8 p-0 bg-[#111111] border border-[#262930] hover:bg-[#15171e]/40 text-[#8f9bba] hover:text-white cursor-pointer"
                                                                 title="Delete Listing"
                                                             >
                                                                 <Trash2 className="h-4 w-4" />
@@ -421,12 +408,23 @@ export default function BusinessManagement({
                                     </tbody>
                                 </table>
                             </div>
-                        </Card>
+                        </div>
 
                         {/* Pagination links wrapper */}
                         {businesses.last_page > 1 && (
-                            <Pagination className="mt-8">
-                                <PaginationContent>
+                            <div className="flex items-center justify-between border-t border-[#262930] pt-4">
+                                <div className="text-xs text-[#8f9bba]">
+                                    Showing{' '}
+                                    <span className="text-white font-semibold">
+                                        {businesses.data.length}
+                                    </span>{' '}
+                                    of{' '}
+                                    <span className="text-white font-semibold">
+                                        {businesses.total}
+                                    </span>{' '}
+                                    listings
+                                </div>
+                                <div className="inline-flex gap-1.5">
                                     {businesses.links.map((link, idx) => {
                                         const label = link.label
                                             .replace(/&laquo;/g, '«')
@@ -434,61 +432,25 @@ export default function BusinessManagement({
                                             .replace(/Previous/g, '')
                                             .replace(/Next/g, '');
 
-                                        const isPrev = link.label.includes('Previous');
-                                        const isNext = link.label.includes('Next');
-
-                                        if (!link.url) {
-                                            return (
-                                                <PaginationItem key={idx} className="opacity-40 pointer-events-none">
-                                                    {isPrev ? (
-                                                        <PaginationPrevious href="#" />
-                                                    ) : isNext ? (
-                                                        <PaginationNext href="#" />
-                                                    ) : (
-                                                        <PaginationEllipsis />
-                                                    )}
-                                                </PaginationItem>
-                                            );
-                                        }
-
-                                        // Ensure parameter filters are preserved on pagination visit
+                                        if (!link.url) return null;
                                         const queryParams = new URL(link.url).search;
 
                                         return (
-                                            <PaginationItem key={idx}>
-                                                {isPrev ? (
-                                                    <PaginationPrevious
-                                                        href={`/admin/businesses${queryParams}`}
-                                                        onClick={(e) => {
-                                                            e.preventDefault();
-                                                            router.visit(`/admin/businesses${queryParams}`);
-                                                        }}
-                                                    />
-                                                ) : isNext ? (
-                                                    <PaginationNext
-                                                        href={`/admin/businesses${queryParams}`}
-                                                        onClick={(e) => {
-                                                            e.preventDefault();
-                                                            router.visit(`/admin/businesses${queryParams}`);
-                                                        }}
-                                                    />
-                                                ) : (
-                                                    <PaginationLink
-                                                        href={`/admin/businesses${queryParams}`}
-                                                        isActive={link.active}
-                                                        onClick={(e) => {
-                                                            e.preventDefault();
-                                                            router.visit(`/admin/businesses${queryParams}`);
-                                                        }}
-                                                    >
-                                                        {label}
-                                                    </PaginationLink>
-                                                )}
-                                            </PaginationItem>
+                                            <button
+                                                key={idx}
+                                                type="button"
+                                                onClick={() => router.visit(`/admin/businesses${queryParams}`)}
+                                                className={`rounded-lg border px-3 py-1.5 text-xs font-bold transition-colors cursor-pointer ${
+                                                    link.active
+                                                        ? 'border-[#4318FF] bg-[#4318FF] text-white'
+                                                        : 'text-[#8f9bba] border-[#262930] bg-[#0c0d12] hover:bg-[#15171e]/40'
+                                                }`}
+                                                dangerouslySetInnerHTML={{ __html: label }}
+                                            />
                                         );
                                     })}
-                                </PaginationContent>
-                            </Pagination>
+                                </div>
+                            </div>
                         )}
                     </div>
                 )}
@@ -496,13 +458,13 @@ export default function BusinessManagement({
 
             {/* Rejection Modal Dialog */}
             <Dialog open={rejectingBusiness !== null} onOpenChange={(open) => !open && setRejectingBusiness(null)}>
-                <DialogContent className="sm:max-w-md bg-[#0F0F0F] border-[#1F1F1F] text-zinc-100">
+                <DialogContent className="sm:max-w-md bg-[#0c0d12] border-[#262930] text-white">
                     <DialogHeader>
-                        <DialogTitle className="text-white text-base sm:text-lg font-bold flex items-center gap-2">
-                            <AlertTriangle className="h-5 w-5 text-rose-450" />
+                        <DialogTitle className="text-white text-base font-bold flex items-center gap-2">
+                            <AlertTriangle className="h-5 w-5 text-red-400" />
                             Reject Business Listing
                         </DialogTitle>
-                        <DialogDescription className="text-zinc-400 text-xs mt-1">
+                        <DialogDescription className="text-[#8f9bba] text-xs mt-1">
                             Specify the reasons why this listing doesn't qualify for directory publication. The user will review it.
                         </DialogDescription>
                     </DialogHeader>
@@ -510,21 +472,21 @@ export default function BusinessManagement({
                     {rejectingBusiness && (
                         <form onSubmit={handleRejectSubmit} className="space-y-4 pt-2">
                             <div className="space-y-1">
-                                <label className="text-[11px] font-bold uppercase tracking-wider text-zinc-500">Business Target</label>
-                                <div className="p-3 bg-[#161616] rounded-lg border border-[#1F1F1F] text-xs font-semibold text-white">
+                                <label className="text-[10px] font-bold uppercase tracking-wider text-[#8f9bba]">Business Target</label>
+                                <div className="p-3 bg-[#111111] rounded-lg border border-[#262930] text-xs font-semibold text-white">
                                     {rejectingBusiness.name}
                                 </div>
                             </div>
 
                             <div className="space-y-2">
-                                <label htmlFor="rejection_reason_input" className="text-[11px] font-bold uppercase tracking-wider text-zinc-500">Rejection Reason</label>
+                                <label htmlFor="rejection_reason_input" className="text-[10px] font-bold uppercase tracking-wider text-[#8f9bba]">Rejection Reason</label>
                                 <Textarea
                                     id="rejection_reason_input"
                                     required
                                     value={rejectData.reason}
                                     onChange={(e) => setRejectData('reason', e.target.value)}
                                     placeholder="e.g. Invalid telephone details, low resolution catalog photos..."
-                                    className="bg-[#111111] border-[#2E2E2E] text-zinc-100 text-xs sm:text-sm focus-visible:ring-indigo-500 min-h-[100px]"
+                                    className="bg-[#111111] border-[#262930] text-white text-xs min-h-[100px] focus-visible:ring-0 focus-visible:border-[#4318FF]"
                                 />
                             </div>
 
@@ -533,14 +495,14 @@ export default function BusinessManagement({
                                     type="button"
                                     variant="ghost"
                                     onClick={() => setRejectingBusiness(null)}
-                                    className="text-xs text-zinc-400"
+                                    className="text-xs text-[#8f9bba] hover:text-white"
                                 >
                                     Cancel
                                 </Button>
                                 <Button
                                     type="submit"
                                     disabled={rejectProcessing}
-                                    className="bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold px-4"
+                                    className="bg-red-650 hover:bg-red-500 text-white text-xs font-bold px-4"
                                 >
                                     Decline Listing
                                 </Button>
@@ -552,20 +514,20 @@ export default function BusinessManagement({
 
             {/* Deletion Confirmation Modal Dialog */}
             <Dialog open={deletingBusiness !== null} onOpenChange={(open) => !open && setDeletingBusiness(null)}>
-                <DialogContent className="sm:max-w-md bg-[#0F0F0F] border-[#1F1F1F] text-zinc-100">
+                <DialogContent className="sm:max-w-md bg-[#0c0d12] border-[#262930] text-white">
                     <DialogHeader>
-                        <DialogTitle className="text-white text-base sm:text-lg font-bold flex items-center gap-2">
-                            <Trash2 className="h-5 w-5 text-zinc-400" />
+                        <DialogTitle className="text-white text-base font-bold flex items-center gap-2">
+                            <Trash2 className="h-5 w-5 text-[#8f9bba]" />
                             Delete Business Listing
                         </DialogTitle>
-                        <DialogDescription className="text-zinc-400 text-xs mt-1">
+                        <DialogDescription className="text-[#8f9bba] text-xs mt-1">
                             Are you absolutely sure you want to permanently delete this listing? All hours and catalog photos will be deleted.
                         </DialogDescription>
                     </DialogHeader>
 
                     {deletingBusiness && (
                         <div className="space-y-4 pt-2">
-                            <div className="p-3 bg-rose-950/10 border border-rose-900/30 rounded-lg text-xs text-rose-400 font-semibold flex items-center gap-2">
+                            <div className="p-3 bg-rose-950/10 border border-rose-900/30 rounded-lg text-xs text-rose-450 font-bold flex items-center gap-2">
                                 <AlertTriangle className="h-4 w-4 text-rose-500 shrink-0" />
                                 Action cannot be undone. Permanent database removal.
                             </div>
@@ -575,13 +537,13 @@ export default function BusinessManagement({
                                     type="button"
                                     variant="ghost"
                                     onClick={() => setDeletingBusiness(null)}
-                                    className="text-xs text-zinc-400"
+                                    className="text-xs text-[#8f9bba] hover:text-white"
                                 >
                                     Cancel
                                 </Button>
                                 <Button
                                     onClick={handleDeleteSubmit}
-                                    className="bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold px-4"
+                                    className="bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold px-4"
                                 >
                                     Yes, Delete
                                 </Button>
@@ -594,7 +556,6 @@ export default function BusinessManagement({
     );
 }
 
-// Admin Layout Wrapper
 BusinessManagement.layout = (page: React.ReactNode) => (
     <AdminLayout breadcrumbs={[{ title: 'Business Management', href: '/admin/businesses' }]}>
         {page}

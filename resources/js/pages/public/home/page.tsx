@@ -1,16 +1,7 @@
 import React, { useState } from 'react';
 import { Head, Link, router } from '@inertiajs/react';
 import GuestLayout from '@/layouts/guest-layout';
-import {
-    Card,
-    CardHeader,
-    CardTitle,
-    CardDescription,
-    CardContent,
-    CardFooter,
-} from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import {
     Search,
@@ -33,6 +24,10 @@ import {
     TrendingUp,
     ShieldCheck,
     Users,
+    LayoutGrid,
+    Target,
+    Zap,
+    Briefcase
 } from 'lucide-react';
 
 interface Category {
@@ -131,208 +126,201 @@ export default function Home({ categories, featuredBusinesses, stats }: HomeProp
 
     return (
         <GuestLayout>
-            <Head title="Premium Business Directory" />
+            <Head title="Search & Verify Directory Dashboard" />
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-            {/* Hero Section */}
-            <section className="relative overflow-hidden bg-[#0A0A0A] py-24 sm:py-32 text-zinc-100 border-b border-[#1F1F1F]">
-                {/* Visual accents */}
-                <div className="absolute top-[-20%] left-[-20%] h-[40rem] w-[40rem] rounded-full bg-indigo-600/10 blur-[130px] pointer-events-none" />
-                <div className="absolute bottom-[-20%] right-[-20%] h-[40rem] w-[40rem] rounded-full bg-emerald-500/5 blur-[130px] pointer-events-none" />
-
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
-                    <div className="text-center max-w-3xl mx-auto space-y-6">
-                        <Badge
-                            variant="secondary"
-                            className="bg-indigo-950/40 border-indigo-700/30 text-indigo-300 gap-1.5 py-1 px-3 text-xs"
-                        >
-                            <Sparkles className="h-3.5 w-3.5" />
-                            Discover Trusted Companies in Algeria
-                        </Badge>
-                        <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-6xl leading-tight">
-                            Find Verified Businesses <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-300">
-                                You Can Trust
-                            </span>
+            <div className="p-6 space-y-6 bg-[#15171e] text-white font-['Inter',_sans-serif] min-h-screen">
+                {/* Header Welcome and Monitor */}
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#262930] pb-5">
+                    <div>
+                        <div className="flex items-center gap-2 mb-1">
+                            <span className="h-2 w-2 rounded-full bg-[#10b981] animate-pulse" />
+                            <span className="text-[10px] font-bold text-[#10b981] tracking-wider uppercase">Live Directory Monitor</span>
+                        </div>
+                        <h1 className="text-xl font-extrabold text-white tracking-tight">
+                            Apollo Search Console
                         </h1>
-                        <p className="text-lg text-zinc-400">
-                            Search thousands of verified ratings, local addresses, and professional contact platforms across dozens of categories.
+                        <p className="text-xs text-[#8f9bba] mt-0.5">
+                            Query, filter, and verify 348K+ local businesses, companies and professionals in Algeria.
                         </p>
+                    </div>
 
-                        {/* Hero Search Box */}
-                        <form
-                            onSubmit={handleSearchSubmit}
-                            className="mt-8 flex flex-col sm:flex-row gap-2 max-w-2xl mx-auto bg-[#111111]/90 p-2 rounded-xl border border-[#2E2E2E] backdrop-blur-md shadow-2xl"
-                        >
-                            <div className="relative flex-1">
-                                <Search className="absolute top-3 left-3 h-5 w-5 text-zinc-500" />
-                                <Input
+                    {/* Stats Panel */}
+                    <div className="flex items-center gap-3">
+                        <div className="bg-[#0c0d12] border border-[#262930] rounded-xl px-4 py-2 text-center min-w-[80px]">
+                            <span className="block text-base font-black text-white">{stats.businesses}+</span>
+                            <span className="text-[9px] text-[#8f9bba] font-bold uppercase">Listed</span>
+                        </div>
+                        <div className="bg-[#0c0d12] border border-[#262930] rounded-xl px-4 py-2 text-center min-w-[80px]">
+                            <span className="block text-base font-black text-[#4318FF]">{stats.reviews}+</span>
+                            <span className="text-[9px] text-[#8f9bba] font-bold uppercase">Reviews</span>
+                        </div>
+                        <div className="bg-[#0c0d12] border border-[#262930] rounded-xl px-4 py-2 text-center min-w-[80px]">
+                            <span className="block text-base font-black text-[#10b981]">{stats.cities}</span>
+                            <span className="text-[9px] text-[#8f9bba] font-bold uppercase">Cities</span>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Dashboard modules */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    {/* Module 1: Search Console Widget */}
+                    <div className="lg:col-span-2 bg-[#0c0d12] border border-[#262930] rounded-xl p-5 flex flex-col justify-between space-y-4">
+                        <div>
+                            <div className="flex items-center gap-2 mb-1 text-sm font-bold text-white">
+                                <Search className="h-4 w-4 text-[#4318FF]" />
+                                Search database
+                            </div>
+                            <p className="text-xs text-[#8f9bba]">
+                                Enter name, keywords, city, or categories to search verified stores or professionals.
+                            </p>
+                        </div>
+                        <form onSubmit={handleSearchSubmit} className="space-y-3">
+                            <div className="relative">
+                                <Search className="absolute top-3 left-3.5 h-4 w-4 text-[#8f9bba]" />
+                                <input
                                     type="text"
-                                    placeholder="Search by company name, tagline, or keywords..."
+                                    placeholder="Type company profile name, tagline or service keyword..."
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="pl-10 h-11 bg-transparent border-0 text-zinc-100 placeholder-zinc-500 focus-visible:ring-0 focus-visible:ring-offset-0"
+                                    className="w-full pl-10 pr-4 py-2 text-xs bg-[#15171e] border border-[#262930] rounded-lg text-white placeholder-zinc-600 focus:outline-none focus:border-[#4318FF]"
                                 />
                             </div>
-                            <Button
+                            <button
                                 type="submit"
-                                size="lg"
-                                className="h-11 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 shrink-0"
+                                className="w-full py-2 bg-[#4318FF] hover:bg-[#3b15e6] text-white text-xs font-bold rounded-lg transition-colors"
                             >
-                                Search Now
-                            </Button>
+                                Query Directory Database
+                            </button>
                         </form>
 
-                        {/* Quick category keywords links */}
-                        <div className="pt-4 flex flex-wrap justify-center gap-2 text-xs text-zinc-500">
-                            <span>Popular:</span>
+                        {/* Suggested searches */}
+                        <div className="flex flex-wrap items-center gap-2 text-xs pt-1">
+                            <span className="text-[#8f9bba]">Suggested:</span>
                             {categories.slice(0, 4).map((cat) => (
                                 <Link
                                     key={cat.id}
                                     href={`/search?category=${cat.id}`}
-                                    className="text-zinc-400 hover:text-white transition-colors"
+                                    className="px-2.5 py-1 rounded bg-[#15171e] border border-[#262930] text-[#8f9bba] hover:text-white hover:border-[#4318FF] transition-all text-[10px] font-semibold"
                                 >
                                     {cat.en}
                                 </Link>
                             ))}
                         </div>
                     </div>
-                </div>
-            </section>
 
-            {/* Statistics Counters */}
-            <section className="bg-[#111111]/40 border-b border-[#1F1F1F] py-8 text-zinc-100">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                        <div className="p-4 border-b md:border-b-0 md:border-r border-[#1F1F1F]">
-                            <div className="text-3xl font-extrabold text-white flex items-center justify-center gap-2">
-                                <Building2 className="h-6 w-6 text-indigo-400" />
-                                {stats.businesses}+
-                            </div>
-                            <div className="text-xs text-zinc-400 mt-1 uppercase tracking-wider font-semibold">
-                                Listed Companies
-                            </div>
-                        </div>
-
-                        <div className="p-4 border-b md:border-b-0 md:border-r border-[#1F1F1F]">
-                            <div className="text-3xl font-extrabold text-white flex items-center justify-center gap-2">
-                                <Star className="h-6 w-6 text-indigo-400" />
-                                {stats.reviews}+
-                            </div>
-                            <div className="text-xs text-zinc-400 mt-1 uppercase tracking-wider font-semibold">
-                                Trusted Ratings
-                            </div>
-                        </div>
-
-                        <div className="p-4">
-                            <div className="text-3xl font-extrabold text-white flex items-center justify-center gap-2">
-                                <MapPin className="h-6 w-6 text-indigo-400" />
-                                {stats.cities}
-                            </div>
-                            <div className="text-xs text-zinc-400 mt-1 uppercase tracking-wider font-semibold">
-                                Covered Cities
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* Browse by Categories */}
-            <section className="bg-[#0A0A0A] py-20 text-zinc-100 border-b border-[#1F1F1F]">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="text-center md:text-left md:flex md:items-end md:justify-between mb-12">
+                    {/* Module 2: Claims/Actions widget */}
+                    <div className="bg-[#0c0d12] border border-[#262930] rounded-xl p-5 flex flex-col justify-between space-y-4">
                         <div>
-                            <h2 className="text-2xl font-bold text-white sm:text-3xl">
-                                Browse by Category
-                            </h2>
-                            <p className="mt-2 text-zinc-400 max-w-2xl">
-                                Find verified service providers and agencies segmented across diverse business industries.
+                            <div className="flex items-center gap-2 mb-1 text-sm font-bold text-white">
+                                <Target className="h-4 w-4 text-[#10b981]" />
+                                Claim Your Page
+                            </div>
+                            <p className="text-xs text-[#8f9bba]">
+                                Verify ownership of a business to track messages and reviews.
                             </p>
                         </div>
+                        <div className="space-y-2 text-xs text-[#8f9bba]">
+                            <div className="flex items-center gap-2 font-medium">
+                                <CheckCircle className="h-4 w-4 text-[#10b981]" />
+                                <span>Get a Verified Identity Tag</span>
+                            </div>
+                            <div className="flex items-center gap-2 font-medium">
+                                <CheckCircle className="h-4 w-4 text-[#10b981]" />
+                                <span>Publish active hours & contacts</span>
+                            </div>
+                        </div>
+                        <Link
+                            href="/register"
+                            className="w-full text-center block py-2 bg-[#15171e] hover:bg-[#22252e] text-white border border-[#262930] rounded-lg text-xs font-bold transition-all"
+                        >
+                            Register Company Profile
+                        </Link>
+                    </div>
+                </div>
+
+                {/* Categories Widget Panel */}
+                <div className="space-y-3">
+                    <div className="flex items-center justify-between border-b border-[#262930] pb-2">
+                        <h2 className="text-xs font-bold text-[#8f9bba] uppercase tracking-wider flex items-center gap-2">
+                            <LayoutGrid className="h-4 w-4 text-[#4318FF]" />
+                            Browse by Segment Category
+                        </h2>
                         <Link
                             href="/directory"
-                            className="mt-4 md:mt-0 inline-flex items-center gap-1 text-sm font-semibold text-indigo-400 hover:text-indigo-300"
+                            className="text-xs font-bold text-[#4318FF] hover:underline flex items-center gap-1"
                         >
-                            View Directory
-                            <ArrowRight className="h-4 w-4" />
+                            Explore Directory
+                            <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
                     </div>
 
-                    <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
                         {categories.map((cat) => {
                             const IconComponent = getCategoryIcon(cat.code);
                             return (
                                 <Link
                                     key={cat.id}
                                     href={`/search?category=${cat.id}`}
-                                    className="group relative rounded-xl border border-[#1F1F1F] bg-[#111111]/60 p-5 hover:border-zinc-700 transition-all duration-300 flex flex-col justify-between h-36"
-                                    style={{
-                                        borderLeftColor: cat.hex_color || '#1F1F1F',
-                                        borderLeftWidth: cat.hex_color ? '3px' : '1px',
-                                    }}
+                                    className="group relative rounded-xl border border-[#262930] bg-[#0c0d12] p-3.5 hover:border-[#4318FF] transition-all flex flex-col justify-between h-24"
                                 >
                                     <div
-                                        className="h-10 w-10 rounded-lg flex items-center justify-center transition-colors"
-                                        style={{ backgroundColor: `${cat.hex_color || '#3F3F46'}20` }}
+                                        className="h-7 w-7 rounded-lg flex items-center justify-center transition-colors"
+                                        style={{ backgroundColor: `${cat.hex_color || '#4318FF'}15` }}
                                     >
                                         <IconComponent
-                                            className="h-5 w-5 transition-transform group-hover:scale-110 duration-300"
-                                            style={{ color: cat.hex_color || '#A1A1AA' }}
+                                            className="h-3.5 w-3.5 transition-transform group-hover:scale-110"
+                                            style={{ color: cat.hex_color || '#4318FF' }}
                                         />
                                     </div>
-                                    <div className="mt-4">
-                                        <h3 className="font-semibold text-white group-hover:text-indigo-400 transition-colors text-xs sm:text-sm truncate">
+                                    <div>
+                                        <h3 className="font-bold text-white group-hover:text-[#4318FF] transition-colors text-xs truncate">
                                             {cat.en}
                                         </h3>
-                                        <p className="text-[10px] text-zinc-500 mt-0.5">
-                                            {cat.businesses_count || 0} listings
-                                        </p>
+                                        <span className="text-[9px] text-[#8f9bba] font-bold">
+                                            {cat.businesses_count || 0} Listings
+                                        </span>
                                     </div>
                                 </Link>
                             );
                         })}
                     </div>
                 </div>
-            </section>
 
-            {/* Featured Listings */}
-            <section className="bg-[#0A0A0A] py-20 text-zinc-100">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="text-center md:text-left md:flex md:items-end md:justify-between mb-12">
-                        <div>
-                            <h2 className="text-2xl font-bold text-white sm:text-3xl">
-                                Featured Businesses
-                            </h2>
-                            <p className="mt-2 text-zinc-400 max-w-2xl">
-                                Discover outstanding premium listings, handpicked and trusted by the community.
-                            </p>
-                        </div>
+                {/* Featured Listings Widget Panel */}
+                <div className="space-y-3">
+                    <div className="flex items-center justify-between border-b border-[#262930] pb-2">
+                        <h2 className="text-xs font-bold text-[#8f9bba] uppercase tracking-wider flex items-center gap-2">
+                            <Sparkles className="h-4 w-4 text-[#4318FF]" />
+                            Featured & Verified Agencies
+                        </h2>
                         <Link
                             href="/search?featured=1"
-                            className="mt-4 md:mt-0 inline-flex items-center gap-1 text-sm font-semibold text-indigo-400 hover:text-indigo-300"
+                            className="text-xs font-bold text-[#4318FF] hover:underline flex items-center gap-1"
                         >
-                            View All Featured
-                            <ArrowRight className="h-4 w-4" />
+                            View All Premium
+                            <ArrowRight className="h-3.5 w-3.5" />
                         </Link>
                     </div>
 
                     {featuredBusinesses.length === 0 ? (
-                        <div className="rounded-xl border border-dashed border-[#2E2E2E] p-12 text-center">
-                            <Building2 className="h-10 w-10 text-zinc-600 mx-auto mb-3" />
-                            <h3 className="font-semibold text-white">No featured listings</h3>
-                            <p className="mt-1 text-sm text-zinc-400 max-w-xs mx-auto">
-                                Check back later or browse all businesses in our directory database.
+                        <div className="rounded-xl border border-dashed border-[#262930] p-8 text-center bg-[#0c0d12]/50">
+                            <Building2 className="h-8 w-8 text-zinc-650 mx-auto mb-2" />
+                            <h3 className="text-xs font-bold text-white">No featured listings currently</h3>
+                            <p className="text-[10px] text-[#8f9bba] max-w-xs mx-auto mt-0.5">
+                                Featured businesses are pinned here and receive premium exposure badges.
                             </p>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {featuredBusinesses.map((business) => (
-                                <Card
+                                <div
                                     key={business.id}
-                                    className="relative group h-full flex flex-col justify-between overflow-hidden border-[#1F1F1F] bg-[#111111]/80 hover:border-zinc-700 transition-all duration-300 hover:-translate-y-0.5"
+                                    className="bg-[#0c0d12] border border-[#262930] hover:border-[#4318FF] rounded-xl overflow-hidden flex flex-col justify-between h-full transition-all group"
                                 >
                                     <div>
                                         {/* Header Image */}
-                                        <div className="relative aspect-video w-full overflow-hidden bg-zinc-900 border-b border-[#1F1F1F]">
+                                        <div className="relative aspect-video w-full overflow-hidden bg-zinc-900 border-b border-[#262930]">
                                             {business.photos && business.photos.length > 0 ? (
                                                 <img
                                                     src={business.photos[0].path}
@@ -340,65 +328,33 @@ export default function Home({ categories, featuredBusinesses, stats }: HomeProp
                                                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                                                 />
                                             ) : (
-                                                <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-zinc-900 via-[#161616] to-[#0A0A0A] text-zinc-600">
-                                                    <Building2 className="h-8 w-8 opacity-40" />
+                                                <div className="flex h-full w-full items-center justify-center bg-[#15171e] text-[#8f9bba]">
+                                                    <Building2 className="h-6 w-6 opacity-30" />
                                                 </div>
                                             )}
 
-                                            {/* Category */}
-                                            {business.category && (
-                                                <span
-                                                    style={{
-                                                        backgroundColor: business.category.hex_color || '#3E3E3E',
-                                                        color: '#FFFFFF',
-                                                    }}
-                                                    className="absolute top-3 left-3 text-[10px] font-semibold tracking-wider uppercase px-2 py-0.5 rounded shadow-sm opacity-90"
-                                                >
-                                                    {business.category.en}
-                                                </span>
-                                            )}
-
-                                            {/* Premium Sparkle badge */}
-                                            <span className="absolute top-3 right-3 flex items-center gap-1 bg-indigo-600 text-white text-[10px] font-semibold px-2 py-0.5 rounded shadow-sm">
-                                                <Sparkles className="h-2.5 w-2.5" />
+                                            <span className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-[#4318FF] text-white text-[9px] font-bold px-2 py-0.5 rounded shadow-sm">
+                                                <Sparkles className="h-2 w-2" />
                                                 FEATURED
                                             </span>
                                         </div>
 
-                                        <div className="p-5 space-y-3">
-                                            <div>
-                                                <div className="flex items-start justify-between gap-2">
-                                                    <h3 className="font-semibold text-white group-hover:text-indigo-400 transition-colors text-base line-clamp-1">
-                                                        {business.name}
-                                                    </h3>
-                                                    {business.is_verified && (
-                                                        <CheckCircle className="h-4.5 w-4.5 text-emerald-400 shrink-0 mt-0.5" />
-                                                    )}
-                                                </div>
-                                                {business.tagline && (
-                                                    <p className="text-xs text-zinc-400 line-clamp-1 mt-0.5 italic">
-                                                        {business.tagline}
-                                                    </p>
+                                        <div className="p-4 space-y-2">
+                                            <div className="flex items-start justify-between gap-1.5">
+                                                <h3 className="font-bold text-white group-hover:text-[#4318FF] transition-colors text-xs line-clamp-1">
+                                                    {business.name}
+                                                </h3>
+                                                {business.is_verified && (
+                                                    <CheckCircle className="h-4 w-4 text-[#10b981] shrink-0" />
                                                 )}
                                             </div>
-
-                                            {/* Rating */}
-                                            <div className="flex items-center gap-1.5 text-xs text-zinc-400">
-                                                <div className="flex items-center text-amber-400">
-                                                    <Star className="h-3.5 w-3.5 fill-current" />
-                                                    <span className="ml-1 text-zinc-200 font-medium">
-                                                        {business.reviews_avg_rating
-                                                            ? parseFloat(String(business.reviews_avg_rating)).toFixed(1)
-                                                            : 'N/A'}
-                                                    </span>
-                                                </div>
-                                                <span>•</span>
-                                                <span>{business.reviews_count} reviews</span>
-                                            </div>
-
-                                            {/* Description */}
+                                            {business.tagline && (
+                                                <p className="text-[10px] text-[#8f9bba] line-clamp-1 italic">
+                                                    {business.tagline}
+                                                </p>
+                                            )}
                                             {business.description && (
-                                                <p className="text-xs text-zinc-400 line-clamp-2">
+                                                <p className="text-[10px] text-[#8f9bba] line-clamp-2 leading-relaxed">
                                                     {business.description}
                                                 </p>
                                             )}
@@ -406,51 +362,24 @@ export default function Home({ categories, featuredBusinesses, stats }: HomeProp
                                     </div>
 
                                     {/* Footer details */}
-                                    <div className="px-5 pb-5 pt-3 border-t border-[#1F1F1F]/40 flex items-center justify-between text-xs text-zinc-500">
+                                    <div className="px-4 pb-4 pt-2.5 border-t border-[#262930] flex items-center justify-between text-[10px] text-[#8f9bba]">
                                         <div className="flex items-center gap-1 shrink-0">
-                                            <MapPin className="h-3 w-3 text-zinc-400" />
-                                            <span className="line-clamp-1">{business.city || 'Algeria'}</span>
+                                            <MapPin className="h-3 w-3 text-[#8f9bba]" />
+                                            <span>{business.city || 'Algeria'}</span>
                                         </div>
                                         <Link
                                             href={`/directory/${business.slug}`}
-                                            className="text-xs font-semibold text-indigo-400 group-hover:text-indigo-300 flex items-center gap-0.5"
+                                            className="font-bold text-[#4318FF] hover:underline"
                                         >
-                                            View Details
-                                            <span className="transition-transform group-hover:translate-x-0.5">→</span>
+                                            Open Details →
                                         </Link>
                                     </div>
-                                </Card>
+                                </div>
                             ))}
                         </div>
                     )}
                 </div>
-            </section>
-
-            {/* CTA Section */}
-            <section className="bg-[#111111]/60 py-20 text-zinc-100 border-t border-[#1F1F1F]">
-                <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center space-y-6">
-                    <h2 className="text-3xl font-extrabold text-white sm:text-4xl">
-                        Are you a business owner?
-                    </h2>
-                    <p className="text-base text-zinc-400 max-w-2xl mx-auto">
-                        Grow your online presence and build credibility. Claim or register your business page on SoukNet to publish verified profiles and collect ratings.
-                    </p>
-                    <div className="flex justify-center gap-4 pt-2">
-                        <Link
-                            href="/register"
-                            className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold px-6 py-2.5 rounded-lg text-sm transition-all"
-                        >
-                            Claim Your Business
-                        </Link>
-                        <Link
-                            href="/directory"
-                            className="bg-[#1C1C1C] border border-[#2E2E2E] hover:bg-zinc-800 text-zinc-200 font-semibold px-6 py-2.5 rounded-lg text-sm transition-all"
-                        >
-                            Explore Directory
-                        </Link>
-                    </div>
-                </div>
-            </section>
+            </div>
         </GuestLayout>
     );
 }

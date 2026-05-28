@@ -174,7 +174,7 @@ export default function CategoryPage({
     };
 
     const applyFilters = (updatedParams?: Record<string, any>) => {
-        const params = {
+        const params: Record<string, any> = {
             search,
             city,
             sort,
@@ -212,15 +212,15 @@ export default function CategoryPage({
         <GuestLayout>
             <Head title={`${category.en} Listings`} />
 
-            <div className="relative overflow-hidden bg-[#0A0A0A] py-12 text-zinc-100 min-h-screen">
+            <div className="p-6 lg:p-8 space-y-8 bg-[#0A0A0A] text-zinc-100 min-h-screen relative overflow-hidden">
                 {/* Visual accents */}
-                <div className="absolute top-[-10%] left-[-10%] h-[30rem] w-[30rem] rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none" />
+                <div className="absolute top-[-10%] left-[-10%] h-[30rem] w-[30rem] rounded-full bg-indigo-500/5 blur-[120px] pointer-events-none" />
                 <div className="absolute bottom-[-10%] right-[-10%] h-[30rem] w-[30rem] rounded-full bg-emerald-500/5 blur-[120px] pointer-events-none" />
 
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <div>
                     {/* Category Hero Banner */}
                     <div
-                        className="relative rounded-2xl overflow-hidden border border-[#1F1F1F] bg-[#111111]/80 p-8 sm:p-12 mb-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6 backdrop-blur-md"
+                        className="relative rounded-2xl overflow-hidden border border-[#1F1F1F] bg-[#111111]/85 p-6 sm:p-8 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6 backdrop-blur-md"
                         style={{
                             borderLeftColor: category.hex_color || '#1F1F1F',
                             borderLeftWidth: category.hex_color ? '4px' : '1px',

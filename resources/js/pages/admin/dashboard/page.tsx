@@ -9,6 +9,7 @@ import {
     ShieldAlert,
     Check,
     X,
+    TrendingUp
 } from 'lucide-react';
 import React from 'react';
 
@@ -101,115 +102,84 @@ export default function Dashboard({
 
     return (
         <>
-            <Head title="Admin Dashboard" />
+            <Head title="System Administration" />
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-            <div className="space-y-8">
+            <div className="bg-[#15171e] text-white font-['Inter',_sans-serif] min-h-screen space-y-6">
+                
                 {/* Header */}
-                <div>
-                    <h1 className="text-2xl font-bold text-white">
-                        System Administration
+                <div className="border-b border-[#262930] pb-5">
+                    <div className="flex items-center gap-2 mb-1">
+                        <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+                        <span className="text-[10px] font-bold text-red-400 tracking-wider uppercase">System Administration</span>
+                    </div>
+                    <h1 className="text-xl font-extrabold text-white">
+                        Admin Dashboard
                     </h1>
-                    <p className="mt-1 text-sm text-zinc-400">
-                        Real-time stats, listing approvals, and transactions.
+                    <p className="text-xs text-[#8f9bba] mt-0.5">
+                        Manage global platform metrics, review submissions, and track payment transactions.
                     </p>
                 </div>
 
-                {/* STAT CARDS ROW (6 cards, 3-col grid x 2 rows) */}
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {/* Card 1: Total Businesses */}
-                    <div className="flex items-center justify-between rounded-lg border border-[#1F1F1F] bg-[#111111] p-5 transition-all hover:border-[#6366F1]/50">
-                        <div>
-                            <span className="text-xs font-semibold tracking-wider text-zinc-500 uppercase">
-                                Total Businesses
-                            </span>
-                            <h3 className="mt-1 text-2xl font-extrabold text-white">
-                                {stats.total_businesses.toLocaleString()}
-                            </h3>
-                        </div>
-                        <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-3 text-zinc-400">
+                {/* STAT CARDS ROW */}
+                <div className="grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-6">
+                    <div className="bg-[#0c0d12] border border-[#262930] rounded-xl p-4 flex items-center gap-4">
+                        <div className="h-10 w-10 rounded-lg bg-[#4318FF]/10 text-[#4318FF] flex items-center justify-center shrink-0">
                             <Briefcase className="h-5 w-5" />
                         </div>
+                        <div>
+                            <div className="text-lg font-black text-white">{stats.total_businesses.toLocaleString()}</div>
+                            <div className="text-[9px] font-bold tracking-wider text-[#8f9bba] uppercase">Businesses</div>
+                        </div>
                     </div>
 
-                    {/* Card 2: Pending Review */}
-                    <div className="flex items-center justify-between rounded-lg border border-[#1F1F1F] bg-[#111111] p-5 transition-all hover:border-[#6366F1]/50">
-                        <div>
-                            <span className="text-xs font-semibold tracking-wider text-zinc-500 uppercase">
-                                Pending Review
-                            </span>
-                            <div className="mt-1 flex items-center gap-2">
-                                <h3 className="text-2xl font-extrabold text-white">
-                                    {stats.pending_businesses.toLocaleString()}
-                                </h3>
-                                {stats.pending_businesses > 0 && (
-                                    <span className="border-amber-550/20 rounded border bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-bold text-amber-500">
-                                        Action Required
-                                    </span>
-                                )}
-                            </div>
-                        </div>
-                        <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-3 text-zinc-400">
+                    <div className="bg-[#0c0d12] border border-[#262930] rounded-xl p-4 flex items-center gap-4">
+                        <div className="h-10 w-10 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0">
                             <Clock className="h-5 w-5" />
                         </div>
+                        <div>
+                            <div className="text-lg font-black text-white">{stats.pending_businesses.toLocaleString()}</div>
+                            <div className="text-[9px] font-bold tracking-wider text-[#8f9bba] uppercase">Pending</div>
+                        </div>
                     </div>
 
-                    {/* Card 3: Total Users */}
-                    <div className="flex items-center justify-between rounded-lg border border-[#1F1F1F] bg-[#111111] p-5 transition-all hover:border-[#6366F1]/50">
-                        <div>
-                            <span className="text-xs font-semibold tracking-wider text-zinc-500 uppercase">
-                                Total Users
-                            </span>
-                            <h3 className="mt-1 text-2xl font-extrabold text-white">
-                                {stats.total_users.toLocaleString()}
-                            </h3>
-                        </div>
-                        <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-3 text-zinc-400">
+                    <div className="bg-[#0c0d12] border border-[#262930] rounded-xl p-4 flex items-center gap-4">
+                        <div className="h-10 w-10 rounded-lg bg-[#10b981]/10 text-[#10b981] flex items-center justify-center shrink-0">
                             <Users className="h-5 w-5" />
                         </div>
+                        <div>
+                            <div className="text-lg font-black text-white">{stats.total_users.toLocaleString()}</div>
+                            <div className="text-[9px] font-bold tracking-wider text-[#8f9bba] uppercase">Users</div>
+                        </div>
                     </div>
 
-                    {/* Card 4: MRR (Total Revenue) */}
-                    <div className="flex items-center justify-between rounded-lg border border-[#1F1F1F] bg-[#111111] p-5 transition-all hover:border-[#6366F1]/50">
-                        <div>
-                            <span className="text-xs font-semibold tracking-wider text-zinc-500 uppercase">
-                                Monthly Revenue (MRR)
-                            </span>
-                            <h3 className="mt-1 text-2xl font-extrabold text-[#6366F1]">
-                                {formatCurrency(stats.total_revenue_cents)}
-                            </h3>
-                        </div>
-                        <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-3 text-zinc-400">
+                    <div className="bg-[#0c0d12] border border-[#262930] rounded-xl p-4 flex items-center gap-4">
+                        <div className="h-10 w-10 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center shrink-0">
                             <DollarSign className="h-5 w-5" />
                         </div>
+                        <div>
+                            <div className="text-lg font-black text-purple-400">{formatCurrency(stats.total_revenue_cents)}</div>
+                            <div className="text-[9px] font-bold tracking-wider text-[#8f9bba] uppercase">Revenue (MRR)</div>
+                        </div>
                     </div>
 
-                    {/* Card 5: New Signups (month) */}
-                    <div className="flex items-center justify-between rounded-lg border border-[#1F1F1F] bg-[#111111] p-5 transition-all hover:border-[#6366F1]/50">
-                        <div>
-                            <span className="text-xs font-semibold tracking-wider text-zinc-500 uppercase">
-                                New Signups (Month)
-                            </span>
-                            <h3 className="mt-1 text-2xl font-extrabold text-white">
-                                +{stats.new_signups_this_month.toLocaleString()}
-                            </h3>
-                        </div>
-                        <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-3 text-zinc-400">
+                    <div className="bg-[#0c0d12] border border-[#262930] rounded-xl p-4 flex items-center gap-4">
+                        <div className="h-10 w-10 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center shrink-0">
                             <UserPlus className="h-5 w-5" />
                         </div>
+                        <div>
+                            <div className="text-lg font-black text-white">+{stats.new_signups_this_month.toLocaleString()}</div>
+                            <div className="text-[9px] font-bold tracking-wider text-[#8f9bba] uppercase">Signups</div>
+                        </div>
                     </div>
 
-                    {/* Card 6: Active Subs */}
-                    <div className="flex items-center justify-between rounded-lg border border-[#1F1F1F] bg-[#111111] p-5 transition-all hover:border-[#6366F1]/50">
-                        <div>
-                            <span className="text-xs font-semibold tracking-wider text-zinc-500 uppercase">
-                                Active Subscriptions
-                            </span>
-                            <h3 className="mt-1 text-2xl font-extrabold text-white">
-                                {stats.active_subscriptions.toLocaleString()}
-                            </h3>
-                        </div>
-                        <div className="rounded-lg border border-zinc-800 bg-zinc-900 p-3 text-zinc-400">
+                    <div className="bg-[#0c0d12] border border-[#262930] rounded-xl p-4 flex items-center gap-4">
+                        <div className="h-10 w-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
                             <ShieldAlert className="h-5 w-5" />
+                        </div>
+                        <div>
+                            <div className="text-lg font-black text-white">{stats.active_subscriptions.toLocaleString()}</div>
+                            <div className="text-[9px] font-bold tracking-wider text-[#8f9bba] uppercase">Active Subs</div>
                         </div>
                     </div>
                 </div>
@@ -217,92 +187,64 @@ export default function Dashboard({
                 {/* Tables Grid */}
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
                     {/* PENDING APPROVALS */}
-                    <div className="flex flex-col justify-between rounded-lg border border-[#1F1F1F] bg-[#111111] p-6">
+                    <div className="bg-[#0c0d12] border border-[#262930] rounded-xl p-5 space-y-4 flex flex-col justify-between min-h-[300px]">
                         <div>
-                            <div className="mb-4 flex items-center justify-between border-b border-[#1F1F1F] pb-4">
+                            <div className="flex items-center justify-between border-b border-[#262930] pb-3 mb-4">
                                 <div className="flex items-center gap-2">
-                                    <h2 className="text-base font-bold text-white">
-                                        Pending Review
+                                    <h2 className="text-xs font-bold uppercase tracking-wider text-[#8f9bba]">
+                                        Pending Reviews
                                     </h2>
-                                    <span className="rounded-full border border-[#6366F1]/20 bg-[#6366F1]/10 px-2 py-0.5 text-[10px] font-bold text-[#6366F1]">
+                                    <span className="bg-[#4318FF]/20 text-[#6AD2FF] text-[10px] px-2 py-0.5 rounded-full font-bold">
                                         {pendingBusinesses.length}
                                     </span>
                                 </div>
                             </div>
 
                             {pendingBusinesses.length === 0 ? (
-                                <div className="py-12 text-center">
-                                    <p className="text-sm text-zinc-500">
-                                        No pending listings to review.
-                                    </p>
+                                <div className="py-12 text-center text-xs text-[#8f9bba]">
+                                    No pending listings to review.
                                 </div>
                             ) : (
                                 <div className="overflow-x-auto">
-                                    <table className="w-full border-collapse text-left text-sm">
+                                    <table className="w-full border-collapse text-left text-xs select-none">
                                         <thead>
-                                            <tr className="border-b border-[#1F1F1F] text-xs tracking-wider text-zinc-500 uppercase">
-                                                <th className="pb-3 font-semibold">
-                                                    Business Name
-                                                </th>
-                                                <th className="pb-3 font-semibold">
-                                                    Owner
-                                                </th>
-                                                <th className="pb-3 font-semibold">
-                                                    Category
-                                                </th>
-                                                <th className="pb-3 font-semibold">
-                                                    Submitted
-                                                </th>
-                                                <th className="pb-3 text-right font-semibold">
-                                                    Actions
-                                                </th>
+                                            <tr className="border-b border-[#262930] text-[#8f9bba] uppercase font-bold tracking-wider text-[10px]">
+                                                <th className="pb-3">Business Name</th>
+                                                <th className="pb-3">Owner</th>
+                                                <th className="pb-3">Category</th>
+                                                <th className="pb-3">Submitted</th>
+                                                <th className="pb-3 text-right">Actions</th>
                                             </tr>
                                         </thead>
-                                        <tbody className="divide-y divide-[#1F1F1F]">
+                                        <tbody className="divide-y divide-[#262930]/40 text-zinc-200">
                                             {pendingBusinesses.map((biz) => (
-                                                <tr
-                                                    key={biz.id}
-                                                    className="transition-colors hover:bg-zinc-800/40"
-                                                >
-                                                    <td className="max-w-[140px] truncate py-3.5 font-semibold text-white">
+                                                <tr key={biz.id} className="hover:bg-[#15171e]/40 transition-colors">
+                                                    <td className="max-w-[140px] truncate py-3 font-semibold text-white">
                                                         {biz.name}
                                                     </td>
-                                                    <td className="py-3.5 text-xs text-zinc-400">
-                                                        {biz.owner?.name ||
-                                                            biz.user?.name ||
-                                                            'N/A'}
+                                                    <td className="py-3 text-zinc-400">
+                                                        {biz.owner?.name || biz.user?.name || 'N/A'}
                                                     </td>
-                                                    <td className="py-3.5 text-xs text-zinc-400">
-                                                        {biz.category?.en ||
-                                                            'N/A'}
+                                                    <td className="py-3 text-zinc-400">
+                                                        {biz.category?.en || 'N/A'}
                                                     </td>
-                                                    <td className="py-3.5 text-xs text-zinc-500">
-                                                        {formatDate(
-                                                            biz.created_at,
-                                                        )}
+                                                    <td className="py-3 text-zinc-500">
+                                                        {formatDate(biz.created_at)}
                                                     </td>
-                                                    <td className="py-3.5 text-right">
+                                                    <td className="py-3 text-right">
                                                         <div className="inline-flex gap-2">
                                                             <button
                                                                 type="button"
-                                                                onClick={() =>
-                                                                    handleApprove(
-                                                                        biz.id,
-                                                                    )
-                                                                }
-                                                                className="text-emerald-450 rounded border border-emerald-500/20 bg-emerald-500/10 p-1.5 transition-colors hover:bg-emerald-500/20 hover:text-emerald-400"
+                                                                onClick={() => handleApprove(biz.id)}
+                                                                className="text-[#10b981] rounded border border-[#10b981]/20 bg-[#10b981]/10 p-1 transition-colors hover:bg-[#10b981]/25"
                                                                 title="Approve"
                                                             >
                                                                 <Check className="h-3.5 w-3.5" />
                                                             </button>
                                                             <button
                                                                 type="button"
-                                                                onClick={() =>
-                                                                    handleReject(
-                                                                        biz.id,
-                                                                    )
-                                                                }
-                                                                className="text-rose-450 rounded border border-rose-500/20 bg-rose-500/10 p-1.5 transition-colors hover:bg-rose-500/20 hover:text-rose-400"
+                                                                onClick={() => handleReject(biz.id)}
+                                                                className="text-red-400 rounded border border-red-500/20 bg-red-500/10 p-1 transition-colors hover:bg-red-500/25"
                                                                 title="Reject"
                                                             >
                                                                 <X className="h-3.5 w-3.5" />
@@ -318,72 +260,57 @@ export default function Dashboard({
                         </div>
                     </div>
 
-                    {/* RECENT PAYMENTS */}
-                    <div className="flex flex-col justify-between rounded-lg border border-[#1F1F1F] bg-[#111111] p-6">
+                    {/* RECENT TRANSACTIONS */}
+                    <div className="bg-[#0c0d12] border border-[#262930] rounded-xl p-5 space-y-4 flex flex-col justify-between min-h-[300px]">
                         <div>
-                            <div className="mb-4 flex items-center justify-between border-b border-[#1F1F1F] pb-4">
-                                <h2 className="text-base font-bold text-white">
+                            <div className="flex items-center justify-between border-b border-[#262930] pb-3 mb-4">
+                                <h2 className="text-xs font-bold uppercase tracking-wider text-[#8f9bba]">
                                     Recent Transactions
                                 </h2>
                             </div>
 
                             {recentPayments.length === 0 ? (
-                                <div className="py-12 text-center">
-                                    <p className="text-sm text-zinc-500">
-                                        No recent transactions recorded.
-                                    </p>
+                                <div className="py-12 text-center text-xs text-[#8f9bba]">
+                                    No recent transactions recorded.
                                 </div>
                             ) : (
                                 <div className="overflow-x-auto">
-                                    <table className="w-full border-collapse text-left text-sm">
+                                    <table className="w-full border-collapse text-left text-xs select-none">
                                         <thead>
-                                            <tr className="border-b border-[#1F1F1F] text-xs tracking-wider text-zinc-500 uppercase">
-                                                <th className="pb-3 font-semibold">
-                                                    User
-                                                </th>
-                                                <th className="pb-3 font-semibold">
-                                                    Plan
-                                                </th>
-                                                <th className="pb-3 font-semibold">
-                                                    Amount
-                                                </th>
-                                                <th className="pb-3 font-semibold">
-                                                    Date
-                                                </th>
-                                                <th className="pb-3 text-right font-semibold">
-                                                    Status
-                                                </th>
+                                            <tr className="border-b border-[#262930] text-[#8f9bba] uppercase font-bold tracking-wider text-[10px]">
+                                                <th className="pb-3">User</th>
+                                                <th className="pb-3">Plan</th>
+                                                <th className="pb-3">Amount</th>
+                                                <th className="pb-3">Date</th>
+                                                <th className="pb-3 text-right">Status</th>
                                             </tr>
                                         </thead>
-                                        <tbody className="divide-y divide-[#1F1F1F]">
+                                        <tbody className="divide-y divide-[#262930]/40 text-zinc-200">
                                             {recentPayments.map((payment) => (
-                                                <tr
-                                                    key={payment.id}
-                                                    className="transition-colors hover:bg-zinc-800/40"
-                                                >
-                                                    <td className="py-3.5 text-xs font-semibold text-white">
-                                                        {payment.user?.name ||
-                                                            'N/A'}
+                                                <tr key={payment.id} className="hover:bg-[#15171e]/40 transition-colors">
+                                                    <td className="py-3 font-semibold text-white">
+                                                        {payment.user?.name || 'N/A'}
                                                     </td>
-                                                    <td className="py-3.5 text-xs text-zinc-400">
+                                                    <td className="py-3 text-zinc-400">
                                                         <span className="capitalize">
-                                                            {payment.plan?.en ||
-                                                                'N/A'}
+                                                            {payment.plan?.en || 'N/A'}
                                                         </span>
                                                     </td>
-                                                    <td className="py-3.5 text-xs font-bold text-white">
-                                                        {formatCurrency(
-                                                            payment.amount_cents,
-                                                        )}
+                                                    <td className="py-3 font-bold text-white">
+                                                        {formatCurrency(payment.amount_cents)}
                                                     </td>
-                                                    <td className="py-3.5 text-xs text-zinc-500">
-                                                        {formatDate(
-                                                            payment.created_at,
-                                                        )}
+                                                    <td className="py-3 text-zinc-500">
+                                                        {formatDate(payment.created_at)}
                                                     </td>
-                                                    <td className="py-3.5 text-right">
+                                                    <td className="py-3 text-right">
                                                         <span
-                                                            className={`inline-flex items-center rounded border px-2 py-0.5 text-[10px] font-bold capitalize ${payment.status === 'succeeded' ? 'text-emerald-450 border-emerald-500/20 bg-emerald-500/10' : ''} ${payment.status === 'failed' ? 'text-rose-450 border-rose-500/20 bg-rose-500/10' : ''} ${payment.status === 'refunded' ? 'text-amber-450 border-amber-500/20 bg-amber-500/10' : ''} `}
+                                                            className={`inline-flex items-center rounded border px-2 py-0.5 text-[9px] font-bold capitalize ${
+                                                                payment.status === 'succeeded'
+                                                                    ? 'text-[#10b981] border-[#10b981]/20 bg-[#10b981]/10'
+                                                                    : payment.status === 'failed'
+                                                                    ? 'text-red-400 border-red-500/20 bg-red-500/10'
+                                                                    : 'text-amber-400 border-amber-500/20 bg-amber-500/10'
+                                                            }`}
                                                         >
                                                             {payment.status}
                                                         </span>
@@ -403,7 +330,7 @@ export default function Dashboard({
 }
 
 Dashboard.layout = (page: React.ReactNode) => (
-    <AdminLayout breadcrumbs={[{ title: 'Admin Dashboard', href: '/admin' }]}>
+    <AdminLayout breadcrumbs={[{ title: 'Dashboard', href: '/admin' }]}>
         {page}
     </AdminLayout>
 );

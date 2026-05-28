@@ -2,32 +2,28 @@ import React, { useState } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import {
     LayoutGrid,
-    Briefcase,
-    Users,
-    FolderKanban,
+    Inbox,
+    Star,
     CreditCard,
-    MessageSquare,
-    DollarSign,
     Settings,
+    PlusCircle,
     Home,
     Sparkles,
     ChevronDown,
-    ChevronUp
+    ChevronUp,
+    Briefcase
 } from 'lucide-react';
 
-export function AdminSidebar() {
+export function OwnerSidebar() {
     const { auth } = usePage().props as any;
     const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
     const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
-        directory: true,
-        monetize: true
+        manage: true,
+        account: true
     });
 
     const isActive = (href: string) => {
         if (href === '#') return false;
-        if (href === '/admin') {
-            return currentPath === '/admin';
-        }
         return currentPath.startsWith(href);
     };
 
@@ -43,13 +39,13 @@ export function AdminSidebar() {
             {/* Header / Brand Logo */}
             <div className="flex h-12 items-center px-4 border-b border-[#262930] justify-between">
                 <Link
-                    href="/admin"
+                    href="/owner/dashboard"
                     className="flex items-center gap-2 text-sm font-bold tracking-tight text-white hover:opacity-90 transition-opacity"
                 >
                     <span className="flex h-6 w-6 items-center justify-center rounded bg-[#4318FF] text-xs font-black text-white shadow-md shadow-indigo-500/20">
                         S
                     </span>
-                    <span className="text-white font-extrabold tracking-wide">Admin Suite</span>
+                    <span className="text-white font-extrabold tracking-wide">Console</span>
                 </Link>
                 <Settings className="h-4 w-4 text-[#8f9bba] hover:text-white cursor-pointer transition-colors" />
             </div>
@@ -59,9 +55,9 @@ export function AdminSidebar() {
                 {/* Home link */}
                 <div className="space-y-0.5">
                     <Link
-                        href="/admin"
+                        href="/owner/dashboard"
                         className={`flex items-center justify-between px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                            isActive('/admin')
+                            isActive('/owner/dashboard')
                                 ? 'bg-[#22252e] text-white font-bold'
                                 : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
                         }`}
@@ -73,115 +69,79 @@ export function AdminSidebar() {
                     </Link>
                 </div>
 
-                {/* Section 1: Directory Management */}
+                {/* Section 1: Listings Management */}
                 <div className="space-y-1">
                     <button
-                        onClick={() => toggleSection('directory')}
+                        onClick={() => toggleSection('manage')}
                         className="flex items-center justify-between w-full px-3 py-1 text-[10px] font-bold text-zinc-500 uppercase tracking-widest hover:text-zinc-300 transition-colors"
                     >
-                        <span>System Directory</span>
-                        {expandedSections.directory ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
+                        <span>Manage Listings</span>
+                        {expandedSections.manage ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
                     </button>
 
-                    {expandedSections.directory && (
+                    {expandedSections.manage && (
                         <div className="space-y-0.5 pl-1.5">
                             <Link
-                                href="/admin/businesses"
+                                href="/owner/leads"
                                 className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                                    isActive('/admin/businesses')
+                                    isActive('/owner/leads')
                                         ? 'bg-[#22252e] text-white font-bold'
                                         : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
                                 }`}
                             >
-                                <Briefcase className="h-4 w-4" />
-                                <span>Businesses</span>
+                                <Inbox className="h-4 w-4" />
+                                <span>Leads & Messages</span>
                             </Link>
 
                             <Link
-                                href="/admin/users"
+                                href="/owner/reviews"
                                 className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                                    isActive('/admin/users')
+                                    isActive('/owner/reviews')
                                         ? 'bg-[#22252e] text-white font-bold'
                                         : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
                                 }`}
                             >
-                                <Users className="h-4 w-4" />
-                                <span>Users Directory</span>
-                            </Link>
-
-                            <Link
-                                href="/admin/categories"
-                                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                                    isActive('/admin/categories')
-                                        ? 'bg-[#22252e] text-white font-bold'
-                                        : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
-                                }`}
-                            >
-                                <FolderKanban className="h-4 w-4" />
-                                <span>Categories</span>
-                            </Link>
-
-                            <Link
-                                href="/admin/reviews"
-                                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                                    isActive('/admin/reviews')
-                                        ? 'bg-[#22252e] text-white font-bold'
-                                        : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
-                                }`}
-                            >
-                                <MessageSquare className="h-4 w-4" />
-                                <span>User Reviews</span>
+                                <Star className="h-4 w-4" />
+                                <span>Customer Reviews</span>
                             </Link>
                         </div>
                     )}
                 </div>
 
-                {/* Section 2: Monetize & Settings */}
+                {/* Section 2: Account & Settings */}
                 <div className="space-y-1">
                     <button
-                        onClick={() => toggleSection('monetize')}
+                        onClick={() => toggleSection('account')}
                         className="flex items-center justify-between w-full px-3 py-1 text-[10px] font-bold text-zinc-500 uppercase tracking-widest hover:text-zinc-300 transition-colors"
                     >
-                        <span>Finance & Setup</span>
-                        {expandedSections.monetize ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
+                        <span>Account & Billing</span>
+                        {expandedSections.account ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
                     </button>
 
-                    {expandedSections.monetize && (
+                    {expandedSections.account && (
                         <div className="space-y-0.5 pl-1.5">
                             <Link
-                                href="/admin/plans"
+                                href="/owner/subscription-billing"
                                 className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                                    isActive('/admin/plans')
+                                    isActive('/owner/subscription-billing')
                                         ? 'bg-[#22252e] text-white font-bold'
                                         : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
                                 }`}
                             >
                                 <CreditCard className="h-4 w-4" />
-                                <span>Payment Plans</span>
+                                <span>Subscription</span>
                             </Link>
 
                             <Link
-                                href="/admin/payments"
+                                href="/owner/settings"
                                 className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                                    isActive('/admin/payments')
-                                        ? 'bg-[#22252e] text-white font-bold'
-                                        : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
-                                }`}
-                            >
-                                <DollarSign className="h-4 w-4" />
-                                <span>Transactions</span>
-                            </Link>
-
-                            <Link
-                                href="/admin/settings"
-                                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                                    isActive('/admin/settings')
+                                    isActive('/owner/settings')
                                         ? 'bg-[#22252e] text-white font-bold'
                                         : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
                                 }`}
                             >
                                 <Settings className="h-4 w-4" />
-                                <span>System Settings</span>
+                                <span>Console Settings</span>
                             </Link>
                         </div>
                     )}
@@ -193,13 +153,21 @@ export function AdminSidebar() {
                 {/* Onboarding hub progress */}
                 <div className="bg-[#15171e] p-2.5 rounded-xl border border-[#262930] space-y-1.5">
                     <div className="flex justify-between items-center text-[10px] font-bold text-[#8f9bba]">
-                        <span>System Health</span>
-                        <span className="text-white">99.8% Online</span>
+                        <span>Console Setup</span>
+                        <span className="text-white">100% Done</span>
                     </div>
                     <div className="h-1.5 w-full bg-[#262930] rounded-full overflow-hidden">
-                        <div className="h-full bg-[#10b981] w-[99.8%]" />
+                        <div className="h-full bg-[#10b981] w-[100%]" />
                     </div>
                 </div>
+
+                {/* Upgrade Button */}
+                <Link
+                    href="/owner/subscription-billing"
+                    className="flex items-center justify-center gap-2 w-full rounded-xl bg-[#c6f052] hover:bg-[#b5dc43] text-black py-2 text-xs font-black transition-colors shadow-lg"
+                >
+                    Upgrade Plan
+                </Link>
             </div>
         </div>
     );
