@@ -1,0 +1,19 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Setting;
+use Illuminate\Database\Seeder;
+
+class SettingSeeder extends Seeder
+{
+    public static int $count = 10;
+
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        Setting::factory(static::$count)->create();
+    }
+}
