@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import {
     LayoutGrid,
@@ -11,8 +10,13 @@ import {
     Sparkles,
     ChevronDown,
     ChevronUp,
-    Briefcase
+    Briefcase,
+    Users
 } from 'lucide-react';
+import React, { useState } from 'react';
+
+import { NavUser } from '@/components/nav-user';
+import ownerRoute from '@/routes/owner';
 
 export function OwnerSidebar() {
     const { auth } = usePage().props as any;
@@ -23,7 +27,10 @@ export function OwnerSidebar() {
     });
 
     const isActive = (href: string) => {
-        if (href === '#') return false;
+        if (href === '#' || !href) {
+return false;
+}
+
         return currentPath.startsWith(href);
     };
 
@@ -39,7 +46,7 @@ export function OwnerSidebar() {
             {/* Header / Brand Logo */}
             <div className="flex h-12 items-center px-4 border-b border-[#262930] justify-between">
                 <Link
-                    href="/owner/dashboard"
+                    href={ownerRoute.dashboard.url()}
                     className="flex items-center gap-2 text-sm font-bold tracking-tight text-white hover:opacity-90 transition-opacity"
                 >
                     <span className="flex h-6 w-6 items-center justify-center rounded bg-[#4318FF] text-xs font-black text-white shadow-md shadow-indigo-500/20">
@@ -55,9 +62,9 @@ export function OwnerSidebar() {
                 {/* Home link */}
                 <div className="space-y-0.5">
                     <Link
-                        href="/owner/dashboard"
+                        href={ownerRoute.dashboard.url()}
                         className={`flex items-center justify-between px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                            isActive('/owner/dashboard')
+                            isActive(ownerRoute.dashboard.url())
                                 ? 'bg-[#22252e] text-white font-bold'
                                 : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
                         }`}
@@ -82,27 +89,63 @@ export function OwnerSidebar() {
                     {expandedSections.manage && (
                         <div className="space-y-0.5 pl-1.5">
                             <Link
-                                href="/owner/leads"
+                                href={ownerRoute.listings.index.url()}
                                 className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                                    isActive('/owner/leads')
+                                    isActive(ownerRoute.listings.index.url())
                                         ? 'bg-[#22252e] text-white font-bold'
                                         : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
-                                }`}
+                                }}`}
+                            >
+                                <Briefcase className="h-4 w-4" />
+                                <span>My Listings</span>
+                            </Link>
+
+                            <Link
+                                href={ownerRoute.leads.index.url()}
+                                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                                    isActive(ownerRoute.leads.index.url())
+                                        ? 'bg-[#22252e] text-white font-bold'
+                                        : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
+                                }}`}
                             >
                                 <Inbox className="h-4 w-4" />
                                 <span>Leads & Messages</span>
                             </Link>
 
                             <Link
-                                href="/owner/reviews"
+                                href={ownerRoute.reviews.index.url()}
                                 className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                                    isActive('/owner/reviews')
+                                    isActive(ownerRoute.reviews.index.url())
                                         ? 'bg-[#22252e] text-white font-bold'
                                         : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
-                                }`}
+                                }}`}
                             >
                                 <Star className="h-4 w-4" />
                                 <span>Customer Reviews</span>
+                            </Link>
+
+                            <Link
+                                href={ownerRoute.jobs.index.url()}
+                                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                                    isActive(ownerRoute.jobs.index.url())
+                                        ? 'bg-[#22252e] text-white font-bold'
+                                        : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
+                                }}`}
+                            >
+                                <Briefcase className="h-4 w-4 text-purple-400" />
+                                <span>Job Postings</span>
+                            </Link>
+
+                            <Link
+                                href={ownerRoute.people.index.url()}
+                                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                                    isActive(ownerRoute.people.index.url())
+                                        ? 'bg-[#22252e] text-white font-bold'
+                                        : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
+                                }}`}
+                            >
+                                <Users className="h-4 w-4 text-[#6AD2FF]" />
+                                <span>Team & Professionals</span>
                             </Link>
                         </div>
                     )}
@@ -121,24 +164,24 @@ export function OwnerSidebar() {
                     {expandedSections.account && (
                         <div className="space-y-0.5 pl-1.5">
                             <Link
-                                href="/owner/subscription-billing"
+                                href={ownerRoute.subscriptionBilling.index.url()}
                                 className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                                    isActive('/owner/subscription-billing')
+                                    isActive(ownerRoute.subscriptionBilling.index.url())
                                         ? 'bg-[#22252e] text-white font-bold'
                                         : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
-                                }`}
+                                }}`}
                             >
                                 <CreditCard className="h-4 w-4" />
                                 <span>Subscription</span>
                             </Link>
 
                             <Link
-                                href="/owner/settings"
+                                href={ownerRoute.settings.index.url()}
                                 className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                                    isActive('/owner/settings')
+                                    isActive(ownerRoute.settings.index.url())
                                         ? 'bg-[#22252e] text-white font-bold'
                                         : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
-                                }`}
+                                }}`}
                             >
                                 <Settings className="h-4 w-4" />
                                 <span>Console Settings</span>
@@ -168,7 +211,15 @@ export function OwnerSidebar() {
                 >
                     Upgrade Plan
                 </Link>
+
+                {/* User Nav */}
+                {auth?.user && (
+                    <div className="pt-2 border-t border-[#262930]">
+                        <NavUser />
+                    </div>
+                )}
             </div>
         </div>
     );
 }
+

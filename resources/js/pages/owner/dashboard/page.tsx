@@ -1,7 +1,4 @@
-import React from 'react';
 import { Head, Link } from '@inertiajs/react';
-import OwnerLayout from '@/layouts/owner-layout';
-import { Badge } from '@/components/ui/badge';
 import {
     Building2,
     Eye,
@@ -16,6 +13,9 @@ import {
     TrendingUp,
     MoreHorizontal
 } from 'lucide-react';
+import React from 'react';
+import { Badge } from '@/components/ui/badge';
+import OwnerLayout from '@/layouts/owner-layout';
 
 interface Business {
     id: number;
@@ -208,7 +208,9 @@ export default function OwnerDashboard({
                                         <div className="flex items-start justify-between gap-3">
                                             <div>
                                                 <h3 className="line-clamp-1 text-sm font-bold text-white group-hover:text-[#4318FF] transition-colors">
-                                                    {business.name}
+                                                    <Link href={route('owner.listings.show', { id: business.id })}>
+                                                        {business.name}
+                                                    </Link>
                                                 </h3>
                                                 {business.tagline && (
                                                     <p className="mt-0.5 line-clamp-1 text-[11px] text-[#8f9bba] italic">
@@ -255,10 +257,10 @@ export default function OwnerDashboard({
                                             View Public Page
                                         </Link>
                                         <Link
-                                            href="/settings/profile" // Placeholder edit business page
+                                            href={route('owner.listings.show', { id: business.id })}
                                             className="font-bold text-[#4318FF] hover:underline"
                                         >
-                                            Edit Details
+                                            Manage Listing
                                         </Link>
                                     </div>
                                 </div>

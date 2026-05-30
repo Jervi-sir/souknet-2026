@@ -1,10 +1,26 @@
 <?php
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
 
 uses(RefreshDatabase::class);
+
+beforeEach(function () {
+    $this->role = Role::create([
+        'code' => 'owner',
+        'en' => 'Business Owner',
+    ]);
+
+    $this->user = User::create([
+        'name' => 'Owner User',
+        'email' => 'owner@example.com',
+        'password' => bcrypt('password'),
+        'role_id' => $this->role->id,
+        'email_verified_at' => now(),
+    ]);
+});
 
 test('guests are redirected to the login page from owner settings page', function () {
     $response = $this->get(route('owner.settings'));
@@ -12,9 +28,7 @@ test('guests are redirected to the login page from owner settings page', functio
 });
 
 test('owners can access settings page and view form values', function () {
-    $user = User::factory()->create();
-
-    $this->actingAs($user);
+    $this->actingAs($this->user);
 
     $response = $this->get(route('owner.settings'));
 
@@ -26,9 +40,7 @@ test('owners can access settings page and view form values', function () {
 });
 
 test('owners can update settings preferences', function () {
-    $user = User::factory()->create();
-
-    $this->actingAs($user);
+    $this->actingAs($this->user);
 
     $response = $this->post(route('owner.settings.update'), [
         'notification_new_review' => false,
@@ -42,9 +54,9 @@ test('owners can update settings preferences', function () {
     ]);
 
     $response->assertRedirect();
-    
+
     // Assert settings are updated in session
-    $savedSettings = session("owner_settings_{$user->id}");
+    $savedSettings = session("owner_settings_{$this->user->id}");
     expect($savedSettings['default_city'])->toBe('Oran');
     expect($savedSettings['default_email'])->toBe('new-default@example.com');
     expect($savedSettings['notification_new_review'])->toBe(false);

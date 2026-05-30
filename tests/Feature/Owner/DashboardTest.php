@@ -2,8 +2,8 @@
 
 use App\Models\Business;
 use App\Models\Category;
-use App\Models\User;
 use App\Models\Plan;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
 

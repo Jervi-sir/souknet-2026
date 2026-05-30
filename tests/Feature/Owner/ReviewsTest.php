@@ -2,13 +2,48 @@
 
 use App\Models\Business;
 use App\Models\Category;
-use App\Models\Review;
-use App\Models\User;
 use App\Models\Plan;
+use App\Models\Review;
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
 
 uses(RefreshDatabase::class);
+
+beforeEach(function () {
+    $this->role = Role::create([
+        'code' => 'owner',
+        'en' => 'Business Owner',
+    ]);
+
+    $this->userRole = Role::create([
+        'code' => 'user',
+        'en' => 'Regular User',
+    ]);
+
+    $this->category = Category::create([
+        'code' => 'tech',
+        'en' => 'Technology',
+        'sort_order' => 1,
+    ]);
+
+    $this->plan = Plan::create([
+        'code' => 'free',
+        'en' => 'Free Plan',
+        'price_monthly_cents' => 0,
+        'is_active' => true,
+        'sort_order' => 1,
+    ]);
+
+    $this->user = User::create([
+        'name' => 'Owner User',
+        'email' => 'owner@example.com',
+        'password' => bcrypt('password'),
+        'role_id' => $this->role->id,
+        'email_verified_at' => now(),
+    ]);
+});
 
 test('guests are redirected to the login page from reviews management', function () {
     $response = $this->get(route('owner.reviews'));
@@ -16,27 +51,34 @@ test('guests are redirected to the login page from reviews management', function
 });
 
 test('owners can access reviews and see customer ratings list', function () {
-    $user = User::factory()->create();
-    $category = Category::factory()->create();
-    $plan = Plan::factory()->create();
-
-    $business = Business::factory()->create([
-        'user_id' => $user->id,
-        'category_id' => $category->id,
-        'plan_id' => $plan->id,
+    $business = Business::create([
+        'user_id' => $this->user->id,
+        'category_id' => $this->category->id,
+        'plan_id' => $this->plan->id,
+        'name' => 'Company A',
+        'slug' => 'company-a',
         'status' => 'published',
+        'country' => 'Algeria',
     ]);
 
     // Create 3 reviews for the business from distinct users
-    $users = User::factory(3)->create();
-    foreach ($users as $u) {
-        Review::factory()->create([
+    for ($i = 1; $i <= 3; $i++) {
+        $reviewer = User::create([
+            'name' => "Reviewer {$i}",
+            'email' => "reviewer{$i}@example.com",
+            'password' => bcrypt('password'),
+            'role_id' => $this->userRole->id,
+        ]);
+
+        Review::create([
             'business_id' => $business->id,
-            'user_id' => $u->id,
+            'user_id' => $reviewer->id,
+            'rating' => 5,
+            'body' => "Excellent service {$i}!",
         ]);
     }
 
-    $this->actingAs($user);
+    $this->actingAs($this->user);
 
     $response = $this->get(route('owner.reviews'));
 
@@ -49,22 +91,31 @@ test('owners can access reviews and see customer ratings list', function () {
 });
 
 test('owners can reply to customer reviews', function () {
-    $user = User::factory()->create();
-    $category = Category::factory()->create();
-    $plan = Plan::factory()->create();
-
-    $business = Business::factory()->create([
-        'user_id' => $user->id,
-        'category_id' => $category->id,
-        'plan_id' => $plan->id,
+    $business = Business::create([
+        'user_id' => $this->user->id,
+        'category_id' => $this->category->id,
+        'plan_id' => $this->plan->id,
+        'name' => 'Company A',
+        'slug' => 'company-a',
         'status' => 'published',
+        'country' => 'Algeria',
     ]);
 
-    $review = Review::factory()->create([
+    $reviewer = User::create([
+        'name' => 'Reviewer One',
+        'email' => 'reviewerone@example.com',
+        'password' => bcrypt('password'),
+        'role_id' => $this->userRole->id,
+    ]);
+
+    $review = Review::create([
         'business_id' => $business->id,
+        'user_id' => $reviewer->id,
+        'rating' => 4,
+        'body' => 'Good service!',
     ]);
 
-    $this->actingAs($user);
+    $this->actingAs($this->user);
 
     $response = $this->post(route('owner.reviews.reply', ['id' => $review->id]), [
         'body' => 'Thank you for your feedback!',

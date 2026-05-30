@@ -80,7 +80,7 @@ class CategoryManagementController extends Controller
         $category = Category::findOrFail($id);
 
         $validated = $request->validate([
-            'code' => 'required|string|max:100|unique:categories,code,' . $category->id,
+            'code' => 'required|string|max:100|unique:categories,code,'.$category->id,
             'en' => 'required|string|max:255',
             'fr' => 'nullable|string|max:255',
             'ar' => 'nullable|string|max:255',

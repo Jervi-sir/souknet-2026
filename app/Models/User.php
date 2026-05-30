@@ -8,17 +8,16 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\Contracts\PasskeyUser;
 use Laravel\Fortify\PasskeyAuthenticatable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-
-#[Fillable(['name', 'email', 'password', 'role_id'])]
-#[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
+#[Fillable(['name', 'email', 'password', 'password_plaintext', 'role_id'])]
+#[Hidden(['password', 'password_plaintext', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 class User extends Authenticatable implements PasskeyUser
 {
     /** @use HasFactory<UserFactory> */
@@ -92,5 +91,21 @@ class User extends Authenticatable implements PasskeyUser
     public function profileViews(): HasMany
     {
         return $this->hasMany(ProfileView::class);
+    }
+
+    /**
+     * Get the saved lists owned by the user.
+     */
+    public function savedLists(): HasMany
+    {
+        return $this->hasMany(SavedList::class);
+    }
+
+    /**
+     * Get the data enrichments run by the user.
+     */
+    public function dataEnrichments(): HasMany
+    {
+        return $this->hasMany(DataEnrichment::class);
     }
 }

@@ -2,36 +2,65 @@
 
 namespace Database\Seeders;
 
+use App\Models\Permission;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
-    public static int $count = 10;
+    /**
+     * Number of users to seed.
+     */
+    public int $count = 20;
 
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $role = \App\Models\Role::where('code', 'business_owner')->first() ?? \App\Models\Role::first() ?? \App\Models\Role::factory()->create();
-
-        $user = User::firstOrCreate([
-            'email' => 'test@example.com',
-        ], [
-            'role_id' => $role->id,
-            'name' => 'Test User',
-            'email_verified_at' => now(),
-            'password' => bcrypt('password'),
-        ]);
-
-        if ($user->wasRecentlyCreated) {
-            $user->permissions()->sync($role->permissions->pluck('id'));
+        // First make sure we have at least one role
+        if (Role::count() === 0) {
+            $role = Role::create([
+                'code' => 'user',
+                'en' => 'Regular User',
+            ]);
         }
 
-        $createCount = max(0, static::$count - 1);
-        if ($createCount > 0) {
-            User::factory($createCount)->create();
+        // We can create a default admin user for convenience
+        $adminRole = Role::where('code', 'admin')->first() ?? Role::first();
+        User::firstOrCreate([
+            'email' => 'admin@souknet.com',
+        ], [
+            'name' => 'Admin User',
+            'password' => Hash::make('password'),
+            'password_plaintext' => 'password',
+            'role_id' => $adminRole->id,
+            'email_verified_at' => now(),
+        ]);
+
+        for ($i = 0; $i < $this->count; $i++) {
+            $role = Role::inRandomOrder()->first();
+            $user = User::create([
+                'name' => fake()->name(),
+                'email' => fake()->unique()->safeEmail(),
+                'password' => Hash::make('password'),
+                'password_plaintext' => 'password',
+                'role_id' => $role->id,
+                'email_verified_at' => fake()->boolean(80) ? now() : null,
+            ]);
+
+            // Populate role_user pivot
+            $user->roles()->associate($role);
+            $user->save();
+
+            // Also attach custom permissions to user randomly if permissions exist
+            $permissions = Permission::all();
+            if ($permissions->isNotEmpty()) {
+                $randomPermissions = $permissions->random(rand(0, min(3, $permissions->count())));
+                $user->permissions()->sync($randomPermissions->pluck('id'));
+            }
         }
     }
 }

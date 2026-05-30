@@ -40,7 +40,7 @@ test('administrators can access the user management ledger and view users', func
 test('administrators can update user roles', function () {
     $adminRole = Role::firstOrCreate(['code' => 'admin'], ['en' => 'Administrator']);
     $ownerRole = Role::firstOrCreate(['code' => 'business_owner'], ['en' => 'Business Owner']);
-    
+
     $adminUser = User::factory()->create([
         'role_id' => $adminRole->id,
     ]);
@@ -54,7 +54,7 @@ test('administrators can update user roles', function () {
     ]);
 
     $response->assertRedirect();
-    
+
     $targetUser->refresh();
     expect($targetUser->role_id)->toBe($ownerRole->id);
 });
@@ -62,7 +62,7 @@ test('administrators can update user roles', function () {
 test('administrators cannot reassign their own role', function () {
     $adminRole = Role::firstOrCreate(['code' => 'admin'], ['en' => 'Administrator']);
     $ownerRole = Role::firstOrCreate(['code' => 'business_owner'], ['en' => 'Business Owner']);
-    
+
     $adminUser = User::factory()->create([
         'role_id' => $adminRole->id,
     ]);
@@ -74,7 +74,7 @@ test('administrators cannot reassign their own role', function () {
     ]);
 
     $response->assertSessionHasErrors();
-    
+
     $adminUser->refresh();
     expect($adminUser->role_id)->toBe($adminRole->id);
 });

@@ -1,4 +1,3 @@
-import AdminLayout from '@/layouts/admin-layout';
 import { Head, useForm } from '@inertiajs/react';
 import {
     Plus,
@@ -12,6 +11,7 @@ import {
 } from 'lucide-react';
 import React, { useState } from 'react';
 import { toast } from 'sonner';
+import AdminLayout from '@/layouts/admin-layout';
 
 interface Plan {
     id: number;

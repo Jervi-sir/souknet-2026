@@ -1,18 +1,4 @@
-import React, { useState } from 'react';
 import { Head, Link, router, useForm } from '@inertiajs/react';
-import AdminLayout from '@/layouts/admin-layout';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogFooter,
-} from '@/components/ui/dialog';
 import {
     Search,
     Plus,
@@ -24,6 +10,20 @@ import {
     Info,
     AlertTriangle,
 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogFooter,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import AdminLayout from '@/layouts/admin-layout';
 
 interface Category {
     id: number;
@@ -148,7 +148,10 @@ export default function CategoryManagement({
 
     const handleEditSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!editingCategory) return;
+
+        if (!editingCategory) {
+return;
+}
 
         router.post(`/admin/categories/${editingCategory.id}`, {
             _method: 'PATCH',
@@ -166,7 +169,9 @@ export default function CategoryManagement({
     };
 
     const handleDeleteSubmit = () => {
-        if (!deletingCategory) return;
+        if (!deletingCategory) {
+return;
+}
 
         router.delete(`/admin/categories/${deletingCategory.id}`, {
             preserveScroll: true,
@@ -374,7 +379,10 @@ export default function CategoryManagement({
                                             .replace(/Previous/g, '')
                                             .replace(/Next/g, '');
 
-                                        if (!link.url) return null;
+                                        if (!link.url) {
+return null;
+}
+
                                         const queryParams = new URL(link.url).search;
 
                                         return (

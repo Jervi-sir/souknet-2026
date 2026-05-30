@@ -1,202 +1,26 @@
-Here's every single route and its corresponding Inertia page you'll end up with across all 4 phases:
+- home page
+- people @done
+    - make it functional, @done
+    - consume api @done
+    - make it active @done
+    - paginate @done
+    - save people @done
 
----
+- companies @done
+    - make it functional, @done
+    - consume api @done
+    - make it active @done
+    - paginate @done
+    - save company @done
 
-## 🌐 Public Routes
+- products @done
+    - make it functional, @done
+    - consume api @done
+    - make it active @done
+    - paginate @done
+    - save product @done
 
-| Method | Route | Controller | Inertia Page |
-|---|---|---|---|
-- | GET | `/` | `PublicController@home` | `Public/Home` |
-- | GET | `/businesses` | `BusinessController@index` | `Public/Directory` |
-- | GET | `/businesses/{slug}` | `BusinessController@show` | `Public/BusinessProfile` |
-- | GET | `/categories/{slug}` | `CategoryController@show` | `Public/CategoryPage` |
-- | GET | `/search` | `SearchController@index` | `Public/SearchResults` |
-- | GET | `/pricing` | `PricingController@index` | `Public/Pricing` |
-- | GET | `/about` | `StaticController@about` | `Public/About` |
-- | GET | `/contact` | `StaticController@contact` | `Public/Contact` |
-- | POST | `/contact` | `StaticController@contactSubmit` | — redirect back |
-- | POST | `/businesses/{slug}/contact` | `BusinessController@contact` | — redirect back |
-- | GET | `/blog` | `BlogController@index` | `Public/Blog/Index` |
-- | GET | `/blog/{slug}` | `BlogController@show` | `Public/Blog/Show` |
-
----
-
-## 🔐 Auth Routes
-
-| Method | Route | Controller | Inertia Page |
-|---|---|---|---|
-- | GET | `/register` | `RegisteredUserController@create` | `Auth/Register` |
-- | POST | `/register` | `RegisteredUserController@store` | — redirect |
-- | GET | `/login` | `AuthenticatedSessionController@create` | `Auth/Login` |
-- | POST | `/login` | `AuthenticatedSessionController@store` | — redirect |
-- | POST | `/logout` | `AuthenticatedSessionController@destroy` | — redirect |
-- | GET | `/forgot-password` | `PasswordResetLinkController@create` | `Auth/ForgotPassword` |
-- | POST | `/forgot-password` | `PasswordResetLinkController@store` | — redirect |
-- | GET | `/reset-password/{token}` | `NewPasswordController@create` | `Auth/ResetPassword` |
-- | POST | `/reset-password` | `NewPasswordController@store` | — redirect |
-- | GET | `/verify-email` | `EmailVerificationPromptController` | `Auth/VerifyEmail` |
-- | GET | `/verify-email/{id}/{hash}` | `VerifyEmailController` | — redirect |
-
----
-
-## 🏢 Owner Routes (`/dashboard`)
-
-| Method | Route | Controller | Inertia Page |
-|---|---|---|---|
-- | GET | `/dashboard` | `Owner\DashboardController@index` | `Owner/Dashboard` |
-- | GET | `/dashboard/listing/create` | `Owner\ListingController@create` | `Owner/ListingForm` |
-- | POST | `/dashboard/listing` | `Owner\ListingController@store` | — redirect |
-- | GET | `/dashboard/listing/edit` | `Owner\ListingController@edit` | `Owner/ListingForm` |
-- | PUT | `/dashboard/listing` | `Owner\ListingController@update` | — redirect |
-- | GET | `/dashboard/listing/preview` | `Owner\ListingController@preview` | `Owner/ListingPreview` |
-- | GET | `/dashboard/analytics` | `Owner\AnalyticsController@index` | `Owner/Analytics` |
-- | GET | `/dashboard/reviews` | `Owner\ReviewController@index` | `Owner/Reviews` |
-- | POST | `/dashboard/reviews/{review}/reply` | `Owner\ReviewController@reply` | — redirect |
-- | DELETE | `/dashboard/reviews/{review}/reply` | `Owner\ReviewController@deleteReply` | — redirect |
-- | GET | `/dashboard/photos` | `Owner\PhotoController@index` | `Owner/Photos` |
-- | POST | `/dashboard/photos` | `Owner\PhotoController@store` | — redirect |
-- | DELETE | `/dashboard/photos/{photo}` | `Owner\PhotoController@destroy` | — redirect |
-- | PATCH | `/dashboard/photos/{photo}/reorder` | `Owner\PhotoController@reorder` | — redirect |
-- | GET | `/dashboard/subscription` | `Owner\SubscriptionController@index` | `Owner/Subscription` |
-- | POST | `/dashboard/subscription/upgrade` | `Owner\SubscriptionController@upgrade` | — redirect |
-- | POST | `/dashboard/subscription/cancel` | `Owner\SubscriptionController@cancel` | — redirect |
-- | GET | `/dashboard/subscription/billing` | `Owner\SubscriptionController@billing` | `Owner/Billing` |
-- | GET | `/dashboard/notifications` | `Owner\NotificationController@index` | `Owner/Notifications` |
-- | PATCH | `/dashboard/notifications/{id}/read` | `Owner\NotificationController@markRead` | — redirect |
-- | PATCH | `/dashboard/notifications/read-all` | `Owner\NotificationController@markAllRead` | — redirect |
-- | GET | `/dashboard/leads` | `Owner\LeadController@index` | `Owner/Leads` |
-- | PATCH | `/dashboard/leads/{lead}/read` | `Owner\LeadController@markRead` | — redirect |
-- | GET | `/dashboard/settings` | `Owner\SettingsController@index` | `Owner/Settings` |
-- | PUT | `/dashboard/settings` | `Owner\SettingsController@update` | — redirect |
-- | DELETE | `/dashboard/account` | `Owner\SettingsController@deleteAccount` | — redirect |
-
----
-
-## 🔧 Admin Routes (`/admin`)
-
-| Method | Route | Controller | Inertia Page |
-|---|---|---|---|
-- | GET | `/admin` | `Admin\DashboardController@index` | `Admin/Dashboard` |
-- | GET | `/admin/businesses` | `Admin\BusinessController@index` | `Admin/Businesses/Index` |
-- | GET | `/admin/businesses/{id}` | `Admin\BusinessController@show` | `Admin/Businesses/Show` |
-- | PATCH | `/admin/businesses/{id}/approve` | `Admin\BusinessController@approve` | — redirect |
-- | PATCH | `/admin/businesses/{id}/reject` | `Admin\BusinessController@reject` | — redirect |
-- | PATCH | `/admin/businesses/{id}/feature` | `Admin\BusinessController@feature` | — redirect |
-- | PATCH | `/admin/businesses/{id}/verify` | `Admin\BusinessController@verify` | — redirect |
-- | DELETE | `/admin/businesses/{id}` | `Admin\BusinessController@destroy` | — redirect |
-- | GET | `/admin/users` | `Admin\UserController@index` | `Admin/Users/Index` |
-- | GET | `/admin/users/{id}` | `Admin\UserController@show` | `Admin/Users/Show` |
-- | PATCH | `/admin/users/{id}/ban` | `Admin\UserController@ban` | — redirect |
-- | PATCH | `/admin/users/{id}/unban` | `Admin\UserController@unban` | — redirect |
-- | GET | `/admin/categories` | `Admin\CategoryController@index` | `Admin/Categories/Index` |
-- | POST | `/admin/categories` | `Admin\CategoryController@store` | — redirect |
-- | GET | `/admin/categories/{id}/edit` | `Admin\CategoryController@edit` | `Admin/Categories/Edit` |
-- | PUT | `/admin/categories/{id}` | `Admin\CategoryController@update` | — redirect |
-- | DELETE | `/admin/categories/{id}` | `Admin\CategoryController@destroy` | — redirect |
-- | GET | `/admin/plans` | `Admin\PlanController@index` | `Admin/Plans/Index` |
-- | POST | `/admin/plans` | `Admin\PlanController@store` | — redirect |
-- | GET | `/admin/plans/{id}/edit` | `Admin\PlanController@edit` | `Admin/Plans/Edit` |
-- | PUT | `/admin/plans/{id}` | `Admin\PlanController@update` | — redirect |
-- | DELETE | `/admin/plans/{id}` | `Admin\PlanController@destroy` | — redirect |
-- | GET | `/admin/reviews` | `Admin\ReviewController@index` | `Admin/Reviews/Index` |
-- | PATCH | `/admin/reviews/{id}/flag` | `Admin\ReviewController@flag` | — redirect |
-- | DELETE | `/admin/reviews/{id}` | `Admin\ReviewController@destroy` | — redirect |
-- | GET | `/admin/payments` | `Admin\PaymentController@index` | `Admin/Payments/Index` |
-- | GET | `/admin/payments/{id}` | `Admin\PaymentController@show` | `Admin/Payments/Show` |
-- | GET | `/admin/leads` | `Admin\LeadController@index` | `Admin/Leads/Index` |
-- | GET | `/admin/settings` | `Admin\SettingController@index` | `Admin/Settings` |
-- | POST | `/admin/settings` | `Admin\SettingController@update` | — redirect |
-- | GET | `/admin/tags` | `Admin\TagController@index` | `Admin/Tags/Index` |
-- | POST | `/admin/tags` | `Admin\TagController@store` | — redirect |
-- | PUT | `/admin/tags/{id}` | `Admin\TagController@update` | — redirect |
-- | DELETE | `/admin/tags/{id}` | `Admin\TagController@destroy` | — redirect |
-
----
-
-## 💳 Stripe Webhook
-
-| Method | Route | Handler |
-|---|---|---|
-- | POST | `/stripe/webhook` | `Laravel\Cashier\Http\Controllers\WebhookController` |
-
----
-
-## 📁 Inertia Pages Summary
-
-```
-resources/js/Pages/
-│
-├── Auth/
-│   ├── Login.tsx
-│   ├── Register.tsx
-│   ├── ForgotPassword.tsx
-│   ├── ResetPassword.tsx
-│   └── VerifyEmail.tsx
-│
-├── Public/
-│   ├── Home.tsx
-│   ├── Directory.tsx
-│   ├── BusinessProfile.tsx
-│   ├── CategoryPage.tsx
-│   ├── SearchResults.tsx
-│   ├── Pricing.tsx
-│   ├── About.tsx
-│   ├── Contact.tsx
-│   └── Blog/
-│       ├── Index.tsx
-│       └── Show.tsx
-│
-├── Owner/
-│   ├── Dashboard.tsx
-│   ├── ListingForm.tsx
-│   ├── ListingPreview.tsx
-│   ├── Analytics.tsx
-│   ├── Reviews.tsx
-│   ├── Photos.tsx
-│   ├── Subscription.tsx
-│   ├── Billing.tsx
-│   ├── Leads.tsx
-│   ├── Notifications.tsx
-│   └── Settings.tsx
-│
-└── Admin/
-    ├── Dashboard.tsx
-    ├── Settings.tsx
-    ├── Businesses/
-    │   ├── Index.tsx
-    │   └── Show.tsx
-    ├── Users/
-    │   ├── Index.tsx
-    │   └── Show.tsx
-    ├── Categories/
-    │   ├── Index.tsx
-    │   └── Edit.tsx
-    ├── Plans/
-    │   ├── Index.tsx
-    │   └── Edit.tsx
-    ├── Reviews/
-    │   └── Index.tsx
-    ├── Payments/
-    │   ├── Index.tsx
-    │   └── Show.tsx
-    ├── Leads/
-    │   └── Index.tsx
-    └── Tags/
-        └── Index.tsx
-```
-
----
-
-## 📊 Totals
-
-| Area | Routes | Pages |
-|---|---|---|
-| Public | 12 | 10 |
-| Auth | 11 | 5 |
-| Owner | 27 | 11 |
-| Admin | 33 | 16 |
-| **Total** | **83** | **42** |
-
----
-
-Want me to now generate the **migrations prompt**, the **full `routes/web.php` file**, or start on a specific page's prompt?
+- saved
+    - list saved people
+    - list saved cmpnaies
+    - list saved products

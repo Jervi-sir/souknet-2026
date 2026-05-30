@@ -1,4 +1,3 @@
-import AdminLayout from '@/layouts/admin-layout';
 import { Head, router } from '@inertiajs/react';
 import {
     Search,
@@ -8,6 +7,7 @@ import {
 } from 'lucide-react';
 import React, { useState } from 'react';
 import { toast } from 'sonner';
+import AdminLayout from '@/layouts/admin-layout';
 
 interface User {
     id: number;
@@ -309,7 +309,9 @@ export default function ReviewModeration({
                                     key={i}
                                     type="button"
                                     onClick={() => {
-                                        if (link.url) router.get(link.url);
+                                        if (link.url) {
+router.get(link.url);
+}
                                     }}
                                     disabled={!link.url}
                                     dangerouslySetInnerHTML={{

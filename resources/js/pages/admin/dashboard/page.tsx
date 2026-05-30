@@ -1,4 +1,3 @@
-import AdminLayout from '@/layouts/admin-layout';
 import { Head, router } from '@inertiajs/react';
 import {
     Briefcase,
@@ -12,6 +11,7 @@ import {
     TrendingUp
 } from 'lucide-react';
 import React from 'react';
+import AdminLayout from '@/layouts/admin-layout';
 
 interface Category {
     id: number;

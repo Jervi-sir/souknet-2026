@@ -141,4 +141,28 @@ class Business extends Model
     {
         return $this->hasMany(ClickEvent::class);
     }
+
+    /**
+     * Get the people associated with the business.
+     */
+    public function peoples(): HasMany
+    {
+        return $this->hasMany(People::class);
+    }
+
+    /**
+     * Get the products manufactured/provided by the business.
+     */
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    /**
+     * Get the jobs posted by the business.
+     */
+    public function jobs(): HasMany
+    {
+        return $this->hasMany(JobPost::class);
+    }
 }

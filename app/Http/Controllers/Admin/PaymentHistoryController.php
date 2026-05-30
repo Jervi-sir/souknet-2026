@@ -31,7 +31,7 @@ class PaymentHistoryController extends Controller
             if ($biz->user && $biz->plan) {
                 // Main transaction
                 $transactions[] = [
-                    'id' => 'TXN-2026-' . str_pad($invoiceIndex++, 4, '0', STR_PAD_LEFT),
+                    'id' => 'TXN-2026-'.str_pad($invoiceIndex++, 4, '0', STR_PAD_LEFT),
                     'user_name' => $biz->user->name,
                     'user_email' => $biz->user->email,
                     'business_name' => $biz->name,
@@ -43,7 +43,7 @@ class PaymentHistoryController extends Controller
 
                 // Let's add an older historical transaction for variety
                 $transactions[] = [
-                    'id' => 'TXN-2026-' . str_pad($invoiceIndex++, 4, '0', STR_PAD_LEFT),
+                    'id' => 'TXN-2026-'.str_pad($invoiceIndex++, 4, '0', STR_PAD_LEFT),
                     'user_name' => $biz->user->name,
                     'user_email' => $biz->user->email,
                     'business_name' => $biz->name,
@@ -63,10 +63,10 @@ class PaymentHistoryController extends Controller
                 foreach ($users as $u) {
                     $plan = $plans->random();
                     $transactions[] = [
-                        'id' => 'TXN-2026-' . str_pad($invoiceIndex++, 4, '0', STR_PAD_LEFT),
+                        'id' => 'TXN-2026-'.str_pad($invoiceIndex++, 4, '0', STR_PAD_LEFT),
                         'user_name' => $u->name,
                         'user_email' => $u->email,
-                        'business_name' => 'Demo Listing ' . rand(1, 10),
+                        'business_name' => 'Demo Listing '.rand(1, 10),
                         'plan_name' => $plan->en,
                         'amount_cents' => $plan->price_monthly_cents,
                         'created_at' => now()->subDays(rand(2, 45))->toIso8601String(),
@@ -78,7 +78,7 @@ class PaymentHistoryController extends Controller
 
         // Apply filters in PHP
         $search = $request->input('search', '');
-        if (!empty($search)) {
+        if (! empty($search)) {
             $transactions = array_filter($transactions, function ($t) use ($search) {
                 return stripos($t['user_name'], $search) !== false ||
                        stripos($t['user_email'], $search) !== false ||
@@ -104,6 +104,7 @@ class PaymentHistoryController extends Controller
             } elseif ($sort === 'amount_desc') {
                 return $b['amount_cents'] <=> $a['amount_cents'];
             }
+
             return strcmp($b['created_at'], $a['created_at']); // Default newest
         });
 
@@ -118,7 +119,7 @@ class PaymentHistoryController extends Controller
         $page = $request->input('page', 1);
         $perPage = 10;
         $sliced = array_slice($transactions, ($page - 1) * $perPage, $perPage);
-        
+
         $paginator = new LengthAwarePaginator(
             $sliced,
             count($transactions),

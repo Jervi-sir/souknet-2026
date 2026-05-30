@@ -68,7 +68,7 @@ class BusinessManagementController extends Controller
     public function approve(Request $request, int $id): RedirectResponse
     {
         $business = Business::findOrFail($id);
-        
+
         $business->update([
             'status' => 'published',
             'rejection_reason' => null,

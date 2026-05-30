@@ -90,7 +90,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-
         Schema::create('business_contacts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('business_id')->constrained()->cascadeOnDelete();

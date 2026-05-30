@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 import {
     LayoutGrid,
@@ -14,6 +13,9 @@ import {
     ChevronDown,
     ChevronUp
 } from 'lucide-react';
+import React, { useState } from 'react';
+
+import { NavUser } from '@/components/nav-user';
 
 export function AdminSidebar() {
     const { auth } = usePage().props as any;
@@ -24,10 +26,14 @@ export function AdminSidebar() {
     });
 
     const isActive = (href: string) => {
-        if (href === '#') return false;
+        if (href === '#') {
+return false;
+}
+
         if (href === '/admin') {
             return currentPath === '/admin';
         }
+
         return currentPath.startsWith(href);
     };
 
@@ -200,6 +206,13 @@ export function AdminSidebar() {
                         <div className="h-full bg-[#10b981] w-[99.8%]" />
                     </div>
                 </div>
+
+                {/* User Nav */}
+                {auth?.user && (
+                    <div className="pt-2 border-t border-[#262930]">
+                        <NavUser />
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -1,4 +1,3 @@
-import AdminLayout from '@/layouts/admin-layout';
 import { Head, useForm } from '@inertiajs/react';
 import {
     ShieldAlert,
@@ -9,6 +8,7 @@ import {
 } from 'lucide-react';
 import React from 'react';
 import { toast } from 'sonner';
+import AdminLayout from '@/layouts/admin-layout';
 
 interface SettingsData {
     site_name: string;

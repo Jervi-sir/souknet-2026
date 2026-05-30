@@ -1,6 +1,4 @@
 import { Link, usePage } from '@inertiajs/react';
-import { login, register } from '@/routes';
-import React, { useState } from 'react';
 import {
     Home,
     Sparkles,
@@ -31,7 +29,26 @@ import {
     ChevronUp,
     Package,
     Briefcase
-} from 'lucide-react';
+} from 'lucide-react'; import React, { useState } from 'react';
+import DiscoverCompaniesController from '@/actions/App/Http/Controllers/Public/Discover/DiscoverCompaniesController';
+import DiscoverDataEnrichmentController from '@/actions/App/Http/Controllers/Public/Discover/DiscoverDataEnrichmentController';
+import DiscoverJobsController from '@/actions/App/Http/Controllers/Public/Discover/DiscoverJobsController';
+import DiscoverPeopleController from '@/actions/App/Http/Controllers/Public/Discover/DiscoverPeopleController';
+import DiscoverProductsController from '@/actions/App/Http/Controllers/Public/Discover/DiscoverProductsController';
+import EngageEmailController from '@/actions/App/Http/Controllers/Public/Engage/EngageEmailController';
+import InboundFormsController from '@/actions/App/Http/Controllers/Public/Inbound/InboundFormsController';
+import InboundWebsiteVisitorsController from '@/actions/App/Http/Controllers/Public/Inbound/InboundWebsiteVisitorsController';
+import SavedCompaniesController from '@/actions/App/Http/Controllers/Public/SavedRecords/SavedCompaniesController';
+import SavedJobsController from '@/actions/App/Http/Controllers/Public/SavedRecords/SavedJobsController';
+import SavedPeopleController from '@/actions/App/Http/Controllers/Public/SavedRecords/SavedPeopleController';
+import SavedProductsController from '@/actions/App/Http/Controllers/Public/SavedRecords/SavedProductsController';
+import ToolsAutomationsAnalyticsController from '@/actions/App/Http/Controllers/Public/ToolsAutomations/ToolsAutomationsAnalyticsController';
+import ToolsAutomationsWorkflowsController from '@/actions/App/Http/Controllers/Public/ToolsAutomations/ToolsAutomationsWorkflowsController';
+import ConversationsController from '@/actions/App/Http/Controllers/Public/WinDeals/ConversationsController';
+import DealsController from '@/actions/App/Http/Controllers/Public/WinDeals/DealsController';
+import MeetingsController from '@/actions/App/Http/Controllers/Public/WinDeals/MeetingsController';
+import { NavUser } from '@/components/nav-user';
+import { login, register } from '@/routes';
 
 export default function GuestLayout({
     children,
@@ -41,29 +58,52 @@ export default function GuestLayout({
     const { auth } = usePage().props as any;
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
-    const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
-        prospect: true,
-        engage: false,
-        win: false,
-        tools: false,
-        inbound: false,
-        saved: true
+    const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>(() => {
+        if (typeof window !== 'undefined') {
+            const saved = localStorage.getItem('souknet_sidebar_expanded');
+
+            if (saved) {
+                try {
+                    return JSON.parse(saved);
+                } catch (e) {
+                    // Ignore parse errors
+                }
+            }
+        }
+
+        return {
+            prospect: true,
+            engage: false,
+            win: false,
+            tools: false,
+            inbound: false,
+            saved: true
+        };
     });
 
     const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
 
     const handleSearchSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
         if (searchQuery.trim()) {
             window.location.href = `/search?search=${encodeURIComponent(searchQuery)}`;
         }
     };
 
     const toggleSection = (section: string) => {
-        setExpandedSections(prev => ({
-            ...prev,
-            [section]: !prev[section]
-        }));
+        setExpandedSections(prev => {
+            const updated = {
+                ...prev,
+                [section]: !prev[section]
+            };
+
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('souknet_sidebar_expanded', JSON.stringify(updated));
+            }
+
+            return updated;
+        });
     };
 
     const sidebarSections = [
@@ -71,12 +111,12 @@ export default function GuestLayout({
             id: 'prospect',
             title: 'Prospect and enrich',
             items: [
-                { name: 'People (Directory)', href: '/directory', icon: Users },
-                { name: 'Companies (Search)', href: '/search', icon: Building2 },
-                { name: 'Products (Browse)', href: '/products', icon: Package },
-                { name: 'Jobs (Postings)', href: '/jobs', icon: Briefcase },
+                { name: 'People (Directory)', href: DiscoverPeopleController.url(), icon: Users },
+                { name: 'Companies (Search)', href: DiscoverCompaniesController.url(), icon: Building2 },
+                { name: 'Products (Browse)', href: DiscoverProductsController.url(), icon: Package },
+                { name: 'Jobs (Postings)', href: DiscoverJobsController.url(), icon: Briefcase },
                 { name: 'Lists', href: '#', icon: List },
-                { name: 'Data enrichment', href: '/data-enrichment', icon: Database },
+                { name: 'Data enrichment', href: DiscoverDataEnrichmentController.url(), icon: Database },
             ]
         },
         {
@@ -84,7 +124,7 @@ export default function GuestLayout({
             title: 'Engage',
             items: [
                 { name: 'Sequences', href: '#', icon: Repeat },
-                { name: 'Emails', href: '/emails', icon: Mail },
+                { name: 'Emails', href: EngageEmailController.url(), icon: Mail },
                 { name: 'Calls', href: '#', icon: Phone },
                 { name: 'Tasks', href: '#', icon: CheckSquare },
             ]
@@ -93,44 +133,73 @@ export default function GuestLayout({
             id: 'win',
             title: 'Win deals',
             items: [
-                { name: 'Meetings', href: '#', icon: Calendar },
-                { name: 'Conversations', href: '#', icon: MessageSquare },
-                { name: 'Deals', href: '#', icon: DollarSign },
+                { name: 'Meetings', href: MeetingsController.url(), icon: Calendar },
+                { name: 'Conversations', href: ConversationsController.url(), icon: MessageSquare },
+                { name: 'Deals', href: DealsController.url(), icon: DollarSign },
             ]
         },
         {
             id: 'tools',
             title: 'Tools and automation',
             items: [
-                { name: 'Workflows', href: '#', icon: Share2 },
-                { name: 'Analytics', href: '#', icon: BarChart3 },
+                { name: 'Workflows', href: ToolsAutomationsWorkflowsController.url(), icon: Share2 },
+                { name: 'Analytics', href: ToolsAutomationsAnalyticsController.url(), icon: BarChart3 },
             ]
         },
         {
             id: 'inbound',
             title: 'Inbound',
             items: [
-                { name: 'Website visitors', href: '#', icon: Globe, badge: 'New' },
-                { name: 'Forms', href: '#', icon: FileText },
+                { name: 'Website visitors', href: InboundWebsiteVisitorsController.url(), icon: Globe, badge: 'New' },
+                { name: 'Forms', href: InboundFormsController.url(), icon: FileText },
             ]
         },
         {
             id: 'saved',
             title: 'Saved records',
             items: [
-                { name: 'Saved People', href: '/search?verified=1', icon: Users },
-                { name: 'Saved Companies', href: '/search?featured=1', icon: Building2 },
+                { name: 'Saved People', href: SavedPeopleController.saved.url(), icon: Users },
+                { name: 'Saved Companies', href: SavedCompaniesController.saved.url(), icon: Building2 },
+                { name: 'Saved Products', href: SavedProductsController.saved.url(), icon: Package },
+                { name: 'Saved Jobs', href: SavedJobsController.saved.url(), icon: Briefcase },
             ]
         }
     ];
 
     const isActive = (href: string) => {
-        if (href === '#' || href === '') return false;
+        if (href === '#' || href === '') {
+            return false;
+        }
+
         if (href === '/') {
             return currentPath === '/';
         }
-        return currentPath.startsWith(href.split('?')[0]);
+
+        const path = href.split('?')[0];
+
+        return currentPath === path || currentPath.startsWith(path + '/');
     };
+
+    React.useEffect(() => {
+        let changed = false;
+        const newExpanded = { ...expandedSections };
+        sidebarSections.forEach((group) => {
+            const hasActive = group.items.some((item) => isActive(item.href));
+
+            if (hasActive && !expandedSections[group.id]) {
+                newExpanded[group.id] = true;
+                changed = true;
+            }
+        });
+
+        if (changed) {
+            setExpandedSections(newExpanded);
+
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('souknet_sidebar_expanded', JSON.stringify(newExpanded));
+            }
+        }
+    }, [currentPath]);
 
     return (
         <div className="min-h-screen bg-[#15171e] text-zinc-100 antialiased selection:bg-[#4318FF] selection:text-white flex flex-col md:flex-row">
@@ -157,8 +226,8 @@ export default function GuestLayout({
                         <Link
                             href="/"
                             className={`flex items-center justify-between px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${isActive('/')
-                                    ? 'bg-[#22252e] text-white font-bold'
-                                    : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
+                                ? 'bg-[#22252e] text-white font-bold'
+                                : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
                                 }`}
                         >
                             <div className="flex items-center gap-2.5">
@@ -181,11 +250,16 @@ export default function GuestLayout({
                     {/* Section Groups */}
                     {sidebarSections.map((group) => {
                         const isExpanded = expandedSections[group.id];
+                        const hasActiveChild = group.items.some((item) => isActive(item.href));
+
                         return (
                             <div key={group.id} className="space-y-1">
                                 <button
                                     onClick={() => toggleSection(group.id)}
-                                    className="flex items-center justify-between w-full px-3 py-1 text-[10px] font-bold text-zinc-500 uppercase tracking-widest hover:text-zinc-300 transition-colors"
+                                    className={`flex items-center justify-between w-full px-3 py-1 text-[10px] font-bold uppercase tracking-widest transition-colors ${hasActiveChild
+                                            ? 'text-white hover:text-zinc-200'
+                                            : 'text-zinc-500 hover:text-zinc-300'
+                                        }`}
                                 >
                                     <span>{group.title}</span>
                                     {isExpanded ? (
@@ -200,13 +274,14 @@ export default function GuestLayout({
                                         {group.items.map((item) => {
                                             const Icon = item.icon;
                                             const active = isActive(item.href);
+
                                             return (
                                                 <Link
                                                     key={item.name}
                                                     href={item.href}
                                                     className={`flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${active
-                                                            ? 'bg-[#22252e] text-white font-bold'
-                                                            : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
+                                                        ? 'bg-[#22252e] text-white font-bold'
+                                                        : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
                                                         }`}
                                                 >
                                                     <div className="flex items-center gap-2">
@@ -248,6 +323,13 @@ export default function GuestLayout({
                     >
                         Upgrade
                     </Link>
+
+                    {/* User Nav */}
+                    {auth?.user && (
+                        <div className="pt-2 border-t border-[#262930]">
+                            <NavUser />
+                        </div>
+                    )}
                 </div>
             </aside>
 
@@ -285,14 +367,15 @@ export default function GuestLayout({
                                         {group.items.map((item) => {
                                             const Icon = item.icon;
                                             const active = isActive(item.href);
+
                                             return (
                                                 <Link
                                                     key={item.name}
                                                     href={item.href}
                                                     onClick={() => setMobileMenuOpen(false)}
                                                     className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all ${active
-                                                            ? 'bg-[#22252e] text-white font-bold'
-                                                            : 'text-[#8f9bba] hover:text-white'
+                                                        ? 'bg-[#22252e] text-white font-bold'
+                                                        : 'text-[#8f9bba] hover:text-white'
                                                         }`}
                                                 >
                                                     <Icon className="h-5 w-5 shrink-0" />
@@ -338,7 +421,13 @@ export default function GuestLayout({
                     <div className="flex items-center gap-3">
                         {auth?.user ? (
                             <Link
-                                href="/owner/dashboard"
+                                href={
+                                    auth.user.role === 'admin'
+                                        ? '/admin'
+                                        : auth.user.role === 'business_owner'
+                                            ? '/owner/dashboard'
+                                            : '/dashboard'
+                                }
                                 className="flex items-center gap-2 rounded-lg border border-[#262930] bg-[#15171e] px-3.5 py-1 text-xs font-semibold text-white transition-colors hover:bg-zinc-800"
                             >
                                 <User className="h-3.5 w-3.5 text-[#4318FF]" />
@@ -361,9 +450,7 @@ export default function GuestLayout({
                             </>
                         )}
                         <Bell className="h-4 w-4 text-[#8f9bba] hover:text-white cursor-pointer transition-colors" />
-                        <div className="h-6 w-6 rounded-full bg-gradient-to-tr from-[#4318FF] to-[#6AD2FF] text-white flex items-center justify-center font-bold text-[10px] shadow-sm select-none">
-                            GA
-                        </div>
+
                     </div>
                 </header>
 

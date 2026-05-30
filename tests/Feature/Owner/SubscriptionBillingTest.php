@@ -3,32 +3,61 @@
 use App\Models\Business;
 use App\Models\Category;
 use App\Models\Plan;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
 
 uses(RefreshDatabase::class);
 
+beforeEach(function () {
+    $this->role = Role::create([
+        'code' => 'owner',
+        'en' => 'Business Owner',
+    ]);
+
+    $this->category = Category::create([
+        'code' => 'tech',
+        'en' => 'Technology',
+        'sort_order' => 1,
+    ]);
+
+    $this->user = User::create([
+        'name' => 'Owner User',
+        'email' => 'owner@example.com',
+        'password' => bcrypt('password'),
+        'role_id' => $this->role->id,
+        'email_verified_at' => now(),
+    ]);
+});
+
 test('guests are redirected to the login page from subscription billing page', function () {
-    $response = $this->get(route('owner.subscription-billing'));
+    $response = $this->get(route('owner.subscription-billing.index'));
     $response->assertRedirect(route('login'));
 });
 
 test('owners can access subscription billing page and see their listings', function () {
-    $user = User::factory()->create();
-    $category = Category::factory()->create();
-    $plan = Plan::factory()->create(['is_active' => true]);
-
-    $business = Business::factory()->create([
-        'user_id' => $user->id,
-        'category_id' => $category->id,
-        'plan_id' => $plan->id,
-        'status' => 'published',
+    $plan = Plan::create([
+        'code' => 'premium',
+        'en' => 'Premium Plan',
+        'price_monthly_cents' => 2900,
+        'is_active' => true,
+        'sort_order' => 1,
     ]);
 
-    $this->actingAs($user);
+    $business = Business::create([
+        'user_id' => $this->user->id,
+        'category_id' => $this->category->id,
+        'name' => 'Company A',
+        'slug' => 'company-a',
+        'status' => 'published',
+        'country' => 'Algeria',
+        'plan_id' => $plan->id,
+    ]);
 
-    $response = $this->get(route('owner.subscription-billing'));
+    $this->actingAs($this->user);
+
+    $response = $this->get(route('owner.subscription-billing.index'));
 
     $response->assertOk();
     $response->assertInertia(fn (Assert $page) => $page
@@ -40,18 +69,33 @@ test('owners can access subscription billing page and see their listings', funct
 });
 
 test('owners can upgrade or change the plan of a listing', function () {
-    $user = User::factory()->create();
-    $category = Category::factory()->create();
-    $oldPlan = Plan::factory()->create(['code' => 'free', 'is_active' => true]);
-    $newPlan = Plan::factory()->create(['code' => 'premium', 'is_active' => true]);
+    $oldPlan = Plan::create([
+        'code' => 'free',
+        'en' => 'Free Plan',
+        'price_monthly_cents' => 0,
+        'is_active' => true,
+        'sort_order' => 1,
+    ]);
 
-    $business = Business::factory()->create([
-        'user_id' => $user->id,
-        'category_id' => $category->id,
+    $newPlan = Plan::create([
+        'code' => 'premium',
+        'en' => 'Premium Plan',
+        'price_monthly_cents' => 2900,
+        'is_active' => true,
+        'sort_order' => 2,
+    ]);
+
+    $business = Business::create([
+        'user_id' => $this->user->id,
+        'category_id' => $this->category->id,
+        'name' => 'Company A',
+        'slug' => 'company-a',
+        'status' => 'published',
+        'country' => 'Algeria',
         'plan_id' => $oldPlan->id,
     ]);
 
-    $this->actingAs($user);
+    $this->actingAs($this->user);
 
     $response = $this->post(route('owner.subscription-billing.upgrade', ['businessId' => $business->id]), [
         'plan_id' => $newPlan->id,
@@ -59,7 +103,7 @@ test('owners can upgrade or change the plan of a listing', function () {
     ]);
 
     $response->assertRedirect();
-    
+
     // Refresh business and assert plan and expiry updated
     $business->refresh();
     expect($business->plan_id)->toBe($newPlan->id);

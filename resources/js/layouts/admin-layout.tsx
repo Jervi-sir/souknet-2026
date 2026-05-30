@@ -1,8 +1,8 @@
+import { Head, Link } from '@inertiajs/react';
+import { Bell } from 'lucide-react';
+import React from 'react';
 import { AdminSidebar } from '@/components/admin-sidebar';
 import type { AppLayoutProps } from '@/types';
-import { Head, Link } from '@inertiajs/react';
-import React from 'react';
-import { Bell } from 'lucide-react';
 
 export default function AdminLayout({
     children,

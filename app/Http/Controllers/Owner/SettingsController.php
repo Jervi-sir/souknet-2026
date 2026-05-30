@@ -49,7 +49,7 @@ class SettingsController extends Controller
             'default_city' => 'nullable|string|max:100',
             'default_email' => 'nullable|email|max:255',
             'default_phone' => 'nullable|string|max:50',
-            'default_founded_year' => 'nullable|integer|min:1800|max:' . (date('Y') + 1),
+            'default_founded_year' => 'nullable|integer|min:1800|max:'.(date('Y') + 1),
         ]);
 
         // Save settings to session (simulating persistent user settings storage)

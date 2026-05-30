@@ -1,24 +1,4 @@
-import React, { useState } from 'react';
 import { Head, Link, router } from '@inertiajs/react';
-import {
-    Card,
-    CardHeader,
-    CardTitle,
-    CardDescription,
-    CardContent,
-} from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import {
-    Pagination,
-    PaginationContent,
-    PaginationItem,
-    PaginationLink,
-    PaginationPrevious,
-    PaginationNext,
-    PaginationEllipsis,
-} from '@/components/ui/pagination';
 import {
     Mail,
     Search,
@@ -29,6 +9,27 @@ import {
     MessageSquare,
     Eye,
 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+    Card,
+    CardHeader,
+    CardTitle,
+    CardDescription,
+    CardContent,
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationPrevious,
+    PaginationNext,
+    PaginationEllipsis,
+} from '@/components/ui/pagination';
+import OwnerLayout from '@/layouts/owner-layout';
 
 interface Lead {
     id: number;
@@ -110,30 +111,35 @@ export default function LeadsManagement({ leads, filters }: LeadsManagementProps
     return (
         <>
             <Head title="Leads Management" />
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-            <div className="flex h-full flex-1 flex-col gap-6 p-6 overflow-x-auto text-zinc-100 bg-[#0A0A0A] min-h-screen">
+            <div className="bg-[#15171e] text-white font-['Inter',_sans-serif] min-h-screen space-y-6">
                 {/* Header */}
-                <div className="border-b border-[#1F1F1F] pb-4">
-                    <h1 className="text-2xl font-extrabold text-white tracking-tight">
+                <div className="border-b border-[#262930] pb-5">
+                    <div className="flex items-center gap-2 mb-1">
+                        <span className="h-2 w-2 rounded-full bg-[#4318FF] animate-pulse" />
+                        <span className="text-[10px] font-bold text-[#4318FF] tracking-wider uppercase">Console Leads</span>
+                    </div>
+                    <h1 className="text-xl font-extrabold text-white">
                         Leads & Messages
                     </h1>
-                    <p className="text-xs text-zinc-400 mt-1">
+                    <p className="text-xs text-[#8f9bba] mt-0.5">
                         View contact requests, queries, and direct message leads sent by visitors to your business profile pages.
                     </p>
                 </div>
 
                 {/* Filters & Search Toolbar */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div className="flex flex-col justify-between gap-4 rounded-xl border border-[#262930] bg-[#0c0d12] p-4 md:flex-row md:items-center">
                     {/* Status Tabs */}
-                    <div className="flex items-center gap-1 bg-[#111111] p-1 rounded-lg border border-[#1F1F1F] self-start">
+                    <div className="flex items-center gap-1 bg-[#111111] p-1 rounded-lg border border-[#262930] self-start">
                         {['all', 'unread', 'read'].map((tab) => (
                             <button
                                 key={tab}
                                 onClick={() => handleStatusChange(tab)}
                                 className={`px-3 py-1.5 rounded-md text-xs font-semibold uppercase tracking-wider transition-all ${
                                     status === tab
-                                        ? 'bg-indigo-600 text-white shadow-sm'
-                                        : 'text-zinc-400 hover:text-zinc-200'
+                                        ? 'bg-[#4318FF] text-white shadow-sm'
+                                        : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
                                 }`}
                             >
                                 {tab}
@@ -143,25 +149,25 @@ export default function LeadsManagement({ leads, filters }: LeadsManagementProps
 
                     {/* Search Form */}
                     <form onSubmit={handleSearchSubmit} className="flex gap-2 w-full md:max-w-xs">
-                        <div className="relative flex-1">
-                            <Search className="absolute top-2.5 left-3 h-4 w-4 text-zinc-500" />
-                            <Input
-                                type="text"
-                                placeholder="Search leads..."
-                                value={search}
-                                onChange={(e) => setSearch(e.target.value)}
-                                className="pl-9 bg-[#111111] border-[#1F1F1F] text-zinc-100 focus-visible:ring-indigo-500 text-xs sm:text-sm"
-                            />
-                        </div>
-                        <Button type="submit" size="sm" className="bg-indigo-600 hover:bg-indigo-500 text-white">
-                            Search
-                        </Button>
+                         <div className="relative flex-1">
+                             <Search className="absolute top-2.5 left-3 h-4 w-4 text-[#8f9bba]" />
+                             <Input
+                                 type="text"
+                                 placeholder="Search leads..."
+                                 value={search}
+                                 onChange={(e) => setSearch(e.target.value)}
+                                 className="pl-9 bg-[#111111] border-[#262930] text-white focus-visible:ring-[#4318FF] focus-visible:border-[#4318FF] text-xs sm:text-sm"
+                             />
+                         </div>
+                         <Button type="submit" size="sm" className="bg-[#4318FF] hover:bg-[#3b15e6] text-white text-xs px-4">
+                             Search
+                         </Button>
                     </form>
                 </div>
 
                 {/* Leads list layout */}
                 {leads.data.length === 0 ? (
-                    <div className="rounded-xl border border-dashed border-[#1F1F1F] bg-[#111111]/30 p-16 text-center">
+                    <div className="rounded-xl border border-dashed border-[#262930] bg-[#0c0d12] p-16 text-center">
                         <MessageSquare className="h-10 w-10 text-zinc-700 mx-auto mb-3" />
                         <h3 className="font-semibold text-zinc-400 text-sm">No leads found</h3>
                         <p className="text-xs text-zinc-500 mt-1 max-w-xs mx-auto">
@@ -174,42 +180,42 @@ export default function LeadsManagement({ leads, filters }: LeadsManagementProps
                             {leads.data.map((lead) => (
                                 <Card
                                     key={lead.id}
-                                    className={`border-[#1F1F1F] bg-[#111111]/80 hover:border-zinc-800 transition-all duration-300 ${
-                                        !lead.is_read ? 'ring-1 ring-indigo-500/20 shadow-[0_0_10px_rgba(99,102,241,0.05)]' : ''
+                                    className={`border-[#262930] bg-[#0c0d12] hover:border-zinc-700 transition-all duration-300 ${
+                                        !lead.is_read ? 'ring-1 ring-[#4318FF]/20 shadow-[0_0_10px_rgba(67,24,255,0.05)]' : ''
                                     }`}
                                 >
                                     <CardContent className="p-6 space-y-4">
                                         {/* Lead Meta details */}
-                                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-[#1F1F1F]/40 pb-3">
+                                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 border-b border-[#262930]/40 pb-3">
                                             <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm">
                                                 <span className="font-bold text-white">{lead.name}</span>
-                                                <span className="text-zinc-500">({lead.email})</span>
+                                                <span className="text-[#8f9bba]">({lead.email})</span>
                                                 {!lead.is_read ? (
-                                                    <Badge className="bg-indigo-600 text-white text-[9px] uppercase font-bold py-0 px-1.5 rounded">
+                                                    <Badge className="bg-[#4318FF]/20 text-[#6AD2FF] border border-[#4318FF]/30 text-[9px] uppercase font-bold py-0 px-1.5 rounded">
                                                         New Lead
                                                     </Badge>
                                                 ) : (
-                                                    <Badge variant="outline" className="border-zinc-800 bg-zinc-900 text-zinc-500 text-[9px] uppercase py-0 px-1.5 rounded">
+                                                    <Badge variant="outline" className="border-[#262930] bg-[#111111] text-[#8f9bba] text-[9px] uppercase py-0 px-1.5 rounded">
                                                         Read
                                                     </Badge>
                                                 )}
                                             </div>
-                                            <div className="flex items-center gap-1.5 text-zinc-500 text-[10px] sm:text-xs">
+                                            <div className="flex items-center gap-1.5 text-[#8f9bba] text-[10px] sm:text-xs">
                                                 <Calendar className="h-3.5 w-3.5" />
                                                 <span>{new Date(lead.created_at).toLocaleString()}</span>
                                             </div>
                                         </div>
 
                                         {/* Message text */}
-                                        <p className="text-zinc-300 text-xs sm:text-sm leading-relaxed whitespace-pre-wrap">
+                                        <p className="text-[#8f9bba] text-xs sm:text-sm leading-relaxed whitespace-pre-wrap">
                                             {lead.message}
                                         </p>
 
                                         {/* Lead Footer action tools */}
-                                        <div className="flex items-center justify-between border-t border-[#1F1F1F]/40 pt-3 text-xs text-zinc-500">
+                                        <div className="flex items-center justify-between border-t border-[#262930]/40 pt-3 text-xs text-[#8f9bba]">
                                             <div className="flex items-center gap-1.5">
-                                                <Building2 className="h-3.5 w-3.5 text-zinc-400" />
-                                                <span>Sent to: <strong className="text-zinc-300">{lead.business?.name}</strong></span>
+                                                <Building2 className="h-3.5 w-3.5 text-[#8f9bba]" />
+                                                <span>Sent to: <strong className="text-white">{lead.business?.name}</strong></span>
                                             </div>
 
                                             <div className="flex items-center gap-2">
@@ -219,7 +225,7 @@ export default function LeadsManagement({ leads, filters }: LeadsManagementProps
                                                         onClick={() => handleMarkAsRead(lead.id)}
                                                         size="sm"
                                                         variant="outline"
-                                                        className="h-8 border-[#2E2E2E] bg-zinc-900 text-zinc-300 hover:text-white text-xs gap-1.5"
+                                                        className="h-8 border-[#262930] bg-[#15171e] text-zinc-300 hover:text-white text-xs gap-1.5"
                                                     >
                                                         <Check className="h-3.5 w-3.5 text-emerald-400" />
                                                         Mark as Read
@@ -303,5 +309,9 @@ export default function LeadsManagement({ leads, filters }: LeadsManagementProps
     );
 }
 
-// Sidebar Layout Resolver
-LeadsManagement.layout = (page: React.ReactNode) => page;
+// Sidebar Layout Wrapper
+LeadsManagement.layout = (page: React.ReactNode) => (
+    <OwnerLayout breadcrumbs={[{ title: 'Leads & Messages', href: '/owner/leads' }]}>
+        {page}
+    </OwnerLayout>
+);

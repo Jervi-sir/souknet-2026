@@ -38,10 +38,10 @@ class SubscriptionBillingController extends Controller
             if ($business->plan && $business->plan->code !== 'free') {
                 $priceCents = $business->plan->price_monthly_cents;
                 $mockInvoices[] = [
-                    'id' => 'INV-2026-' . str_pad($invoiceIndex++, 4, '0', STR_PAD_LEFT),
+                    'id' => 'INV-2026-'.str_pad($invoiceIndex++, 4, '0', STR_PAD_LEFT),
                     'business_name' => $business->name,
                     'plan_name' => $business->plan->en,
-                    'amount' => '$' . number_format($priceCents / 100, 2),
+                    'amount' => '$'.number_format($priceCents / 100, 2),
                     'date' => now()->subDays(rand(1, 28))->format('Y-m-d'),
                     'status' => 'Paid',
                     'pdf_url' => '#',

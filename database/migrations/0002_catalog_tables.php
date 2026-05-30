@@ -13,22 +13,22 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->text('code',);
-            $table->string('icon',)->nullable();
+            $table->text('code');
+            $table->string('icon')->nullable();
             $table->string('hex_color')->nullable();
             $table->smallInteger('sort_order')->default(0);
-            $table->string('en',)->nullable();
-            $table->string('fr',)->nullable();
-            $table->string('ar',)->nullable();
+            $table->string('en')->nullable();
+            $table->string('fr')->nullable();
+            $table->string('ar')->nullable();
             $table->timestamps();
         });
 
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
             $table->text('code');
-            $table->string('en',)->nullable();
-            $table->string('fr',)->nullable();
-            $table->string('ar',)->nullable();
+            $table->string('en')->nullable();
+            $table->string('fr')->nullable();
+            $table->string('ar')->nullable();
 
             $table->string('stripe_price_id_monthly')->nullable();
             $table->string('stripe_price_id_yearly')->nullable();
@@ -43,13 +43,12 @@ return new class extends Migration
             $table->timestamps();
         });
 
-
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
             $table->text('code');
-            $table->string('en',)->nullable();
-            $table->string('fr',)->nullable();
-            $table->string('ar',)->nullable();
+            $table->string('en')->nullable();
+            $table->string('fr')->nullable();
+            $table->string('ar')->nullable();
 
             $table->timestamps();
         });
@@ -57,10 +56,10 @@ return new class extends Migration
         Schema::create('contact_platforms', function (Blueprint $table) {
             $table->id();
             $table->text('code');
-            $table->string('en',)->nullable();
-            $table->string('fr',)->nullable();
-            $table->string('ar',)->nullable();
-            $table->string('url',)->nullable();
+            $table->string('en')->nullable();
+            $table->string('fr')->nullable();
+            $table->string('ar')->nullable();
+            $table->string('url')->nullable();
 
             $table->timestamps();
         });

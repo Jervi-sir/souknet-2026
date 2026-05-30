@@ -1,9 +1,4 @@
-import React, { useState } from 'react';
 import { Head, router } from '@inertiajs/react';
-import AdminLayout from '@/layouts/admin-layout';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import {
     Search,
     DollarSign,
@@ -17,6 +12,11 @@ import {
     XCircle,
     Download,
 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import AdminLayout from '@/layouts/admin-layout';
 
 interface Payment {
     id: string;
@@ -370,7 +370,10 @@ export default function PaymentHistory({
                                             .replace(/Previous/g, '')
                                             .replace(/Next/g, '');
 
-                                        if (!link.url) return null;
+                                        if (!link.url) {
+return null;
+}
+
                                         const queryParams = new URL(link.url).search;
 
                                         return (

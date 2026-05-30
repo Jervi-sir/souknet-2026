@@ -4,54 +4,64 @@ namespace Database\Seeders;
 
 use App\Models\Business;
 use App\Models\Review;
+use App\Models\ReviewReply;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class ReviewSeeder extends Seeder
 {
-    public static int $count = 20;
+    /**
+     * Total number of reviews to seed.
+     */
+    public int $count = 20;
 
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        $businesses = Business::all();
         $users = User::all();
+        $businesses = Business::all();
 
-        if ($businesses->isEmpty()) {
-            Business::factory(5)->create();
-            $businesses = Business::all();
+        if ($users->isEmpty() || $businesses->isEmpty()) {
+            return;
         }
 
-        if ($users->isEmpty()) {
-            User::factory(5)->create();
-            $users = User::all();
-        }
-
-        // Generate reviews with unique user-business combinations
-        $inserted = 0;
+        $seededCount = 0;
         $attempts = 0;
-        $maxAttempts = static::$count * 10;
+        $maxAttempts = $this->count * 5; // Avoid infinite loop if counts are small
 
-        while ($inserted < static::$count && $attempts < $maxAttempts) {
+        while ($seededCount < $this->count && $attempts < $maxAttempts) {
             $attempts++;
-            $business = $businesses->random();
             $user = $users->random();
+            $business = $businesses->random();
 
-            $exists = Review::where('business_id', $business->id)
-                ->where('user_id', $user->id)
+            // Check if review already exists for this pair
+            $exists = Review::where('user_id', $user->id)
+                ->where('business_id', $business->id)
                 ->exists();
 
-            if (!$exists) {
-                Review::create([
+            if (! $exists) {
+                $review = Review::create([
                     'business_id' => $business->id,
                     'user_id' => $user->id,
-                    'rating' => fake()->numberBetween(1, 5),
+                    'rating' => rand(1, 5),
                     'body' => fake()->paragraph(),
                     'is_flagged' => fake()->boolean(5),
                 ]);
-                $inserted++;
+
+                $seededCount++;
+
+                // Seed a reply sometimes (e.g. 30% chance)
+                if (fake()->boolean(30)) {
+                    // Usually the business owner replies, or another user
+                    $replyUser = $users->random();
+                    ReviewReply::create([
+                        'review_id' => $review->id,
+                        'user_id' => $replyUser->id,
+                        'body' => fake()->paragraph(),
+                    ]);
+                }
             }
         }
     }

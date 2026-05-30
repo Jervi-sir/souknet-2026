@@ -1,8 +1,8 @@
+import { Head, Link } from '@inertiajs/react';
+import { Bell } from 'lucide-react';
+import React from 'react';
 import { OwnerSidebar } from '@/components/owner-sidebar';
 import type { AppLayoutProps } from '@/types';
-import { Head, Link } from '@inertiajs/react';
-import React from 'react';
-import { Bell } from 'lucide-react';
 
 export default function OwnerLayout({
     children,

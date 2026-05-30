@@ -1,17 +1,4 @@
-import React, { useState } from 'react';
 import { Head, Link, router, useForm } from '@inertiajs/react';
-import AdminLayout from '@/layouts/admin-layout';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogFooter,
-} from '@/components/ui/dialog';
 import {
     Search,
     User,
@@ -25,6 +12,19 @@ import {
     MessageSquare,
     AlertTriangle,
 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogFooter,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import AdminLayout from '@/layouts/admin-layout';
 
 interface RoleType {
     id: number;
@@ -136,7 +136,10 @@ export default function UserManagement({
 
     const handleRoleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (!editingUser) return;
+
+        if (!editingUser) {
+return;
+}
 
         router.post(`/admin/users/${editingUser.id}/role`, {
             _method: 'PATCH',
@@ -154,7 +157,9 @@ export default function UserManagement({
     };
 
     const handleDeleteSubmit = () => {
-        if (!deletingUser) return;
+        if (!deletingUser) {
+return;
+}
 
         router.delete(`/admin/users/${deletingUser.id}`, {
             preserveScroll: true,
@@ -401,7 +406,10 @@ export default function UserManagement({
                                             .replace(/Previous/g, '')
                                             .replace(/Next/g, '');
 
-                                        if (!link.url) return null;
+                                        if (!link.url) {
+return null;
+}
+
                                         const queryParams = new URL(link.url).search;
 
                                         return (

@@ -7,13 +7,21 @@ use Illuminate\Database\Seeder;
 
 class SettingSeeder extends Seeder
 {
-    public static int $count = 10;
+    /**
+     * Number of records to seed.
+     */
+    public int $count = 10;
 
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Setting::factory(static::$count)->create();
+        for ($i = 0; $i < $this->count; $i++) {
+            Setting::create([
+                'key' => 'setting_'.$i.'_'.fake()->unique()->word(),
+                'value' => fake()->sentence(),
+            ]);
+        }
     }
 }

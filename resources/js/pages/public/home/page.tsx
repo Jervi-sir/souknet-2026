@@ -1,8 +1,4 @@
-import React, { useState } from 'react';
 import { Head, Link, router } from '@inertiajs/react';
-import GuestLayout from '@/layouts/guest-layout';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 import {
     Search,
     MapPin,
@@ -27,8 +23,16 @@ import {
     LayoutGrid,
     Target,
     Zap,
-    Briefcase
+    Briefcase,
+    MessageSquare,
+    Quote,
+    Check,
+    FileText
 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import GuestLayout from '@/layouts/guest-layout';
 
 interface Category {
     id: number;
@@ -117,6 +121,7 @@ export default function Home({ categories, featuredBusinesses, stats }: HomeProp
 
     const handleSearchSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
         if (searchQuery.trim()) {
             router.get('/search', { search: searchQuery });
         } else {
@@ -126,125 +131,151 @@ export default function Home({ categories, featuredBusinesses, stats }: HomeProp
 
     return (
         <GuestLayout>
-            <Head title="Search & Verify Directory Dashboard" />
+            <Head title="Verified Local Business Directory" />
             <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-            <div className="p-6 space-y-6 bg-[#15171e] text-white font-['Inter',_sans-serif] min-h-screen">
-                {/* Header Welcome and Monitor */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#262930] pb-5">
-                    <div>
-                        <div className="flex items-center gap-2 mb-1">
-                            <span className="h-2 w-2 rounded-full bg-[#10b981] animate-pulse" />
-                            <span className="text-[10px] font-bold text-[#10b981] tracking-wider uppercase">Live Directory Monitor</span>
+            <div className="p-6 space-y-12 bg-[#15171e] text-white font-['Inter',_sans-serif] min-h-screen">
+                
+                {/* 1. Hero & Central Search Console Section */}
+                <div className="relative rounded-sm overflow-hidden border border-[#262930] bg-gradient-to-tr from-[#0c0d12] via-[#0c0d12] to-[#15171e] p-8 md:p-12">
+                    <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#4318FF]/5 rounded-full blur-[100px] pointer-events-none" />
+                    <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-[#6AD2FF]/5 rounded-full blur-[80px] pointer-events-none" />
+
+                    <div className="max-w-3xl space-y-6">
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-sm bg-[#4318FF]/15 border border-[#4318FF]/30 text-[10px] font-bold text-[#6AD2FF] uppercase tracking-wider mb-2 animate-pulse">
+                            <Sparkles className="h-3 w-3" /> Algeria's Premium Directory
                         </div>
-                        <h1 className="text-xl font-extrabold text-white tracking-tight">
-                            Apollo Search Console
+                        
+                        <h1 className="text-3xl md:text-5xl font-black text-white leading-tight tracking-tight">
+                            Discover & Connect with <span className="bg-gradient-to-r from-[#4318FF] to-[#6AD2FF] bg-clip-text text-transparent">Verified Businesses</span>
                         </h1>
-                        <p className="text-xs text-[#8f9bba] mt-0.5">
-                            Query, filter, and verify 348K+ local businesses, companies and professionals in Algeria.
+                        
+                        <p className="text-sm text-[#8f9bba] max-w-xl leading-relaxed">
+                            Access the platform to find and engage directly with suppliers, manufacturers, contractors, and local businesses in Algeria.
                         </p>
-                    </div>
 
-                    {/* Stats Panel */}
-                    <div className="flex items-center gap-3">
-                        <div className="bg-[#0c0d12] border border-[#262930] rounded-xl px-4 py-2 text-center min-w-[80px]">
-                            <span className="block text-base font-black text-white">{stats.businesses}+</span>
-                            <span className="text-[9px] text-[#8f9bba] font-bold uppercase">Listed</span>
-                        </div>
-                        <div className="bg-[#0c0d12] border border-[#262930] rounded-xl px-4 py-2 text-center min-w-[80px]">
-                            <span className="block text-base font-black text-[#4318FF]">{stats.reviews}+</span>
-                            <span className="text-[9px] text-[#8f9bba] font-bold uppercase">Reviews</span>
-                        </div>
-                        <div className="bg-[#0c0d12] border border-[#262930] rounded-xl px-4 py-2 text-center min-w-[80px]">
-                            <span className="block text-base font-black text-[#10b981]">{stats.cities}</span>
-                            <span className="text-[9px] text-[#8f9bba] font-bold uppercase">Cities</span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Dashboard modules */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    {/* Module 1: Search Console Widget */}
-                    <div className="lg:col-span-2 bg-[#0c0d12] border border-[#262930] rounded-xl p-5 flex flex-col justify-between space-y-4">
-                        <div>
-                            <div className="flex items-center gap-2 mb-1 text-sm font-bold text-white">
-                                <Search className="h-4 w-4 text-[#4318FF]" />
-                                Search database
+                        {/* Search Console Input */}
+                        <form onSubmit={handleSearchSubmit} className="pt-2">
+                            <div className="flex flex-col sm:flex-row gap-2 bg-[#111111]/80 p-2 rounded-sm border border-[#262930] backdrop-blur-md">
+                                <div className="flex-1 relative">
+                                    <Search className="absolute top-3.5 left-3.5 h-4 w-4 text-[#8f9bba]" />
+                                    <input
+                                        type="text"
+                                        placeholder="Search by company name, keywords, or tags..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="w-full pl-10 pr-4 py-3 text-xs bg-transparent border-0 text-white placeholder-zinc-500 focus:outline-none focus:ring-0"
+                                    />
+                                </div>
+                                <button
+                                    type="submit"
+                                    className="px-6 py-3 bg-[#4318FF] hover:bg-[#3b15e6] text-white text-xs font-bold rounded-sm transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-md"
+                                >
+                                    <span>Search Console</span>
+                                    <ArrowRight className="h-3.5 w-3.5" />
+                                </button>
                             </div>
-                            <p className="text-xs text-[#8f9bba]">
-                                Enter name, keywords, city, or categories to search verified stores or professionals.
-                            </p>
-                        </div>
-                        <form onSubmit={handleSearchSubmit} className="space-y-3">
-                            <div className="relative">
-                                <Search className="absolute top-3 left-3.5 h-4 w-4 text-[#8f9bba]" />
-                                <input
-                                    type="text"
-                                    placeholder="Type company profile name, tagline or service keyword..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="w-full pl-10 pr-4 py-2 text-xs bg-[#15171e] border border-[#262930] rounded-lg text-white placeholder-zinc-600 focus:outline-none focus:border-[#4318FF]"
-                                />
-                            </div>
-                            <button
-                                type="submit"
-                                className="w-full py-2 bg-[#4318FF] hover:bg-[#3b15e6] text-white text-xs font-bold rounded-lg transition-colors"
-                            >
-                                Query Directory Database
-                            </button>
                         </form>
 
-                        {/* Suggested searches */}
+                        {/* Quick Suggestions tags */}
                         <div className="flex flex-wrap items-center gap-2 text-xs pt-1">
-                            <span className="text-[#8f9bba]">Suggested:</span>
+                            <span className="text-[#8f9bba] text-[10px] uppercase font-bold tracking-wider">Suggested Searches:</span>
                             {categories.slice(0, 4).map((cat) => (
                                 <Link
                                     key={cat.id}
                                     href={`/search?category=${cat.id}`}
-                                    className="px-2.5 py-1 rounded bg-[#15171e] border border-[#262930] text-[#8f9bba] hover:text-white hover:border-[#4318FF] transition-all text-[10px] font-semibold"
+                                    className="px-2.5 py-1 rounded-sm bg-[#111111] border border-[#262930] text-[#8f9bba] hover:text-white hover:border-[#4318FF] transition-all text-[10px] font-semibold"
                                 >
                                     {cat.en}
                                 </Link>
                             ))}
                         </div>
                     </div>
+                </div>
 
-                    {/* Module 2: Claims/Actions widget */}
-                    <div className="bg-[#0c0d12] border border-[#262930] rounded-xl p-5 flex flex-col justify-between space-y-4">
-                        <div>
-                            <div className="flex items-center gap-2 mb-1 text-sm font-bold text-white">
-                                <Target className="h-4 w-4 text-[#10b981]" />
-                                Claim Your Page
-                            </div>
-                            <p className="text-xs text-[#8f9bba]">
-                                Verify ownership of a business to track messages and reviews.
-                            </p>
+                {/* 2. Platform Metrics Stat Row */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div className="bg-[#0c0d12] border border-[#262930] rounded-sm p-5 flex items-center justify-between">
+                        <div className="space-y-1">
+                            <span className="text-2xl font-black text-white">{stats.businesses.toLocaleString()}+</span>
+                            <span className="block text-[10px] text-[#8f9bba] font-bold uppercase tracking-wider">Verified Companies</span>
                         </div>
-                        <div className="space-y-2 text-xs text-[#8f9bba]">
-                            <div className="flex items-center gap-2 font-medium">
-                                <CheckCircle className="h-4 w-4 text-[#10b981]" />
-                                <span>Get a Verified Identity Tag</span>
-                            </div>
-                            <div className="flex items-center gap-2 font-medium">
-                                <CheckCircle className="h-4 w-4 text-[#10b981]" />
-                                <span>Publish active hours & contacts</span>
-                            </div>
+                        <div className="h-10 w-10 rounded-sm bg-[#4318FF]/10 text-[#4318FF] flex items-center justify-center">
+                            <Building2 className="h-5 w-5" />
                         </div>
-                        <Link
-                            href="/register"
-                            className="w-full text-center block py-2 bg-[#15171e] hover:bg-[#22252e] text-white border border-[#262930] rounded-lg text-xs font-bold transition-all"
-                        >
-                            Register Company Profile
-                        </Link>
+                    </div>
+                    
+                    <div className="bg-[#0c0d12] border border-[#262930] rounded-sm p-5 flex items-center justify-between">
+                        <div className="space-y-1">
+                            <span className="text-2xl font-black text-[#6AD2FF]">{stats.reviews.toLocaleString()}+</span>
+                            <span className="block text-[10px] text-[#8f9bba] font-bold uppercase tracking-wider">Authentic Reviews</span>
+                        </div>
+                        <div className="h-10 w-10 rounded-sm bg-[#6AD2FF]/10 text-[#6AD2FF] flex items-center justify-center">
+                            <Star className="h-5 w-5 fill-[#6AD2FF]/20" />
+                        </div>
+                    </div>
+
+                    <div className="bg-[#0c0d12] border border-[#262930] rounded-sm p-5 flex items-center justify-between">
+                        <div className="space-y-1">
+                            <span className="text-2xl font-black text-[#10b981]">{stats.cities}</span>
+                            <span className="block text-[10px] text-[#8f9bba] font-bold uppercase tracking-wider">Algerian Cities</span>
+                        </div>
+                        <div className="h-10 w-10 rounded-sm bg-[#10b981]/10 text-[#10b981] flex items-center justify-center">
+                            <MapPin className="h-5 w-5" />
+                        </div>
                     </div>
                 </div>
 
-                {/* Categories Widget Panel */}
-                <div className="space-y-3">
+                {/* 3. Core Features / Platform Benefits for Conversion */}
+                <div className="space-y-6">
+                    <div className="text-center max-w-xl mx-auto space-y-1.5">
+                        <h2 className="text-xs font-bold text-[#4318FF] uppercase tracking-widest">Platform Core Benefits</h2>
+                        <p className="text-xl font-extrabold text-white">Why Use SoukNet Console?</p>
+                        <p className="text-xs text-[#8f9bba]">Designed to build trust between buyers and business providers in Algeria.</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {/* Benefit 1 */}
+                        <div className="bg-[#0c0d12] border border-[#262930] rounded-sm p-6 space-y-3 hover:border-zinc-700 transition-all">
+                            <div className="h-8 w-8 rounded-sm bg-[#4318FF]/10 text-[#4318FF] flex items-center justify-center">
+                                <ShieldCheck className="h-4 w-4" />
+                            </div>
+                            <h3 className="text-sm font-bold text-white">100% Moderated Directory</h3>
+                            <p className="text-xs text-[#8f9bba] leading-relaxed">
+                                Every registered profile undergoes manual verification by system admins. Look for the blue check verification badge.
+                            </p>
+                        </div>
+
+                        {/* Benefit 2 */}
+                        <div className="bg-[#0c0d12] border border-[#262930] rounded-sm p-6 space-y-3 hover:border-zinc-700 transition-all">
+                            <div className="h-8 w-8 rounded-sm bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                                <MessageSquare className="h-4 w-4" />
+                            </div>
+                            <h3 className="text-sm font-bold text-white">Direct Lead Channel</h3>
+                            <p className="text-xs text-[#8f9bba] leading-relaxed">
+                                Connect directly with page owners. Send instant messages or quotes directly from their public profile workspace.
+                            </p>
+                        </div>
+
+                        {/* Benefit 3 */}
+                        <div className="bg-[#0c0d12] border border-[#262930] rounded-sm p-6 space-y-3 hover:border-zinc-700 transition-all">
+                            <div className="h-8 w-8 rounded-sm bg-[#6AD2FF]/10 text-[#6AD2FF] flex items-center justify-center">
+                                <Star className="h-4 w-4" />
+                            </div>
+                            <h3 className="text-sm font-bold text-white">Genuine Client Feedback</h3>
+                            <p className="text-xs text-[#8f9bba] leading-relaxed">
+                                Reviews are backed by email validation. Build consumer relationships by replying officially to user reviews.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* 4. Browse by Segment Categories Grid */}
+                <div className="space-y-4">
                     <div className="flex items-center justify-between border-b border-[#262930] pb-2">
                         <h2 className="text-xs font-bold text-[#8f9bba] uppercase tracking-wider flex items-center gap-2">
                             <LayoutGrid className="h-4 w-4 text-[#4318FF]" />
-                            Browse by Segment Category
+                            Explore by Industry Category
                         </h2>
                         <Link
                             href="/directory"
@@ -258,14 +289,15 @@ export default function Home({ categories, featuredBusinesses, stats }: HomeProp
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
                         {categories.map((cat) => {
                             const IconComponent = getCategoryIcon(cat.code);
+
                             return (
                                 <Link
                                     key={cat.id}
                                     href={`/search?category=${cat.id}`}
-                                    className="group relative rounded-xl border border-[#262930] bg-[#0c0d12] p-3.5 hover:border-[#4318FF] transition-all flex flex-col justify-between h-24"
+                                    className="group relative rounded-sm border border-[#262930] bg-[#0c0d12] p-3.5 hover:border-[#4318FF] transition-all flex flex-col justify-between h-24"
                                 >
                                     <div
-                                        className="h-7 w-7 rounded-lg flex items-center justify-center transition-colors"
+                                        className="h-7 w-7 rounded-sm flex items-center justify-center transition-colors"
                                         style={{ backgroundColor: `${cat.hex_color || '#4318FF'}15` }}
                                     >
                                         <IconComponent
@@ -287,12 +319,12 @@ export default function Home({ categories, featuredBusinesses, stats }: HomeProp
                     </div>
                 </div>
 
-                {/* Featured Listings Widget Panel */}
-                <div className="space-y-3">
+                {/* 5. Featured Listings Widget Panel */}
+                <div className="space-y-4">
                     <div className="flex items-center justify-between border-b border-[#262930] pb-2">
                         <h2 className="text-xs font-bold text-[#8f9bba] uppercase tracking-wider flex items-center gap-2">
                             <Sparkles className="h-4 w-4 text-[#4318FF]" />
-                            Featured & Verified Agencies
+                            Featured & Verified Establishments
                         </h2>
                         <Link
                             href="/search?featured=1"
@@ -304,7 +336,7 @@ export default function Home({ categories, featuredBusinesses, stats }: HomeProp
                     </div>
 
                     {featuredBusinesses.length === 0 ? (
-                        <div className="rounded-xl border border-dashed border-[#262930] p-8 text-center bg-[#0c0d12]/50">
+                        <div className="rounded-sm border border-dashed border-[#262930] p-8 text-center bg-[#0c0d12]/50">
                             <Building2 className="h-8 w-8 text-zinc-650 mx-auto mb-2" />
                             <h3 className="text-xs font-bold text-white">No featured listings currently</h3>
                             <p className="text-[10px] text-[#8f9bba] max-w-xs mx-auto mt-0.5">
@@ -316,7 +348,7 @@ export default function Home({ categories, featuredBusinesses, stats }: HomeProp
                             {featuredBusinesses.map((business) => (
                                 <div
                                     key={business.id}
-                                    className="bg-[#0c0d12] border border-[#262930] hover:border-[#4318FF] rounded-xl overflow-hidden flex flex-col justify-between h-full transition-all group"
+                                    className="bg-[#0c0d12] border border-[#262930] hover:border-[#4318FF] rounded-sm overflow-hidden flex flex-col justify-between h-full transition-all group"
                                 >
                                     <div>
                                         {/* Header Image */}
@@ -333,7 +365,7 @@ export default function Home({ categories, featuredBusinesses, stats }: HomeProp
                                                 </div>
                                             )}
 
-                                            <span className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-[#4318FF] text-white text-[9px] font-bold px-2 py-0.5 rounded shadow-sm">
+                                            <span className="absolute top-2.5 right-2.5 flex items-center gap-1 bg-[#4318FF] text-white text-[9px] font-bold px-2 py-0.5 rounded-xs shadow-sm">
                                                 <Sparkles className="h-2 w-2" />
                                                 FEATURED
                                             </span>
@@ -379,6 +411,37 @@ export default function Home({ categories, featuredBusinesses, stats }: HomeProp
                         </div>
                     )}
                 </div>
+
+                {/* 6. High-Converting Bottom Owner Conversion Banner */}
+                <div className="relative rounded-sm border border-[#262930] bg-[#0c0d12] p-8 md:p-10 overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#4318FF]/5 rounded-full blur-[80px] pointer-events-none" />
+                    
+                    <div className="space-y-2 max-w-xl">
+                        <div className="inline-flex items-center gap-1 bg-[#10b981]/10 text-[#10b981] text-[9px] font-bold px-2 py-0.5 rounded-xs border border-[#10b981]/25 uppercase tracking-wider">
+                            For Business Owners
+                        </div>
+                        <h2 className="text-lg md:text-xl font-bold text-white">Own a business listing in Algeria?</h2>
+                        <p className="text-xs text-[#8f9bba] leading-relaxed">
+                            Register a new business or claim an existing page to respond to user comments, review messages from prospects, and track console search hits.
+                        </p>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
+                        <Link
+                            href="/register"
+                            className="w-full sm:w-auto text-center block px-6 py-3 bg-[#4318FF] hover:bg-[#3b15e6] text-white text-xs font-bold rounded-sm transition-all shadow-lg"
+                        >
+                            Register Company Profile
+                        </Link>
+                        <Link
+                            href="/login"
+                            className="w-full sm:w-auto text-center block px-6 py-3 bg-[#15171e] hover:bg-[#22252e] text-white border border-[#262930] rounded-sm text-xs font-bold transition-all"
+                        >
+                            Console Login
+                        </Link>
+                    </div>
+                </div>
+
             </div>
         </GuestLayout>
     );

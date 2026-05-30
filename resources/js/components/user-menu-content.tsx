@@ -1,5 +1,5 @@
 import { Link, router } from '@inertiajs/react';
-import { LogOut, Settings } from 'lucide-react';
+import { LogOut, Settings, LayoutGrid } from 'lucide-react';
 import {
     DropdownMenuGroup,
     DropdownMenuItem,
@@ -33,6 +33,48 @@ export function UserMenuContent({ user }: Props) {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
+                {user.role === 'admin' ? (
+                    <>
+                        <DropdownMenuItem asChild>
+                            <Link
+                                className="block w-full cursor-pointer"
+                                href="/admin"
+                                prefetch
+                                onClick={cleanup}
+                            >
+                                <LayoutGrid className="mr-2 h-4 w-4" />
+                                Admin Dashboard
+                            </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                            <Link
+                                className="block w-full cursor-pointer"
+                                href="/owner/dashboard"
+                                prefetch
+                                onClick={cleanup}
+                            >
+                                <LayoutGrid className="mr-2 h-4 w-4" />
+                                Owner Dashboard
+                            </Link>
+                        </DropdownMenuItem>
+                    </>
+                ) : (
+                    <DropdownMenuItem asChild>
+                        <Link
+                            className="block w-full cursor-pointer"
+                            href={
+                                user.role === 'business_owner'
+                                    ? '/owner/dashboard'
+                                    : '/dashboard'
+                            }
+                            prefetch
+                            onClick={cleanup}
+                        >
+                            <LayoutGrid className="mr-2 h-4 w-4" />
+                            Dashboard
+                        </Link>
+                    </DropdownMenuItem>
+                )}
                 <DropdownMenuItem asChild>
                     <Link
                         className="block w-full cursor-pointer"

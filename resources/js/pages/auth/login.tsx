@@ -8,8 +8,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
-import { register } from '@/routes';
-import { store } from '@/routes/login';
+import LoginController from '@/actions/App/Http/Controllers/Auth/LoginController';
+import RegisterController from '@/actions/App/Http/Controllers/Auth/RegisterController';
 import { request } from '@/routes/password';
 
 type Props = {
@@ -25,7 +25,7 @@ export default function Login({ status, canResetPassword }: Props) {
             <PasskeyVerify />
 
             <Form
-                {...store.form()}
+                {...LoginController.store.form()}
                 resetOnSuccess={['password']}
                 className="flex flex-col gap-6"
             >
@@ -94,7 +94,7 @@ export default function Login({ status, canResetPassword }: Props) {
 
                         <div className="text-center text-sm text-muted-foreground">
                             Don't have an account?{' '}
-                            <TextLink href={register()} tabIndex={5}>
+                            <TextLink href={RegisterController.show()} tabIndex={5}>
                                 Sign up
                             </TextLink>
                         </div>
