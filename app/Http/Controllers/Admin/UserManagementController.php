@@ -85,6 +85,8 @@ class UserManagementController extends Controller
             'role_id' => $validated['role_id'],
         ]);
 
+        $user->roles()->sync([$validated['role_id']]);
+
         $role = Role::findOrFail($validated['role_id']);
 
         return back()->with('success', "User '{$user->name}' has been reassigned to the {$role->en} role.");

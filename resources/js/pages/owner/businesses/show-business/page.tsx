@@ -23,6 +23,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import OwnerLayout from '@/layouts/owner-layout';
+import BusinessController from '@/actions/App/Http/Controllers/Owner/BusinessController';
+import OwnerDashboardController from '@/actions/App/Http/Controllers/Owner/OwnerDashboardController';
 
 interface Business {
     id: number;
@@ -112,7 +114,7 @@ export default function ShowBusiness({ business, categories, plans, metrics, rev
     });
 
     const handleSave = (section: EditingSection) => {
-        put(route('owner.listings.update', { id: business.id }), {
+        put(BusinessController.update({ id: business.id }).url, {
             preserveScroll: true,
             onSuccess: () => {
                 setEditingSection(null);
@@ -127,7 +129,7 @@ export default function ShowBusiness({ business, categories, plans, metrics, rev
 
     const handleDelete = () => {
         if (confirm('Are you sure you want to permanently delete this business listing? This action cannot be undone.')) {
-            router.delete(route('owner.listings.destroy', { id: business.id }));
+            router.delete(BusinessController.destroy({ id: business.id }));
         }
     };
 
@@ -167,12 +169,12 @@ export default function ShowBusiness({ business, categories, plans, metrics, rev
             <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
             <div className="bg-[#15171e] text-white font-['Inter',_sans-serif] min-h-screen p-6 space-y-6">
-                
+
                 {/* Back Link & Header Title */}
                 <div className="flex flex-col gap-4 border-b border-[#262930] pb-5">
                     <div className="flex items-center gap-2">
                         <Link
-                            href={route('owner.listings.index')}
+                            href={BusinessController.index.url()}
                             className="inline-flex items-center gap-1 text-xs text-[#8f9bba] hover:text-white transition-colors"
                         >
                             <ArrowLeft className="h-3 w-3" />
@@ -594,9 +596,8 @@ export default function ShowBusiness({ business, categories, plans, metrics, rev
                                                     {Array.from({ length: 5 }).map((_, idx) => (
                                                         <Star
                                                             key={idx}
-                                                            className={`h-3 w-3 ${
-                                                                idx < review.rating ? 'fill-current' : 'text-zinc-700'
-                                                            }`}
+                                                            className={`h-3 w-3 ${idx < review.rating ? 'fill-current' : 'text-zinc-700'
+                                                                }`}
                                                         />
                                                     ))}
                                                 </div>
@@ -626,8 +627,8 @@ ShowBusiness.layout = (page: React.ReactNode) => {
     return (
         <OwnerLayout
             breadcrumbs={[
-                { title: 'Dashboard', href: route('owner.dashboard') },
-                { title: 'My Listings', href: route('owner.listings.index') },
+                { title: 'Dashboard', href: OwnerDashboardController.index.url() },
+                { title: 'My Listings', href: BusinessController.index.url() },
                 { title: businessName, href: '#' }
             ]}
         >

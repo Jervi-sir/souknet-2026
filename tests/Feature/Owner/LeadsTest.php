@@ -72,10 +72,11 @@ test('owners can access leads and see contact message logs', function () {
     $response = $this->get(route('owner.leads'));
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('owner/leads-management/page')
-        ->has('leads.data', 3)
-        ->has('filters')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('owner/leads-management/page')
+            ->has('leads.data', 3)
+            ->has('filters')
     );
 });
 

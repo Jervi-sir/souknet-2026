@@ -78,29 +78,32 @@ test('owners can access their team directory and filter the list', function () {
     // List all
     $response = $this->get(route('owner.people.index'));
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('owner/people/listed-jobs/page')
-        ->has('people.data', 2)
-        ->has('businesses', 2)
-        ->has('filters')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('owner/people/listed-jobs/page')
+            ->has('people.data', 2)
+            ->has('businesses', 2)
+            ->has('filters')
     );
 
     // Filter by search
     $response = $this->get(route('owner.people.index', ['search' => 'Alice']));
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('owner/people/listed-jobs/page')
-        ->has('people.data', 1)
-        ->where('people.data.0.first_name', 'Alice')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('owner/people/listed-jobs/page')
+            ->has('people.data', 1)
+            ->where('people.data.0.first_name', 'Alice')
     );
 
     // Filter by business_id
     $response = $this->get(route('owner.people.index', ['business_id' => $otherBusiness->id]));
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('owner/people/listed-jobs/page')
-        ->has('people.data', 1)
-        ->where('people.data.0.first_name', 'Bob')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('owner/people/listed-jobs/page')
+            ->has('people.data', 1)
+            ->where('people.data.0.first_name', 'Bob')
     );
 });
 
@@ -161,9 +164,10 @@ test('owners can view and update team member details', function () {
     // View details page
     $response = $this->get(route('owner.people.show', ['id' => $person->id]));
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('owner/people/show-job/page')
-        ->where('person.first_name', 'Jane')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('owner/people/show-job/page')
+            ->where('person.first_name', 'Jane')
     );
 
     // Update details

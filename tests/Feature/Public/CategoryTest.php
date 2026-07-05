@@ -15,13 +15,14 @@ test('guests can access published category page', function () {
     $response = $this->get(route('category.show', ['code' => 'technology']));
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('public/category/page')
-        ->has('category')
-        ->has('businesses')
-        ->has('categories')
-        ->has('cities')
-        ->has('filters')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('public/category/page')
+            ->has('category')
+            ->has('businesses')
+            ->has('categories')
+            ->has('cities')
+            ->has('filters')
     );
 });
 
@@ -60,9 +61,10 @@ test('category page only displays published businesses in that category', functi
 
     $response = $this->get(route('category.show', ['code' => 'tech']));
 
-    $response->assertInertia(fn (Assert $page) => $page
-        ->has('businesses.data', 1)
-        ->where('businesses.data.0.name', 'Published Tech')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->has('businesses.data', 1)
+            ->where('businesses.data.0.name', 'Published Tech')
     );
 });
 

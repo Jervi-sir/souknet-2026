@@ -29,11 +29,12 @@ test('administrators can access the user management ledger and view users', func
 
     $response = $this->get(route('admin.users'));
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('admin/user-management/page')
-        ->has('users.data')
-        ->has('roles')
-        ->has('filters')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('admin/user-management/page')
+            ->has('users.data')
+            ->has('roles')
+            ->has('filters')
     );
 });
 

@@ -11,7 +11,8 @@ import {
     Home,
     Sparkles,
     ChevronDown,
-    ChevronUp
+    ChevronUp,
+    UserCheck
 } from 'lucide-react';
 import React, { useState } from 'react';
 
@@ -113,6 +114,18 @@ return false;
                             >
                                 <Users className="h-4 w-4" />
                                 <span>Users Directory</span>
+                            </Link>
+
+                            <Link
+                                href="/admin/upgrades"
+                                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                                    isActive('/admin/upgrades')
+                                        ? 'bg-[#22252e] text-white font-bold'
+                                        : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
+                                }`}
+                            >
+                                <UserCheck className="h-4 w-4" />
+                                <span>Upgrade Requests</span>
                             </Link>
 
                             <Link

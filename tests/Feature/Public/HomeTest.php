@@ -13,11 +13,12 @@ test('guests can access home page', function () {
     $response = $this->get(route('home'));
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('public/home/page')
-        ->has('categories')
-        ->has('featuredBusinesses')
-        ->has('stats')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('public/home/page')
+            ->has('categories')
+            ->has('featuredBusinesses')
+            ->has('stats')
     );
 });
 
@@ -47,8 +48,9 @@ test('home page queries and displays active featured businesses', function () {
 
     $response = $this->get(route('home'));
 
-    $response->assertInertia(fn (Assert $page) => $page
-        ->has('featuredBusinesses', 1)
-        ->where('featuredBusinesses.0.name', 'Premium Spot')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->has('featuredBusinesses', 1)
+            ->where('featuredBusinesses.0.name', 'Premium Spot')
     );
 });

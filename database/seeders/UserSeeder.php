@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
 
         // We can create a default admin user for convenience
         $adminRole = Role::where('code', 'admin')->first() ?? Role::first();
-        User::firstOrCreate([
+        $adminUser = User::firstOrCreate([
             'email' => 'admin@souknet.com',
         ], [
             'name' => 'Admin User',
@@ -39,6 +39,7 @@ class UserSeeder extends Seeder
             'role_id' => $adminRole->id,
             'email_verified_at' => now(),
         ]);
+        $adminUser->roles()->syncWithoutDetaching([$adminRole->id]);
 
         for ($i = 0; $i < $this->count; $i++) {
             $role = Role::inRandomOrder()->first();
@@ -51,9 +52,8 @@ class UserSeeder extends Seeder
                 'email_verified_at' => fake()->boolean(80) ? now() : null,
             ]);
 
-            // Populate role_user pivot
-            $user->roles()->associate($role);
-            $user->save();
+            // Populate user_roles pivot
+            $user->roles()->syncWithoutDetaching([$role->id]);
 
             // Also attach custom permissions to user randomly if permissions exist
             $permissions = Permission::all();

@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\PaymentHistoryController;
 use App\Http\Controllers\Admin\PlanManagementController;
 use App\Http\Controllers\Admin\ReviewManagementController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\UpgradeRequestManagementController;
 use App\Http\Controllers\Admin\UserManagementController;
 use Illuminate\Support\Facades\Route;
 
@@ -43,4 +44,9 @@ Route::middleware(['auth', 'verified', 'role:admin'])->group(function () {
     Route::get('/admin/plans', [PlanManagementController::class, 'index'])->name('admin.plans');
     Route::post('/admin/plans', [PlanManagementController::class, 'store'])->name('admin.plans.store');
     Route::patch('/admin/plans/{id}', [PlanManagementController::class, 'update'])->name('admin.plans.update');
+
+    // Admin Upgrade Requests
+    Route::get('/admin/upgrades', [UpgradeRequestManagementController::class, 'index'])->name('admin.upgrades');
+    Route::patch('/admin/upgrades/{id}/approve', [UpgradeRequestManagementController::class, 'approve'])->name('admin.upgrades.approve');
+    Route::patch('/admin/upgrades/{id}/reject', [UpgradeRequestManagementController::class, 'reject'])->name('admin.upgrades.reject');
 });

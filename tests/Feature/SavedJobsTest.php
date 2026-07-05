@@ -74,11 +74,12 @@ test('authenticated users can access the saved jobs page', function () {
     $response = $this->actingAs($user)->get(route('jobs.saved'));
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('public/saved-jobs/page')
-        ->has('jobs.data', 1)
-        ->where('jobs.data.0.title', 'Software Engineer')
-        ->has('savedJobIds')
-        ->has('filters')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('public/saved-jobs/page')
+            ->has('jobs.data', 1)
+            ->where('jobs.data.0.title', 'Software Engineer')
+            ->has('savedJobIds')
+            ->has('filters')
     );
 });

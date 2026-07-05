@@ -28,6 +28,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import OwnerLayout from '@/layouts/owner-layout';
+import OwnerDashboardController from '@/actions/App/Http/Controllers/Owner/OwnerDashboardController';
+import OwnerJobController from '@/actions/App/Http/Controllers/Owner/OwnerJobController';
 
 interface JobPost {
     id: number;
@@ -93,7 +95,7 @@ export default function ListedJobs({ jobs, businesses, filters }: Props) {
 
     const applyFilters = () => {
         router.get(
-            route('owner.jobs.index'),
+            OwnerJobController.index.url(),
             {
                 search: search || undefined,
                 type: type || undefined,
@@ -120,12 +122,12 @@ export default function ListedJobs({ jobs, businesses, filters }: Props) {
         setSearch('');
         setType('');
         setBusinessId('');
-        router.get(route('owner.jobs.index'), {}, { preserveState: true, replace: true });
+        router.get(OwnerJobController.index.url(), {}, { preserveState: true, replace: true });
     };
 
     const handleCreateJob = (e: React.FormEvent) => {
         e.preventDefault();
-        post(route('owner.jobs.store'), {
+        post(OwnerJobController.store().url, {
             onSuccess: () => {
                 setCreateDialogOpen(false);
                 reset();
@@ -135,7 +137,7 @@ export default function ListedJobs({ jobs, businesses, filters }: Props) {
 
     const handleDeleteJob = (id: number) => {
         if (confirm('Are you sure you want to delete this job posting?')) {
-            router.delete(route('owner.jobs.destroy', { id }));
+            router.delete(OwnerJobController.destroy({ id: id }));
         }
     };
 
@@ -145,7 +147,7 @@ export default function ListedJobs({ jobs, businesses, filters }: Props) {
             <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
             <div className="bg-[#15171e] text-white font-['Inter',_sans-serif] min-h-screen p-6 space-y-6">
-                
+
                 {/* Header Title */}
                 <div className="flex flex-col gap-4 border-b border-[#262930] pb-5 sm:flex-row sm:items-center sm:justify-between">
                     <div>
@@ -402,7 +404,7 @@ export default function ListedJobs({ jobs, businesses, filters }: Props) {
                                         <div className="flex items-start justify-between gap-3">
                                             <div>
                                                 <h3 className="line-clamp-1 text-sm font-bold text-white group-hover:text-[#4318FF] transition-colors">
-                                                    <Link href={route('owner.jobs.show', { id: job.id })}>
+                                                    <Link href={OwnerJobController.show({ id: job.id })}>
                                                         {job.title}
                                                     </Link>
                                                 </h3>
@@ -413,11 +415,10 @@ export default function ListedJobs({ jobs, businesses, filters }: Props) {
                                                     </div>
                                                 )}
                                             </div>
-                                            <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold ${
-                                                job.is_active
-                                                    ? 'bg-[#10b981]/15 text-[#10b981] border border-[#10b981]/25'
-                                                    : 'bg-zinc-800 text-zinc-400 border border-zinc-700'
-                                            }`}>
+                                            <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold ${job.is_active
+                                                ? 'bg-[#10b981]/15 text-[#10b981] border border-[#10b981]/25'
+                                                : 'bg-zinc-800 text-zinc-400 border border-zinc-700'
+                                                }`}>
                                                 {job.is_active ? 'Active' : 'Inactive'}
                                             </span>
                                         </div>
@@ -455,7 +456,7 @@ export default function ListedJobs({ jobs, businesses, filters }: Props) {
                                             Delete Post
                                         </button>
                                         <Link
-                                            href={route('owner.jobs.show', { id: job.id })}
+                                            href={OwnerJobController.show({ id: job.id })}
                                             className="font-bold text-[#4318FF] hover:underline flex items-center gap-1"
                                         >
                                             <Edit2 className="h-3.5 w-3.5" />
@@ -478,8 +479,8 @@ export default function ListedJobs({ jobs, businesses, filters }: Props) {
 ListedJobs.layout = (page: React.ReactNode) => (
     <OwnerLayout
         breadcrumbs={[
-            { title: 'Dashboard', href: route('owner.dashboard') },
-            { title: 'Job Postings', href: route('owner.jobs.index') }
+            { title: 'Dashboard', href: OwnerDashboardController.index.url() },
+            { title: 'Job Postings', href: OwnerJobController.index.url() }
         ]}
     >
         {page}
@@ -496,9 +497,9 @@ interface PaginationProps {
 
 function SimplePagination({ links }: PaginationProps) {
     if (links.length <= 3) {
-return null;
-} // Don't show if only 1 page
-    
+        return null;
+    } // Don't show if only 1 page
+
     return (
         <div className="flex justify-center items-center gap-1.5 mt-8">
             {links.map((link, idx) => {
@@ -507,7 +508,7 @@ return null;
                     .replace('&raquo;', '»')
                     .replace('Previous', '«')
                     .replace('Next', '»');
-                
+
                 if (!link.url) {
                     return (
                         <span
@@ -518,16 +519,15 @@ return null;
                         </span>
                     );
                 }
-                
+
                 return (
                     <Link
                         key={idx}
                         href={link.url}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
-                            link.active
-                                ? 'bg-[#4318FF] text-white border-[#4318FF]'
-                                : 'bg-[#0c0d12] text-[#8f9bba] border-[#262930] hover:text-white hover:bg-[#15171e]'
-                        }`}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${link.active
+                            ? 'bg-[#4318FF] text-white border-[#4318FF]'
+                            : 'bg-[#0c0d12] text-[#8f9bba] border-[#262930] hover:text-white hover:bg-[#15171e]'
+                            }`}
                         preserveScroll
                     >
                         {label}

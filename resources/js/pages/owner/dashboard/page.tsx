@@ -16,6 +16,7 @@ import {
 import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import OwnerLayout from '@/layouts/owner-layout';
+import BusinessController from '@/actions/App/Http/Controllers/Owner/BusinessController';
 
 interface Business {
     id: number;
@@ -119,7 +120,7 @@ export default function OwnerDashboard({
             <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
             <div className="bg-[#15171e] text-white font-['Inter',_sans-serif] min-h-screen p-6 space-y-6">
-                
+
                 {/* Header Title */}
                 <div className="flex flex-col gap-4 border-b border-[#262930] pb-5 sm:flex-row sm:items-center sm:justify-between">
                     <div>
@@ -208,7 +209,7 @@ export default function OwnerDashboard({
                                         <div className="flex items-start justify-between gap-3">
                                             <div>
                                                 <h3 className="line-clamp-1 text-sm font-bold text-white group-hover:text-[#4318FF] transition-colors">
-                                                    <Link href={route('owner.listings.show', { id: business.id })}>
+                                                    <Link href={BusinessController.show({ id: business.id })}>
                                                         {business.name}
                                                     </Link>
                                                 </h3>
@@ -257,7 +258,7 @@ export default function OwnerDashboard({
                                             View Public Page
                                         </Link>
                                         <Link
-                                            href={route('owner.listings.show', { id: business.id })}
+                                            href={BusinessController.show({ id: business.id })}
                                             className="font-bold text-[#4318FF] hover:underline"
                                         >
                                             Manage Listing
@@ -339,9 +340,8 @@ export default function OwnerDashboard({
                                                 {Array.from({ length: 5 }).map((_, idx) => (
                                                     <Star
                                                         key={idx}
-                                                        className={`h-3 w-3 ${
-                                                            idx < review.rating ? 'fill-current' : 'text-zinc-700'
-                                                        }`}
+                                                        className={`h-3 w-3 ${idx < review.rating ? 'fill-current' : 'text-zinc-700'
+                                                            }`}
                                                     />
                                                 ))}
                                             </div>

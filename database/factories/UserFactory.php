@@ -68,6 +68,7 @@ class UserFactory extends Factory
         return $this->afterCreating(function (User $user) {
             $role = Role::find($user->role_id);
             if ($role) {
+                $user->roles()->syncWithoutDetaching([$role->id]);
                 $user->permissions()->sync($role->permissions->pluck('id'));
             }
         });

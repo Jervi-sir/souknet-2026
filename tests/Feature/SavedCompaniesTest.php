@@ -61,11 +61,12 @@ test('authenticated users can access the saved companies page', function () {
     $response = $this->actingAs($user)->get(route('companies.saved'));
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('public/saved-companies/page')
-        ->has('businesses.data', 1)
-        ->where('businesses.data.0.name', 'Company A')
-        ->has('savedCompanyIds')
-        ->has('filters')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('public/saved-companies/page')
+            ->has('businesses.data', 1)
+            ->where('businesses.data.0.name', 'Company A')
+            ->has('savedCompanyIds')
+            ->has('filters')
     );
 });

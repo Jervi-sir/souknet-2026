@@ -31,11 +31,12 @@ test('administrators can access the admin dashboard', function () {
 
     $response = $this->get(route('admin.dashboard'));
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('admin/dashboard/page')
-        ->has('stats')
-        ->has('pendingBusinesses')
-        ->has('recentPayments')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('admin/dashboard/page')
+            ->has('stats')
+            ->has('pendingBusinesses')
+            ->has('recentPayments')
     );
 });
 
@@ -55,10 +56,11 @@ test('administrators can access business management and view listings', function
 
     $response = $this->get(route('admin.businesses'));
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('admin/business-management/page')
-        ->has('businesses.data', 1)
-        ->has('filters')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('admin/business-management/page')
+            ->has('businesses.data', 1)
+            ->has('filters')
     );
 });
 

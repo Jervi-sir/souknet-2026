@@ -27,11 +27,15 @@ class CreateNewUser implements CreatesNewUsers
 
         $role = Role::where('code', 'business_owner')->first() ?? Role::first() ?? Role::factory()->create();
 
-        return User::create([
+        $user = User::create([
             'role_id' => $role->id,
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => $input['password'],
         ]);
+
+        $user->roles()->syncWithoutDetaching([$role->id]);
+
+        return $user;
     }
 }

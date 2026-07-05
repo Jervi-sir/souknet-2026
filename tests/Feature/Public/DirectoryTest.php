@@ -13,12 +13,13 @@ test('guest users can access the directory page', function () {
     $response = $this->get(route('directory.index'));
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('public/directory/page')
-        ->has('businesses')
-        ->has('categories')
-        ->has('cities')
-        ->has('filters')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('public/directory/page')
+            ->has('businesses')
+            ->has('categories')
+            ->has('cities')
+            ->has('filters')
     );
 });
 
@@ -46,9 +47,10 @@ test('directory only displays published businesses', function () {
 
     $response = $this->get(route('directory.index'));
 
-    $response->assertInertia(fn (Assert $page) => $page
-        ->has('businesses.data', 1)
-        ->where('businesses.data.0.name', 'Published Business')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->has('businesses.data', 1)
+            ->where('businesses.data.0.name', 'Published Business')
     );
 });
 
@@ -75,9 +77,10 @@ test('directory can filter by search query', function () {
 
     $response = $this->get(route('directory.index', ['search' => 'Tech']));
 
-    $response->assertInertia(fn (Assert $page) => $page
-        ->has('businesses.data', 1)
-        ->where('businesses.data.0.name', 'Tech Solutions')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->has('businesses.data', 1)
+            ->where('businesses.data.0.name', 'Tech Solutions')
     );
 });
 
@@ -105,9 +108,10 @@ test('directory can filter by category', function () {
 
     $response = $this->get(route('directory.index', ['category' => $cat1->id]));
 
-    $response->assertInertia(fn (Assert $page) => $page
-        ->has('businesses.data', 1)
-        ->where('businesses.data.0.name', 'Business Category One')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->has('businesses.data', 1)
+            ->where('businesses.data.0.name', 'Business Category One')
     );
 });
 
@@ -136,8 +140,9 @@ test('directory can filter by city', function () {
 
     $response = $this->get(route('directory.index', ['city' => 'Algiers']));
 
-    $response->assertInertia(fn (Assert $page) => $page
-        ->has('businesses.data', 1)
-        ->where('businesses.data.0.name', 'Algiers Tech')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->has('businesses.data', 1)
+            ->where('businesses.data.0.name', 'Algiers Tech')
     );
 });

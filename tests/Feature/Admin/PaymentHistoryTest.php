@@ -29,10 +29,11 @@ test('administrators can access the payments ledger and view stats', function ()
 
     $response = $this->get(route('admin.payments'));
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('admin/payment-history/page')
-        ->has('payments')
-        ->has('stats')
-        ->has('filters')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('admin/payment-history/page')
+            ->has('payments')
+            ->has('stats')
+            ->has('filters')
     );
 });

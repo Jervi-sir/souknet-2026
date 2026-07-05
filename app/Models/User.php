@@ -3,11 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -40,9 +38,9 @@ class User extends Authenticatable implements PasskeyUser
     /**
      * Get the roles associated with the user.
      */
-    public function roles(): BelongsTo
+    public function roles(): BelongsToMany
     {
-        return $this->belongsTo(Role::class, 'role_id');
+        return $this->belongsToMany(Role::class, 'user_roles');
     }
 
     /**
@@ -51,6 +49,14 @@ class User extends Authenticatable implements PasskeyUser
     public function permissions(): BelongsToMany
     {
         return $this->belongsToMany(Permission::class, 'user_permissions');
+    }
+
+    /**
+     * Get the upgrade requests submitted by the user.
+     */
+    public function upgradeRequests(): HasMany
+    {
+        return $this->hasMany(UpgradeRequest::class);
     }
 
     /**

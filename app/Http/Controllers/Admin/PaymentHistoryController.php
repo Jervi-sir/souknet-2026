@@ -81,9 +81,9 @@ class PaymentHistoryController extends Controller
         if (! empty($search)) {
             $transactions = array_filter($transactions, function ($t) use ($search) {
                 return stripos($t['user_name'], $search) !== false ||
-                       stripos($t['user_email'], $search) !== false ||
-                       stripos($t['business_name'], $search) !== false ||
-                       stripos($t['id'], $search) !== false;
+                    stripos($t['user_email'], $search) !== false ||
+                    stripos($t['business_name'], $search) !== false ||
+                    stripos($t['id'], $search) !== false;
             });
         }
 

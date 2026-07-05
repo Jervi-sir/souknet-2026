@@ -51,12 +51,13 @@ test('guests can access the products page', function () {
     $response = $this->get(route('products.index'));
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('public/products/page')
-        ->has('products')
-        ->has('categories')
-        ->has('filters')
-        ->has('savedProductIds')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('public/products/page')
+            ->has('products')
+            ->has('categories')
+            ->has('filters')
+            ->has('savedProductIds')
     );
 });
 

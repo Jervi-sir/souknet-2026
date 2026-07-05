@@ -83,10 +83,11 @@ test('owners can access reviews and see customer ratings list', function () {
     $response = $this->get(route('owner.reviews'));
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('owner/reviews-management/page')
-        ->has('reviews.data', 3)
-        ->has('filters')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('owner/reviews-management/page')
+            ->has('reviews.data', 3)
+            ->has('filters')
     );
 });
 

@@ -32,12 +32,13 @@ test('authenticated owners can access their dashboard and see listings count', f
     $response = $this->get(route('owner.dashboard'));
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('owner/dashboard/page')
-        ->has('businesses', 2)
-        ->has('metrics')
-        ->where('metrics.businesses', 2)
-        ->has('recentContacts')
-        ->has('recentReviews')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('owner/dashboard/page')
+            ->has('businesses', 2)
+            ->has('metrics')
+            ->where('metrics.businesses', 2)
+            ->has('recentContacts')
+            ->has('recentReviews')
     );
 });

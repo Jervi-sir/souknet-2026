@@ -33,9 +33,10 @@ test('owners can access settings page and view form values', function () {
     $response = $this->get(route('owner.settings'));
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('owner/settings/page')
-        ->has('settings')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('owner/settings/page')
+            ->has('settings')
     );
 });
 

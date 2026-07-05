@@ -23,6 +23,7 @@ class RoleAndPermissionSeeder extends Seeder
             'admin' => ['en' => 'Administrator', 'fr' => 'Administrateur', 'ar' => 'مدير'],
             'moderator' => ['en' => 'Moderator', 'fr' => 'Modérateur', 'ar' => 'مشرف'],
             'business_owner' => ['en' => 'Business Owner', 'fr' => 'Propriétaire d\'entreprise', 'ar' => 'صاحب عمل'],
+            'store_owner' => ['en' => 'Store Owner', 'fr' => 'Propriétaire de magasin', 'ar' => 'صاحب متجر'],
             'user' => ['en' => 'Regular User', 'fr' => 'Utilisateur régulier', 'ar' => 'مستخدم عادى'],
         ];
 

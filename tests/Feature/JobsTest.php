@@ -51,12 +51,13 @@ test('guests can access the jobs page', function () {
     $response = $this->get(route('jobs.index'));
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('public/jobs/page')
-        ->has('jobs')
-        ->has('savedJobIds')
-        ->has('locations')
-        ->has('filters')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('public/jobs/page')
+            ->has('jobs')
+            ->has('savedJobIds')
+            ->has('locations')
+            ->has('filters')
     );
 });
 

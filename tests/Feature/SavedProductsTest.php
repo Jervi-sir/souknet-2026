@@ -71,11 +71,12 @@ test('authenticated users can access the saved products page', function () {
     $response = $this->actingAs($user)->get(route('products.saved'));
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('public/saved-products/page')
-        ->has('products.data', 1)
-        ->where('products.data.0.name', 'Widget Pro')
-        ->has('savedProductIds')
-        ->has('filters')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('public/saved-products/page')
+            ->has('products.data', 1)
+            ->where('products.data.0.name', 'Widget Pro')
+            ->has('savedProductIds')
+            ->has('filters')
     );
 });

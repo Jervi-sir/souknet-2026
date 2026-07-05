@@ -28,7 +28,8 @@ import {
     ChevronDown,
     ChevronUp,
     Package,
-    Briefcase
+    Briefcase,
+    Store
 } from 'lucide-react'; import React, { useState } from 'react';
 import DiscoverCompaniesController from '@/actions/App/Http/Controllers/Public/Discover/DiscoverCompaniesController';
 import DiscoverDataEnrichmentController from '@/actions/App/Http/Controllers/Public/Discover/DiscoverDataEnrichmentController';
@@ -77,7 +78,8 @@ export default function GuestLayout({
             win: false,
             tools: false,
             inbound: false,
-            saved: true
+            saved: true,
+            merchant_portal: true
         };
     });
 
@@ -162,6 +164,14 @@ export default function GuestLayout({
                 { name: 'Saved Companies', href: SavedCompaniesController.saved.url(), icon: Building2 },
                 { name: 'Saved Products', href: SavedProductsController.saved.url(), icon: Package },
                 { name: 'Saved Jobs', href: SavedJobsController.saved.url(), icon: Briefcase },
+            ]
+        },
+        {
+            id: 'merchant_portal',
+            title: 'Become a Partner',
+            items: [
+                { name: 'Become a Business', href: '/upgrade/business', icon: Building2 },
+                { name: 'Become a Store', href: '/upgrade/store', icon: Store }
             ]
         }
     ];

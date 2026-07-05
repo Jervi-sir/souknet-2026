@@ -29,6 +29,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import OwnerLayout from '@/layouts/owner-layout';
+import OwnerDashboardController from '@/actions/App/Http/Controllers/Owner/OwnerDashboardController';
+import OwnerPeopleController from '@/actions/App/Http/Controllers/Owner/OwnerPeopleController';
 
 interface Person {
     id: number;
@@ -92,7 +94,7 @@ export default function ListedPeople({ people, businesses, filters }: Props) {
 
     const applyFilters = () => {
         router.get(
-            route('owner.people.index'),
+            OwnerPeopleController.index.url(),
             {
                 search: search || undefined,
                 business_id: businessId || undefined,
@@ -117,12 +119,12 @@ export default function ListedPeople({ people, businesses, filters }: Props) {
     const clearFilters = () => {
         setSearch('');
         setBusinessId('');
-        router.get(route('owner.people.index'), {}, { preserveState: true, replace: true });
+        router.get(OwnerPeopleController.index.url(), {}, { preserveState: true, replace: true });
     };
 
     const handleCreatePerson = (e: React.FormEvent) => {
         e.preventDefault();
-        post(route('owner.people.store'), {
+        post(OwnerPeopleController.store.url(), {
             onSuccess: () => {
                 setCreateDialogOpen(false);
                 reset();
@@ -132,7 +134,7 @@ export default function ListedPeople({ people, businesses, filters }: Props) {
 
     const handleDeletePerson = (id: number) => {
         if (confirm('Are you sure you want to delete this professional listing?')) {
-            router.delete(route('owner.people.destroy', { id }));
+            router.delete(OwnerPeopleController.destroy({ id: id }));
         }
     };
 
@@ -142,7 +144,7 @@ export default function ListedPeople({ people, businesses, filters }: Props) {
             <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
             <div className="bg-[#15171e] text-white font-['Inter',_sans-serif] min-h-screen p-6 space-y-6">
-                
+
                 {/* Header Title */}
                 <div className="flex flex-col gap-4 border-b border-[#262930] pb-5 sm:flex-row sm:items-center sm:justify-between">
                     <div>
@@ -404,7 +406,7 @@ export default function ListedPeople({ people, businesses, filters }: Props) {
                                             <div>
                                                 <div className="flex items-center gap-1.5">
                                                     <h3 className="text-sm font-bold text-white group-hover:text-[#4318FF] transition-colors line-clamp-1">
-                                                        <Link href={route('owner.people.show', { id: person.id })}>
+                                                        <Link href={OwnerPeopleController.show({ id: person.id })}>
                                                             {person.first_name} {person.last_name}
                                                         </Link>
                                                     </h3>
@@ -483,7 +485,7 @@ export default function ListedPeople({ people, businesses, filters }: Props) {
                                             Delete Profile
                                         </button>
                                         <Link
-                                            href={route('owner.people.show', { id: person.id })}
+                                            href={OwnerPeopleController.show({ id: person.id })}
                                             className="font-bold text-[#4318FF] hover:underline flex items-center gap-1"
                                         >
                                             <Edit2 className="h-3.5 w-3.5" />
@@ -507,8 +509,8 @@ export default function ListedPeople({ people, businesses, filters }: Props) {
 ListedPeople.layout = (page: React.ReactNode) => (
     <OwnerLayout
         breadcrumbs={[
-            { title: 'Dashboard', href: route('owner.dashboard') },
-            { title: 'Team & Professionals', href: route('owner.people.index') }
+            { title: 'Dashboard', href: OwnerDashboardController.index.url() },
+            { title: 'Team & Professionals', href: OwnerPeopleController.index.url() }
         ]}
     >
         {page}
@@ -525,9 +527,9 @@ interface PaginationProps {
 
 function SimplePagination({ links }: PaginationProps) {
     if (links.length <= 3) {
-return null;
-} // Don't show if only 1 page
-    
+        return null;
+    } // Don't show if only 1 page
+
     return (
         <div className="flex justify-center items-center gap-1.5 mt-8">
             {links.map((link, idx) => {
@@ -536,7 +538,7 @@ return null;
                     .replace('&raquo;', '»')
                     .replace('Previous', '«')
                     .replace('Next', '»');
-                
+
                 if (!link.url) {
                     return (
                         <span
@@ -547,16 +549,15 @@ return null;
                         </span>
                     );
                 }
-                
+
                 return (
                     <Link
                         key={idx}
                         href={link.url}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
-                            link.active
-                                ? 'bg-[#4318FF] text-white border-[#4318FF]'
-                                : 'bg-[#0c0d12] text-[#8f9bba] border-[#262930] hover:text-white hover:bg-[#15171e]'
-                        }`}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${link.active
+                            ? 'bg-[#4318FF] text-white border-[#4318FF]'
+                            : 'bg-[#0c0d12] text-[#8f9bba] border-[#262930] hover:text-white hover:bg-[#15171e]'
+                            }`}
                         preserveScroll
                     >
                         {label}

@@ -13,12 +13,13 @@ test('guests can access search page', function () {
     $response = $this->get(route('search.index'));
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('public/search-result/page')
-        ->has('businesses')
-        ->has('categories')
-        ->has('cities')
-        ->has('filters')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('public/search-result/page')
+            ->has('businesses')
+            ->has('categories')
+            ->has('cities')
+            ->has('filters')
     );
 });
 
@@ -45,9 +46,10 @@ test('search result only displays published businesses', function () {
 
     $response = $this->get(route('search.index'));
 
-    $response->assertInertia(fn (Assert $page) => $page
-        ->has('businesses.data', 1)
-        ->where('businesses.data.0.name', 'Active Business Match')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->has('businesses.data', 1)
+            ->where('businesses.data.0.name', 'Active Business Match')
     );
 });
 
@@ -74,8 +76,9 @@ test('search result can filter by search query', function () {
 
     $response = $this->get(route('search.index', ['search' => 'Sidi']));
 
-    $response->assertInertia(fn (Assert $page) => $page
-        ->has('businesses.data', 1)
-        ->where('businesses.data.0.name', 'Sidi M\'Hamed Tech')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->has('businesses.data', 1)
+            ->where('businesses.data.0.name', 'Sidi M\'Hamed Tech')
     );
 });

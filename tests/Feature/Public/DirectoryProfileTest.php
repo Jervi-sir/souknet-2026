@@ -26,10 +26,11 @@ test('guests can access published business profile', function () {
     $response = $this->get(route('directory.show', ['slug' => 'test-solutions']));
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('public/business-profile/page')
-        ->has('business')
-        ->where('business.name', 'Test Solutions Co')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('public/business-profile/page')
+            ->has('business')
+            ->where('business.name', 'Test Solutions Co')
     );
 });
 

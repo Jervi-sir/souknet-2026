@@ -21,11 +21,12 @@ test('owners can access business create page', function () {
     $response = $this->get(route('owner.businesses.create'));
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('owner/listing-form/page')
-        ->has('categories')
-        ->has('plans')
-        ->where('business', null)
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('owner/listing-form/page')
+            ->has('categories')
+            ->has('plans')
+            ->where('business', null)
     );
 });
 
@@ -72,10 +73,11 @@ test('owners can edit their own business', function () {
     $response = $this->get(route('owner.businesses.edit', ['id' => $business->id]));
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('owner/listing-form/page')
-        ->has('business')
-        ->where('business.name', 'Original Name')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('owner/listing-form/page')
+            ->has('business')
+            ->where('business.name', 'Original Name')
     );
 });
 

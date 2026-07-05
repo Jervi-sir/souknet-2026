@@ -52,13 +52,14 @@ test('guests can access the people directory page', function () {
     $response = $this->get(route('people.index'));
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('public/discover/people/page')
-        ->has('people')
-        ->has('categories')
-        ->has('cities')
-        ->has('filters')
-        ->has('savedPeopleIds')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('public/discover/people/page')
+            ->has('people')
+            ->has('categories')
+            ->has('cities')
+            ->has('filters')
+            ->has('savedPeopleIds')
     );
 });
 

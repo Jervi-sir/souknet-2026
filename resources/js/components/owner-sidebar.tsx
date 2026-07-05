@@ -17,6 +17,8 @@ import React, { useState } from 'react';
 
 import { NavUser } from '@/components/nav-user';
 import ownerRoute from '@/routes/owner';
+import LeadsManagementController from '@/actions/App/Http/Controllers/Owner/LeadsManagementController';
+import ReviewsManagementController from '@/actions/App/Http/Controllers/Owner/ReviewsManagementController';
 
 export function OwnerSidebar() {
     const { auth } = usePage().props as any;
@@ -28,8 +30,8 @@ export function OwnerSidebar() {
 
     const isActive = (href: string) => {
         if (href === '#' || !href) {
-return false;
-}
+            return false;
+        }
 
         return currentPath.startsWith(href);
     };
@@ -63,11 +65,10 @@ return false;
                 <div className="space-y-0.5">
                     <Link
                         href={ownerRoute.dashboard.url()}
-                        className={`flex items-center justify-between px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                            isActive(ownerRoute.dashboard.url())
-                                ? 'bg-[#22252e] text-white font-bold'
-                                : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
-                        }`}
+                        className={`flex items-center justify-between px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${isActive(ownerRoute.dashboard.url())
+                            ? 'bg-[#22252e] text-white font-bold'
+                            : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
+                            }`}
                     >
                         <div className="flex items-center gap-2.5">
                             <Home className="h-4 w-4" />
@@ -90,35 +91,32 @@ return false;
                         <div className="space-y-0.5 pl-1.5">
                             <Link
                                 href={ownerRoute.listings.index.url()}
-                                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                                    isActive(ownerRoute.listings.index.url())
-                                        ? 'bg-[#22252e] text-white font-bold'
-                                        : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
-                                }}`}
+                                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${isActive(ownerRoute.listings.index.url())
+                                    ? 'bg-[#22252e] text-white font-bold'
+                                    : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
+                                    }}`}
                             >
                                 <Briefcase className="h-4 w-4" />
                                 <span>My Listings</span>
                             </Link>
 
                             <Link
-                                href={ownerRoute.leads.index.url()}
-                                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                                    isActive(ownerRoute.leads.index.url())
-                                        ? 'bg-[#22252e] text-white font-bold'
-                                        : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
-                                }}`}
+                                href={LeadsManagementController.index.url()}
+                                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${isActive(LeadsManagementController.index.url())
+                                    ? 'bg-[#22252e] text-white font-bold'
+                                    : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
+                                    }}`}
                             >
                                 <Inbox className="h-4 w-4" />
                                 <span>Leads & Messages</span>
                             </Link>
 
                             <Link
-                                href={ownerRoute.reviews.index.url()}
-                                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                                    isActive(ownerRoute.reviews.index.url())
-                                        ? 'bg-[#22252e] text-white font-bold'
-                                        : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
-                                }}`}
+                                href={ReviewsManagementController.index.url()}
+                                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${isActive(ReviewsManagementController.index.url())
+                                    ? 'bg-[#22252e] text-white font-bold'
+                                    : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
+                                    }}`}
                             >
                                 <Star className="h-4 w-4" />
                                 <span>Customer Reviews</span>
@@ -126,11 +124,10 @@ return false;
 
                             <Link
                                 href={ownerRoute.jobs.index.url()}
-                                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                                    isActive(ownerRoute.jobs.index.url())
-                                        ? 'bg-[#22252e] text-white font-bold'
-                                        : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
-                                }}`}
+                                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${isActive(ownerRoute.jobs.index.url())
+                                    ? 'bg-[#22252e] text-white font-bold'
+                                    : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
+                                    }}`}
                             >
                                 <Briefcase className="h-4 w-4 text-purple-400" />
                                 <span>Job Postings</span>
@@ -138,11 +135,10 @@ return false;
 
                             <Link
                                 href={ownerRoute.people.index.url()}
-                                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                                    isActive(ownerRoute.people.index.url())
-                                        ? 'bg-[#22252e] text-white font-bold'
-                                        : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
-                                }}`}
+                                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${isActive(ownerRoute.people.index.url())
+                                    ? 'bg-[#22252e] text-white font-bold'
+                                    : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
+                                    }}`}
                             >
                                 <Users className="h-4 w-4 text-[#6AD2FF]" />
                                 <span>Team & Professionals</span>
@@ -165,23 +161,19 @@ return false;
                         <div className="space-y-0.5 pl-1.5">
                             <Link
                                 href={ownerRoute.subscriptionBilling.index.url()}
-                                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                                    isActive(ownerRoute.subscriptionBilling.index.url())
-                                        ? 'bg-[#22252e] text-white font-bold'
-                                        : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
-                                }}`}
+                                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${isActive(ownerRoute.subscriptionBilling.index.url())
+                                    ? 'bg-[#22252e] text-white font-bold'
+                                    : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
+                                    }}`}
                             >
                                 <CreditCard className="h-4 w-4" />
                                 <span>Subscription</span>
                             </Link>
 
                             <Link
-                                href={ownerRoute.settings.index.url()}
-                                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                                    isActive(ownerRoute.settings.index.url())
-                                        ? 'bg-[#22252e] text-white font-bold'
-                                        : 'text-[#8f9bba] hover:text-white hover:bg-[#15171e]'
-                                }}`}
+                                // href={ownerRoute.settings.index.url()}
+                                className={`flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all
+                                    }}`}
                             >
                                 <Settings className="h-4 w-4" />
                                 <span>Console Settings</span>

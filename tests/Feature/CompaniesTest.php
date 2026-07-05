@@ -40,13 +40,14 @@ test('guests can access the companies search page', function () {
     $response = $this->get(route('companies.index'));
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('public/search-result/page')
-        ->has('businesses')
-        ->has('categories')
-        ->has('cities')
-        ->has('filters')
-        ->has('savedCompanyIds')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('public/search-result/page')
+            ->has('businesses')
+            ->has('categories')
+            ->has('cities')
+            ->has('filters')
+            ->has('savedCompanyIds')
     );
 });
 

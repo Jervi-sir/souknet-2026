@@ -60,11 +60,12 @@ test('owners can access subscription billing page and see their listings', funct
     $response = $this->get(route('owner.subscription-billing.index'));
 
     $response->assertOk();
-    $response->assertInertia(fn (Assert $page) => $page
-        ->component('owner/subscription-billing/page')
-        ->has('businesses', 1)
-        ->has('plans')
-        ->has('invoices')
+    $response->assertInertia(
+        fn (Assert $page) => $page
+            ->component('owner/subscription-billing/page')
+            ->has('businesses', 1)
+            ->has('plans')
+            ->has('invoices')
     );
 });
 

@@ -17,6 +17,7 @@ use App\Http\Controllers\Public\SavedRecords\SavedJobsController;
 use App\Http\Controllers\Public\SavedRecords\SavedPeopleController;
 use App\Http\Controllers\Public\SavedRecords\SavedProductsController;
 use App\Http\Controllers\Public\SearchController;
+use App\Http\Controllers\Public\StorefrontController;
 use App\Http\Controllers\Public\ToolsAutomations\ToolsAutomationsAnalyticsController;
 use App\Http\Controllers\Public\ToolsAutomations\ToolsAutomationsWorkflowsController;
 use App\Http\Controllers\Public\WinDeals\ConversationsController;
@@ -74,3 +75,6 @@ Route::prefix('saved-records')->group(function () {
     Route::post('companies/{business}/save', [SavedCompaniesController::class, 'toggleSave'])->name('companies.save');
     Route::post('companies/save-multiple', [SavedCompaniesController::class, 'toggleSaveMultiple'])->name('companies.save-multiple');
 });
+
+Route::get('/store/{slug}', [StorefrontController::class, 'show'])->name('public.store.show');
+Route::get('/store/{slug}/products/{productSlug}', [StorefrontController::class, 'product'])->name('public.store.product');

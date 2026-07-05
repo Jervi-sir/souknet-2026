@@ -13,6 +13,9 @@ import {
 import React, { useState, useEffect } from 'react';
 import { Badge } from '@/components/ui/badge';
 import OwnerLayout from '@/layouts/owner-layout';
+import OwnerDashboard from '../../dashboard/page';
+import BusinessController from '@/actions/App/Http/Controllers/Owner/BusinessController';
+import OwnerDashboardController from '@/actions/App/Http/Controllers/Owner/OwnerDashboardController';
 
 interface Business {
     id: number;
@@ -66,7 +69,7 @@ export default function ListedBusinesses({ businesses, categories, filters }: Pr
     // Submit filters
     const applyFilters = () => {
         router.get(
-            route('owner.listings.index'),
+            BusinessController.index.url(),
             {
                 search: search || undefined,
                 category_id: category || undefined,
@@ -94,7 +97,7 @@ export default function ListedBusinesses({ businesses, categories, filters }: Pr
         setSearch('');
         setCategory('');
         setStatus('');
-        router.get(route('owner.listings.index'), {}, { preserveState: true, replace: true });
+        router.get(BusinessController.index.url(), {}, { preserveState: true, replace: true });
     };
 
     const getStatusBadge = (statusStr: string) => {
@@ -133,7 +136,7 @@ export default function ListedBusinesses({ businesses, categories, filters }: Pr
             <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
             <div className="bg-[#15171e] text-white font-['Inter',_sans-serif] min-h-screen p-6 space-y-6">
-                
+
                 {/* Header Title */}
                 <div className="flex flex-col gap-4 border-b border-[#262930] pb-5 sm:flex-row sm:items-center sm:justify-between">
                     <div>
@@ -149,7 +152,7 @@ export default function ListedBusinesses({ businesses, categories, filters }: Pr
                         </p>
                     </div>
                     <Link
-                        href={route('owner.businesses.create')}
+                        href={BusinessController.create.url()}
                         className="inline-flex items-center gap-1.5 bg-[#4318FF] hover:bg-[#3b15e6] text-white px-4 py-2 rounded-lg text-xs font-bold transition-all shadow-lg shadow-indigo-900/20"
                     >
                         <Plus className="h-4 w-4" />
@@ -246,7 +249,7 @@ export default function ListedBusinesses({ businesses, categories, filters }: Pr
                                         <div className="flex items-start justify-between gap-3">
                                             <div>
                                                 <h3 className="line-clamp-1 text-sm font-bold text-white group-hover:text-[#4318FF] transition-colors">
-                                                    <Link href={route('owner.listings.show', { id: business.id })}>
+                                                    <Link href={BusinessController.show.url({ id: business.id })}>
                                                         {business.name}
                                                     </Link>
                                                 </h3>
@@ -296,7 +299,7 @@ export default function ListedBusinesses({ businesses, categories, filters }: Pr
                                             View Public
                                         </Link>
                                         <Link
-                                            href={route('owner.listings.show', { id: business.id })}
+                                            href={BusinessController.show.url({ id: business.id })}
                                             className="font-bold text-[#4318FF] hover:underline flex items-center gap-1"
                                         >
                                             <Edit2 className="h-3.5 w-3.5" />
@@ -320,8 +323,8 @@ export default function ListedBusinesses({ businesses, categories, filters }: Pr
 ListedBusinesses.layout = (page: React.ReactNode) => (
     <OwnerLayout
         breadcrumbs={[
-            { title: 'Dashboard', href: route('owner.dashboard') },
-            { title: 'My Listings', href: route('owner.listings.index') }
+            { title: 'Dashboard', href: OwnerDashboardController.index.url() },
+            { title: 'My Listings', href: BusinessController.index.url() }
         ]}
     >
         {page}
@@ -338,9 +341,9 @@ interface PaginationProps {
 
 function SimplePagination({ links }: PaginationProps) {
     if (links.length <= 3) {
-return null;
-} // Don't show if only 1 page
-    
+        return null;
+    } // Don't show if only 1 page
+
     return (
         <div className="flex justify-center items-center gap-1.5 mt-8">
             {links.map((link, idx) => {
@@ -349,7 +352,7 @@ return null;
                     .replace('&raquo;', '»')
                     .replace('Previous', '«')
                     .replace('Next', '»');
-                
+
                 if (!link.url) {
                     return (
                         <span
@@ -360,16 +363,15 @@ return null;
                         </span>
                     );
                 }
-                
+
                 return (
                     <Link
                         key={idx}
                         href={link.url}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${
-                            link.active
-                                ? 'bg-[#4318FF] text-white border-[#4318FF]'
-                                : 'bg-[#0c0d12] text-[#8f9bba] border-[#262930] hover:text-white hover:bg-[#15171e]'
-                        }`}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all ${link.active
+                            ? 'bg-[#4318FF] text-white border-[#4318FF]'
+                            : 'bg-[#0c0d12] text-[#8f9bba] border-[#262930] hover:text-white hover:bg-[#15171e]'
+                            }`}
                         preserveScroll
                     >
                         {label}
