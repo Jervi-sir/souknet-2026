@@ -1,0 +1,168 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Souknet Project API",
+    "description": "Public project inventory and allowlisted source-file reading and writing. Never executes code.",
+    "version": "1.2.0"
+  },
+  "servers": [
+    {
+      "url": "https://kinesthetic-sammie-mothier.ngrok-free.dev"
+    }
+  ],
+  "paths": {
+    "/api/gpt/about": {
+      "get": {
+        "operationId": "getSouknetApiStatus",
+        "summary": "Check Souknet API capabilities",
+        "responses": {
+          "200": {
+            "description": "API status and available analysis operations",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ApiStatus" }
+              }
+            }
+          },
+          "429": { "description": "Rate limit exceeded" }
+        }
+      }
+    },
+    "/api/gpt/file": {
+      "get": {
+        "operationId": "readSouknetProjectFile",
+        "summary": "Read an allowlisted project file",
+        "description": "Returns up to 12,000 characters from a PHP, TypeScript, JavaScript, or CSS file in approved source directories. Public endpoint; never returns environment files or executes code.",
+        "parameters": [
+          {
+            "name": "path",
+            "in": "query",
+            "required": true,
+            "description": "Project-relative file path under app/Models, app/Http/Controllers, database/migrations, resources/js, or routes.",
+            "schema": { "type": "string", "maxLength": 300 }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "File contents, truncated when over the response character limit",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/FileReadResult" }
+              }
+            }
+          },
+          "404": { "description": "Path is not allowlisted or file does not exist" },
+          "413": { "description": "File exceeds the 64 KiB file-size limit" },
+          "422": { "description": "Path query parameter is invalid" },
+          "429": { "description": "Rate limit exceeded" }
+        }
+      },
+      "put": {
+        "operationId": "writeSouknetProjectFile",
+        "summary": "Write an allowlisted project file",
+        "description": "Creates or replaces a PHP, TypeScript, JavaScript, or CSS file under approved source directories. Public endpoint; does not execute code. Use readSouknetProjectFile first to inspect existing files.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "path": { "type": "string", "maxLength": 300 },
+                  "contents": { "type": "string", "maxLength": 65536 }
+                },
+                "required": ["path", "contents"],
+                "additionalProperties": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "File was written",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": { "type": "string" },
+                    "path": { "type": "string" },
+                    "bytes_written": { "type": "integer" }
+                  },
+                  "required": ["message", "path", "bytes_written"]
+                }
+              }
+            }
+          },
+          "404": { "description": "Path is not allowlisted" },
+          "413": { "description": "Existing file exceeds the 64 KiB write limit" },
+          "422": { "description": "Request body is invalid" },
+          "429": { "description": "Rate limit exceeded" }
+        }
+      }
+    },
+    "/api/gpt/analyze/{area}": {
+      "get": {
+        "operationId": "analyzeSouknetProjectArea",
+        "summary": "Analyze a Souknet project area",
+        "description": "Returns read-only project metadata for the selected allowlisted area. Arbitrary paths are not accepted.",
+        "parameters": [
+          {
+            "name": "area",
+            "in": "path",
+            "required": true,
+            "description": "The project area to inspect.",
+            "schema": {
+              "type": "string",
+              "enum": ["files", "models-schema", "controllers", "frontend", "wayfinder", "context"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Project analysis metadata",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/AnalysisResult" }
+              }
+            }
+          },
+          "404": { "description": "Unknown analysis area" },
+          "429": { "description": "Rate limit exceeded" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ApiStatus": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "available_actions": { "type": "array", "items": { "type": "string" } },
+          "message": { "type": "string" }
+        },
+        "required": ["name", "description", "available_actions", "message"]
+      },
+      "FileReadResult": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string" },
+          "contents": { "type": "string" },
+          "truncated": { "type": "boolean" },
+          "maximum_characters": { "type": "integer" }
+        },
+        "required": ["path", "contents", "truncated", "maximum_characters"]
+      },
+      "AnalysisResult": {
+        "type": "object",
+        "properties": {
+          "area": { "type": "string" },
+          "analysis": { "type": "object", "additionalProperties": true }
+        },
+        "required": ["area", "analysis"]
+      }
+    }
+  }
+}

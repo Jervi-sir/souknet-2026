@@ -1,0 +1,1295 @@
+{
+  "version": 1,
+  "dialect": "postgresql",
+  "tables": [
+    {
+      "id": "tbl_VI1T5p3Au8-u",
+      "name": "users",
+      "columns": [
+        {
+          "id": "col_VI1T5p3Au8-u_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": 487.9428610028466,
+        "y": 326.0211851682985
+      }
+    },
+    {
+      "id": "tbl_tuUC6AgC2GBt",
+      "name": "organization_memberships",
+      "columns": [
+        {
+          "id": "col_tuUC6AgC2GBt_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_UOygR83BXwn7",
+          "name": "user_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_VI1T5p3Au8-u",
+            "targetColumnId": "col_VI1T5p3Au8-u_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        },
+        {
+          "id": "col_xNVypyUuI9Et",
+          "name": "organization_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_LuFpMSyvUjT4",
+            "targetColumnId": "col_LuFpMSyvUjT4_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": 610.732347980875,
+        "y": 114.37542411151429
+      }
+    },
+    {
+      "id": "tbl_LuFpMSyvUjT4",
+      "name": "organizations",
+      "columns": [
+        {
+          "id": "col_LuFpMSyvUjT4_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": 1019.7434959629978,
+        "y": 169.84443628718495
+      }
+    },
+    {
+      "id": "tbl_XMrB3kltziIU",
+      "name": "plans",
+      "columns": [
+        {
+          "id": "col_XMrB3kltziIU_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": 1504.0000012354171,
+        "y": 125.2117210557758
+      }
+    },
+    {
+      "id": "tbl_unjvY8rGmlmH",
+      "name": "subscriptions",
+      "columns": [
+        {
+          "id": "col_unjvY8rGmlmH_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_WVgcjfrng_il",
+          "name": "plan_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_XMrB3kltziIU",
+            "targetColumnId": "col_XMrB3kltziIU_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        },
+        {
+          "id": "col_CgIZpZwfsC51",
+          "name": "organization_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_LuFpMSyvUjT4",
+            "targetColumnId": "col_LuFpMSyvUjT4_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": 1549.7239840293857,
+        "y": 336.24422677255944
+      }
+    },
+    {
+      "id": "tbl_xiddFmzsUzB2",
+      "name": "stores",
+      "columns": [
+        {
+          "id": "col_xiddFmzsUzB2_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_r1gHMYh_jTXb",
+          "name": "organization_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_LuFpMSyvUjT4",
+            "targetColumnId": "col_LuFpMSyvUjT4_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": 1020.4750443392977,
+        "y": 395.3080494962922
+      }
+    },
+    {
+      "id": "tbl_TP5pxTCqkxy_",
+      "name": "product_categories",
+      "columns": [
+        {
+          "id": "col_TP5pxTCqkxy__pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_ym4nTHCH1zV3",
+          "name": "category_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_xDnUaIl4pkwJ",
+            "targetColumnId": "col_xDnUaIl4pkwJ_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        },
+        {
+          "id": "col_hwqb6gjdusio",
+          "name": "product_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_iE1PXT9cZUrG",
+            "targetColumnId": "col_iE1PXT9cZUrG_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": 1341.785251437473,
+        "y": 1125.5903304573994
+      }
+    },
+    {
+      "id": "tbl_iE1PXT9cZUrG",
+      "name": "products",
+      "columns": [
+        {
+          "id": "col_iE1PXT9cZUrG_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_Hw6iR6rMcDZY",
+          "name": "store_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_xiddFmzsUzB2",
+            "targetColumnId": "col_xiddFmzsUzB2_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": 972.0403656966157,
+        "y": 780.3712293076793
+      }
+    },
+    {
+      "id": "tbl_SR3C33kPKnmY",
+      "name": "store_memberships",
+      "columns": [
+        {
+          "id": "col_SR3C33kPKnmY_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_soFfpfkBC4Bg",
+          "name": "user_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_VI1T5p3Au8-u",
+            "targetColumnId": "col_VI1T5p3Au8-u_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        },
+        {
+          "id": "col_3yuBrhXeUIKv",
+          "name": "store_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_xiddFmzsUzB2",
+            "targetColumnId": "col_xiddFmzsUzB2_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": 509.89070754009435,
+        "y": 441.95656152706914
+      }
+    },
+    {
+      "id": "tbl_xDnUaIl4pkwJ",
+      "name": "categories",
+      "columns": [
+        {
+          "id": "col_xDnUaIl4pkwJ_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_Kvnpt65ZBJ2O",
+          "name": "global_category_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_dA4qFYTjkVHR",
+            "targetColumnId": "col_dA4qFYTjkVHR_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": 1360.9263912503477,
+        "y": 994.0413087296937
+      }
+    },
+    {
+      "id": "tbl_A5cnpbYxhieG",
+      "name": "product_media",
+      "columns": [
+        {
+          "id": "col_A5cnpbYxhieG_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_Eplb5YPPT5gu",
+          "name": "product_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_iE1PXT9cZUrG",
+            "targetColumnId": "col_iE1PXT9cZUrG_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": 1004.0057672311048,
+        "y": 650.7538614510266
+      }
+    },
+    {
+      "id": "tbl_dA4qFYTjkVHR",
+      "name": "global_categories",
+      "columns": [
+        {
+          "id": "col_dA4qFYTjkVHR_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_S80Zuqku-AbJ",
+          "name": "category_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_dA4qFYTjkVHR",
+            "targetColumnId": "col_dA4qFYTjkVHR_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": 1686.5298131085142,
+        "y": 542.3741000489588
+      }
+    },
+    {
+      "id": "tbl_mS6aUNMUPyaW",
+      "name": "product_variants",
+      "columns": [
+        {
+          "id": "col_mS6aUNMUPyaW_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_Z20oHq96c-Ie",
+          "name": "product_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_iE1PXT9cZUrG",
+            "targetColumnId": "col_iE1PXT9cZUrG_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": 947.5783151810881,
+        "y": 1010.6777096268561
+      }
+    },
+    {
+      "id": "tbl_A27cl5-hTxGl",
+      "name": "product_options",
+      "columns": [
+        {
+          "id": "col_A27cl5-hTxGl_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_MxVmR5FJTdsX",
+          "name": "product_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_iE1PXT9cZUrG",
+            "targetColumnId": "col_iE1PXT9cZUrG_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": 600.8274841983076,
+        "y": 895.8661907164576
+      }
+    },
+    {
+      "id": "tbl_RkFq-a1p6ULQ",
+      "name": "product_option_values",
+      "columns": [
+        {
+          "id": "col_RkFq-a1p6ULQ_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_4RSlm-hbnayw",
+          "name": "product_option_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_A27cl5-hTxGl",
+            "targetColumnId": "col_A27cl5-hTxGl_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": 602.0644749523059,
+        "y": 1069.0448962761827
+      }
+    },
+    {
+      "id": "tbl_E1AGG8IIIMtu",
+      "name": "variant_option_values",
+      "columns": [
+        {
+          "id": "col_E1AGG8IIIMtu_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_R3RYj_D_mxVs",
+          "name": "product_option_value_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_RkFq-a1p6ULQ",
+            "targetColumnId": "col_RkFq-a1p6ULQ_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        },
+        {
+          "id": "col_GfsZ--HoheNc",
+          "name": "product_variant_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_mS6aUNMUPyaW",
+            "targetColumnId": "col_mS6aUNMUPyaW_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": 621.030899144895,
+        "y": 1261.3437724805888
+      }
+    },
+    {
+      "id": "tbl_rRzHZLPyuTwc",
+      "name": "order_items",
+      "columns": [
+        {
+          "id": "col_rRzHZLPyuTwc_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_SS27OTGagGoH",
+          "name": "product_variant_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_mS6aUNMUPyaW",
+            "targetColumnId": "col_mS6aUNMUPyaW_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        },
+        {
+          "id": "col_vIZoPF2SeYj4",
+          "name": "order_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_vt_J5OybyV-4",
+            "targetColumnId": "col_vt_J5OybyV-4_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": 165.03319454823918,
+        "y": 910.4363796437754
+      }
+    },
+    {
+      "id": "tbl_kHTZFSGzqgw5",
+      "name": "store_collections",
+      "columns": [
+        {
+          "id": "col_kHTZFSGzqgw5_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_cGOKAP_5GCYf",
+          "name": "store_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_xiddFmzsUzB2",
+            "targetColumnId": "col_xiddFmzsUzB2_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": 1719.9390622852034,
+        "y": 710.1190185427289
+      }
+    },
+    {
+      "id": "tbl_dTYSIVg_brA-",
+      "name": "store_collection_products",
+      "columns": [
+        {
+          "id": "col_dTYSIVg_brA-_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_8yyXFdiioPUS",
+          "name": "store_collection",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_kHTZFSGzqgw5",
+            "targetColumnId": "col_kHTZFSGzqgw5_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        },
+        {
+          "id": "col_khD1EydallE5",
+          "name": "product_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_iE1PXT9cZUrG",
+            "targetColumnId": "col_iE1PXT9cZUrG_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": 1736.1564351092318,
+        "y": 872.1447439519796
+      }
+    },
+    {
+      "id": "tbl_vt_J5OybyV-4",
+      "name": "orders",
+      "columns": [
+        {
+          "id": "col_vt_J5OybyV-4_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_HMa1VYZcs0-B",
+          "name": "customer_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_lwmAPaK26bWF",
+            "targetColumnId": "col_lwmAPaK26bWF_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        },
+        {
+          "id": "col_xw2Ne4O3dN9g",
+          "name": "store_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_xiddFmzsUzB2",
+            "targetColumnId": "col_xiddFmzsUzB2_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": 131.27357463996844,
+        "y": 1084.125353127636
+      }
+    },
+    {
+      "id": "tbl_lwmAPaK26bWF",
+      "name": "customers",
+      "columns": [
+        {
+          "id": "col_lwmAPaK26bWF_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_qp194h50ys4j",
+          "name": "user_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_VI1T5p3Au8-u",
+            "targetColumnId": "col_VI1T5p3Au8-u_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": -128.48587561086617,
+        "y": 537.3970158532453
+      }
+    },
+    {
+      "id": "tbl_M7hN3LQdN-g2",
+      "name": "delivery_provider",
+      "columns": [
+        {
+          "id": "col_M7hN3LQdN-g2_pk",
+          "name": "code",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": -438.22526476735084,
+        "y": 347.64251639064446
+      }
+    },
+    {
+      "id": "tbl_F-7oNTL7zjKn",
+      "name": "store_delivery_accounts",
+      "columns": [
+        {
+          "id": "col_F-7oNTL7zjKn_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_DGdl5VPGErDQ",
+          "name": "store_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_xiddFmzsUzB2",
+            "targetColumnId": "col_xiddFmzsUzB2_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        },
+        {
+          "id": "col_KMHxdZZlBNyr",
+          "name": "delivery_company_code",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_gN_XdC_reXhn",
+            "targetColumnId": "col_gN_XdC_reXhn_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": -457.5645004061896,
+        "y": 682.0881337391817
+      }
+    },
+    {
+      "id": "tbl_FyhUxP4Z-mL4",
+      "name": "shipments",
+      "columns": [
+        {
+          "id": "col_FyhUxP4Z-mL4_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_cA4t-U4go7K6",
+          "name": "store_delivery_account",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_F-7oNTL7zjKn",
+            "targetColumnId": "col_F-7oNTL7zjKn_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        },
+        {
+          "id": "col_jnNkXt54rdkC",
+          "name": "order_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_vt_J5OybyV-4",
+            "targetColumnId": "col_vt_J5OybyV-4_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        },
+        {
+          "id": "col_Uzkr-04KEXsN",
+          "name": "delivery_stopdesk_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_7dNDBzNSn5ao",
+            "targetColumnId": "col_7dNDBzNSn5ao_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        },
+        {
+          "id": "col_i2nIvNPeH_7Z",
+          "name": "delivery_commune_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_bnRAUB0I71oS",
+            "targetColumnId": "col_bnRAUB0I71oS_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        },
+        {
+          "id": "col_n-z9G41N3CD1",
+          "name": "delivery_wilaya_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_RhedXTpc4f2l",
+            "targetColumnId": "col_RhedXTpc4f2l_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": -463.27638048752016,
+        "y": 1063.1519409999935
+      }
+    },
+    {
+      "id": "tbl_2YUf8ksu_OiN",
+      "name": "order_timelines",
+      "columns": [
+        {
+          "id": "col_2YUf8ksu_OiN_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_LsxU4cH1-S_W",
+          "name": "order_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_vt_J5OybyV-4",
+            "targetColumnId": "col_vt_J5OybyV-4_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": -210.44980818576468,
+        "y": 1358.1058847985178
+      }
+    },
+    {
+      "id": "tbl_Vc4pPAfycGo2",
+      "name": "order_notes",
+      "columns": [
+        {
+          "id": "col_Vc4pPAfycGo2_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_i_8uOxIiCosS",
+          "name": "order_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_vt_J5OybyV-4",
+            "targetColumnId": "col_vt_J5OybyV-4_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": 147.38660119069658,
+        "y": 1551.513966227063
+      }
+    },
+    {
+      "id": "tbl_d0bLHKw7ncg0",
+      "name": "wilayas",
+      "columns": [
+        {
+          "id": "col_d0bLHKw7ncg0_pk",
+          "name": "code",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": -923.3303202803003,
+        "y": 234.88915012247756
+      }
+    },
+    {
+      "id": "tbl_s4Dl3AxHHIAc",
+      "name": "communes",
+      "columns": [
+        {
+          "id": "col_s4Dl3AxHHIAc_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_GutyFGh0Rn4v",
+          "name": "wilaya_code",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_d0bLHKw7ncg0",
+            "targetColumnId": "col_d0bLHKw7ncg0_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": -942.3827337169417,
+        "y": 339.6774240240079
+      }
+    },
+    {
+      "id": "tbl_RhedXTpc4f2l",
+      "name": "delivery_wilayas",
+      "columns": [
+        {
+          "id": "col_RhedXTpc4f2l_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_p_kE2pSkJu72",
+          "name": "wilaya_code",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_d0bLHKw7ncg0",
+            "targetColumnId": "col_d0bLHKw7ncg0_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        },
+        {
+          "id": "col_yOxDRuz4LjV_",
+          "name": "delivery_company_code",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_gN_XdC_reXhn",
+            "targetColumnId": "col_gN_XdC_reXhn_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": -931.6657511588307,
+        "y": 569.4971611035007
+      }
+    },
+    {
+      "id": "tbl_bnRAUB0I71oS",
+      "name": "delivery_communes",
+      "columns": [
+        {
+          "id": "col_bnRAUB0I71oS_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_BeJt5vkswOjR",
+          "name": "commune_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_s4Dl3AxHHIAc",
+            "targetColumnId": "col_s4Dl3AxHHIAc_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        },
+        {
+          "id": "col_Q10BoP2d5vsI",
+          "name": "delivery_company_code",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_gN_XdC_reXhn",
+            "targetColumnId": "col_gN_XdC_reXhn_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": -929.2841994792506,
+        "y": 717.1533652374751
+      }
+    },
+    {
+      "id": "tbl_gN_XdC_reXhn",
+      "name": "delivery_companies",
+      "columns": [
+        {
+          "id": "col_gN_XdC_reXhn_pk",
+          "name": "code",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_GVMqNJQqeeH4",
+          "name": "delivery_provider_code",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_M7hN3LQdN-g2",
+            "targetColumnId": "col_M7hN3LQdN-g2_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": -487.50636291711686,
+        "y": 484.9520764784023
+      }
+    },
+    {
+      "id": "tbl_7dNDBzNSn5ao",
+      "name": "delivery_stopdesks",
+      "columns": [
+        {
+          "id": "col_7dNDBzNSn5ao_pk",
+          "name": "id",
+          "type": "varchar",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        },
+        {
+          "id": "col_bmP2mDcSdoWn",
+          "name": "delivery_company_code",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_gN_XdC_reXhn",
+            "targetColumnId": "col_gN_XdC_reXhn_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        },
+        {
+          "id": "col_mNNUVqM43SnV",
+          "name": "wilaya_code",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_d0bLHKw7ncg0",
+            "targetColumnId": "col_d0bLHKw7ncg0_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        },
+        {
+          "id": "col_P5ujKf8UsALd",
+          "name": "commune_id",
+          "type": "varchar",
+          "nullable": true,
+          "primaryKey": false,
+          "unique": false,
+          "reference": {
+            "targetTableId": "tbl_s4Dl3AxHHIAc",
+            "targetColumnId": "col_s4Dl3AxHHIAc_pk",
+            "onDelete": "cascade",
+            "onUpdate": "cascade",
+            "relation": "1:n"
+          }
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": -947.1331157886104,
+        "y": 957.1519427488983
+      }
+    },
+    {
+      "id": "tbl_m1OFgo8jRaWz",
+      "name": "agents",
+      "columns": [
+        {
+          "id": "col_m1OFgo8jRaWz_pk",
+          "name": "id",
+          "type": "uuid",
+          "nullable": false,
+          "primaryKey": true,
+          "unique": true
+        }
+      ],
+      "indexes": [],
+      "position": {
+        "x": -641.0972885728007,
+        "y": 1406.362887994727
+      }
+    }
+  ],
+  "enums": [],
+  "comments": []
+}
