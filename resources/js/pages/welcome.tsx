@@ -122,6 +122,9 @@ export default function Welcome() {
 
                         {/* Center Nav Links */}
                         <div className="hidden md:flex items-center gap-5 text-xs font-medium text-muted-foreground">
+                            <Link href="/videos" className="text-purple-600 dark:text-purple-400 font-semibold hover:text-foreground transition-colors flex items-center gap-1">
+                                Journal de Bord
+                            </Link>
                             <Link href="/storefront" className="hover:text-foreground transition-colors">
                                 Storefront Demo
                             </Link>
