@@ -48,7 +48,7 @@ export const PLATFORM_PROGRESS_VIDEOS: ProgressVideoItem[] = [
         subtitle: 'Marketplace Mega-Catalogue, Organisations, Multi-Boutiques & Call Center Intégré',
         description:
             'Présentation complète de l’évolution majeure de notre architecture technique : migration vers un modèle multi-entités capable de gérer simultanément les catalogues produits (listing), les organisations marchandes, le déploiement de boutiques multiples indépendantes (multi-store), la Mega Marketplace nationale et le module Call Center unifié.',
-        youtubeId: 'dQw4w9WgXcQ', // Remplacez par votre identifiant YouTube réel
+        youtubeId: 'NAc0eiJllfg', // Remplacez par votre identifiant YouTube réel
         stageNumber: 'Rapport #01',
         date: 'Octobre 2026',
         duration: '12:40',
@@ -67,7 +67,7 @@ export const PLATFORM_PROGRESS_VIDEOS: ProgressVideoItem[] = [
         subtitle: 'Validation terrain avec un groupe restreint de commerçants partenaires',
         description:
             'Démonstration du desk Call Center opérationnel déployé sur le terrain. En raison de l’absence temporaire de structure financière dédiée et du registre de commerce en cours de finalisation, le service est actuellement testé en conditions réelles avec un groupe fermé de marchands partenaires pour valider le taux de confirmation, la gestion des tentatives d’appels et la réduction des retours.',
-        youtubeId: 'dQw4w9WgXcQ', // Remplacez par votre identifiant YouTube réel
+        youtubeId: '50z1O76rwU4', // Remplacez par votre identifiant YouTube réel
         stageNumber: 'Rapport #02',
         date: 'Octobre 2026',
         duration: '10:15',
